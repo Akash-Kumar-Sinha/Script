@@ -3,9 +3,9 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "../../@/components/ui/dialog";
 
 const Page = () => {
@@ -27,7 +27,10 @@ const Page = () => {
               Sign in to your account
             </DialogDescription>
           </DialogHeader>
+          {/* <DialogFooter> */}
+
           <AuthForm/>
+          {/* </DialogFooter> */}
         </DialogContent>
       </Dialog>
     </div>
