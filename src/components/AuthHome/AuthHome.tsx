@@ -3,12 +3,11 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "../../@/components/ui/dialog";
 
-const Page = () => {
+const AuthHome = () => {
   return (
     <div>
       <Dialog open={true}>
@@ -37,4 +36,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default AuthHome;

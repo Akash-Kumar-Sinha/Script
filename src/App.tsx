@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import Page from './components/page/page';
+import Page from './components/AuthHome/AuthHome';
 
 function App() {
   return (
