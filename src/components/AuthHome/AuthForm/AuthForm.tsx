@@ -5,6 +5,8 @@ import InputForm from "./InputForm";
 import ButtonForm from "./ButtonForm";
 import AuthSocialButton from "./AuthSocialButton";
 import { BsGithub, BsGoogle } from "react-icons/bs";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 type Variant = "LOGIN" | "REGISTER";
 
@@ -34,13 +36,21 @@ const AuthForm = () => {
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
+    // console.log('Form data:', data);
 
     if (variant === "REGISTER") {
-      // Axios Register
+      try {
+        axios.post("http://localhost:8000/api/register", data)
+        .catch(()=>toast.error("Something went wrong!"));
+        console.log("Registration successful");
+      } catch (error) {
+        console.log("Registeration Failed", error);
+      }
     }
     if (variant === "LOGIN") {
       // nextauth signin
     }
+    setIsLoading(false);
   };
 
   const socialAction = (action: string) => {
@@ -61,14 +71,14 @@ const AuthForm = () => {
         )}
         <InputForm
           label="Email"
-          id="Email address"
+          id="email"
           type="email"
           register={register}
           errors={errors}
         />
         <InputForm
           label="Password"
-          id="Password"
+          id="password"
           type="password"
           register={register}
           errors={errors}

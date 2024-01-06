@@ -1,11 +1,12 @@
 import React from 'react';
-import './App.css';
-import Page from './components/AuthHome/AuthHome';
+import AuthHome from './components/AuthHome/AuthHome';
+import HotToast from './components/AuthHome/HotToast/HotToast';
 
 function App() {
   return (
     <div className="App">
-      <Page/>
+      <HotToast/>
+      <AuthHome/>
     </div>
   );
 }

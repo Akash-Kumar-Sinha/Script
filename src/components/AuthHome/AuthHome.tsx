@@ -1,4 +1,4 @@
-import AuthForm from '../authForm/AuthForm'
+import AuthForm from "./AuthForm/AuthForm";
 import {
   Dialog,
   DialogContent,
@@ -11,7 +11,7 @@ const AuthHome = () => {
   return (
     <div>
       <Dialog open={true}>
-        <DialogContent className='text-center'>
+        <DialogContent className="text-center">
           <DialogHeader className="pt-8 px-6">
             <DialogTitle className="flex justify-center font-bold">
               <img
@@ -28,7 +28,7 @@ const AuthHome = () => {
           </DialogHeader>
           {/* <DialogFooter> */}
 
-          <AuthForm/>
+          <AuthForm />
           {/* </DialogFooter> */}
         </DialogContent>
       </Dialog>
