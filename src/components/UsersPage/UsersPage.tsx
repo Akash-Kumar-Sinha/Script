@@ -1,5 +1,7 @@
 import { FC } from "react";
-import SignOut from "../AuthHome/SignOut/SignOut";
+import SideBar from "./SideBar/SideBar";
+import ChatBar from "./ChatBar/ChatBar";
+
 
 interface AuthFormProps {
   isLogged: boolean;
@@ -8,8 +10,13 @@ interface AuthFormProps {
 
 const UsersPage: FC<AuthFormProps> = ({ isLogged, updateIsLogged }) => {
   return (
-    <div>
-      <SignOut isLogged={isLogged} updateIsLogged={updateIsLogged} />
+    <div className="flex">
+      <div>
+        <SideBar isLogged={isLogged} updateIsLogged={updateIsLogged} />
+      </div>
+      <div className="w-full">
+        <ChatBar/>
+      </div>
     </div>
   );
 };

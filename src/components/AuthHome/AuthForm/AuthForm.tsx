@@ -7,7 +7,6 @@ import ButtonForm from "./ButtonForm";
 // import { BsGithub, BsGoogle } from "react-icons/bs";
 import axios from "axios";
 import toast from "react-hot-toast";
-import UsersPage from "../../UsersPage/UsersPage";
 
 type Variant = "LOGIN" | "REGISTER";
 

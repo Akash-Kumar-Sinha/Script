@@ -10,7 +10,7 @@ import UsersPage from "../UsersPage/UsersPage";
 import { useState } from "react";
 
 const AuthHome = () => {
-  const [isLogged, setIsLogged] = useState(false);
+  const [isLogged, setIsLogged] = useState(true);
 
   const updateIsLogged = (value: boolean) => {
     setIsLogged(value);
