@@ -1,19 +1,24 @@
-import { useCallback, useState } from "react";
+import { FC, useCallback, useState } from "react";
 
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import InputForm from "./InputForm";
 import ButtonForm from "./ButtonForm";
-import AuthSocialButton from "./AuthSocialButton";
-import { BsGithub, BsGoogle } from "react-icons/bs";
+// import AuthSocialButton from "./AuthSocialButton";
+// import { BsGithub, BsGoogle } from "react-icons/bs";
 import axios from "axios";
 import toast from "react-hot-toast";
+import UsersPage from "../../UsersPage/UsersPage";
 
 type Variant = "LOGIN" | "REGISTER";
 
-const AuthForm = () => {
+interface AuthFormProps {
+  isLogged: boolean;
+  updateIsLogged: (value: boolean) => void;
+}
+
+const AuthForm: FC<AuthFormProps> = ({ isLogged, updateIsLogged }) => {
   const [variant, setVariant] = useState<Variant>("LOGIN");
   const [isLoading, setIsLoading] = useState(false);
-
   const toggleVariant = useCallback(() => {
     if (variant === "LOGIN") {
       setVariant("REGISTER");
@@ -34,30 +39,49 @@ const AuthForm = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setIsLoading(true);
     // console.log('Form data:', data);
 
     if (variant === "REGISTER") {
       try {
-        axios.post("http://localhost:8000/api/register", data)
-        .catch(()=>toast.error("Something went wrong!"));
-        console.log("Registration successful");
+        await axios
+          .post("http://localhost:8000/api/register", data)
+          .then(() => {
+            toast.success("Registration successful");
+            updateIsLogged(true);
+          })
+          .catch((error) => {
+            toast.error("Registration went wrong!");
+          });
       } catch (error) {
-        console.log("Registeration Failed", error);
+        console.log("Registration failed", error);
       }
     }
     if (variant === "LOGIN") {
-      // nextauth signin
+      try {
+        await axios
+          .post("http://localhost:8000/api/login", data)
+          .then(() => {
+            toast.success("Login successful");
+            updateIsLogged(true);
+          })
+          .catch((error) => {
+            toast.error("Login went wrong!");
+          });
+      } catch (error) {
+        console.log("Login failed", error);
+      }
     }
     setIsLoading(false);
   };
 
-  const socialAction = (action: string) => {
-    setIsLoading(true);
+  // const socialAction = (action: string) => {
+  //   setIsLoading(true);
 
-    // signin
-  };
+  //   // signin
+  // };
+
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -103,7 +127,7 @@ const AuthForm = () => {
         </div>
       </div>
 
-      <div className="mt-6 gap-3">
+      {/* <div className="mt-6 gap-3">
         <AuthSocialButton
           icon={BsGithub}
           onClick={() => socialAction("github")}
@@ -112,7 +136,7 @@ const AuthForm = () => {
           icon={BsGoogle}
           onClick={() => socialAction("google")}
         />
-      </div>
+      </div> */}
       <div className="pt-3 gap-2 text-gray-400">
         <div>
           {variant === "LOGIN" ? "New to Script?" : "Already Have an account?"}
