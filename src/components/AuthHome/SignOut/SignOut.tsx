@@ -1,17 +1,14 @@
-import { FC } from "react";
 import { Button } from "../../../@/components/ui/button";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
-interface AuthFormProps {
-  isLogged: boolean;
-  updateIsLogged: (value: boolean) => void;
-}
-const SignOut: FC<AuthFormProps> = ({ isLogged, updateIsLogged }) => {
+const SignOut = () => {
+  const navigate = useNavigate()
   return (
     <div>
       <Button
         onClick={() => {
-          updateIsLogged(false);
+          navigate('/')
           toast.success("Logged Out");
         }}
       >

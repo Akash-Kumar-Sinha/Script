@@ -6,21 +6,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../../@/components/ui/dialog";
-import UsersPage from "../UsersPage/UsersPage";
-import { useState } from "react";
 
 const AuthHome = () => {
-  const [isLogged, setIsLogged] = useState(false);
-
-  const updateIsLogged = (value: boolean) => {
-    setIsLogged(value);
-  };
+ 
 
   return (
     <div>
-      {isLogged ? (
-        <UsersPage isLogged={isLogged} updateIsLogged={updateIsLogged} />
-      ) : (
+      
         <Dialog open={true}>
           <DialogContent className="text-center">
             <DialogHeader className="pt-8 px-6">
@@ -38,10 +30,9 @@ const AuthHome = () => {
               </DialogDescription>
             </DialogHeader>
 
-            <AuthForm isLogged={isLogged} updateIsLogged={updateIsLogged} />
+            <AuthForm />
           </DialogContent>
         </Dialog>
-      )}
     </div>
   );
 };

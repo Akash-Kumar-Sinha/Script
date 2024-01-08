@@ -1,4 +1,4 @@
-import { FC, useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import InputForm from "./InputForm";
@@ -7,15 +7,12 @@ import AuthSocialButton from "./AuthSocialButton";
 import { BsGithub, BsGoogle } from "react-icons/bs";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useNavigate} from "react-router-dom";
 
 type Variant = "LOGIN" | "REGISTER";
 
-interface AuthFormProps {
-  isLogged: boolean;
-  updateIsLogged: (value: boolean) => void;
-}
 
-const AuthForm: FC<AuthFormProps> = ({ isLogged, updateIsLogged }) => {
+const AuthForm = () => {
   const [variant, setVariant] = useState<Variant>("LOGIN");
   const [isLoading, setIsLoading] = useState(false);
   const toggleVariant = useCallback(() => {
@@ -37,6 +34,7 @@ const AuthForm: FC<AuthFormProps> = ({ isLogged, updateIsLogged }) => {
       password: "",
     },
   });
+  const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setIsLoading(true);
@@ -48,7 +46,7 @@ const AuthForm: FC<AuthFormProps> = ({ isLogged, updateIsLogged }) => {
           .post("http://localhost:8000/api/register", data)
           .then(() => {
             toast.success("Registration successful");
-            updateIsLogged(true);
+            navigate("/userspage");
           })
           .catch((error) => {
             toast.error("Registration went wrong!");
@@ -63,7 +61,7 @@ const AuthForm: FC<AuthFormProps> = ({ isLogged, updateIsLogged }) => {
           .post("http://localhost:8000/api/login", data)
           .then(() => {
             toast.success("Login successful");
-            updateIsLogged(true);
+            navigate("/userspage");
           })
           .catch((error) => {
             toast.error("Login went wrong!");
