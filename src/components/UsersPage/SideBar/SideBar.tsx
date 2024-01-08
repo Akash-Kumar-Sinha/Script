@@ -1,6 +1,5 @@
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 import SignOut from "../../AuthHome/SignOut/SignOut";
-// import { Sidebar } from "lucide-react";
 
 import UsersBar from "../ChatBar/UsersBar";
 
@@ -9,12 +8,15 @@ interface AuthFormProps {
   updateIsLogged: (value: boolean) => void;
 }
 
-const SideBar: FC<AuthFormProps> = ({ isLogged, updateIsLogged }) => {
+const SideBar: FC<AuthFormProps> = ({ isLogged, updateIsLogged },{children}:{
+    children: ReactNode;
+}) => {
   return (
-    <div className="bg-slate-200 h-screen">
+    <div className="bg-gray-200 h-screen">
       <UsersBar>
-        <SignOut isLogged={isLogged} updateIsLogged={updateIsLogged} />
+        {children}
       </UsersBar>
+        <SignOut isLogged={isLogged} updateIsLogged={updateIsLogged} />
     </div>
   );
 };

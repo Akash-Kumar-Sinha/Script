@@ -10,7 +10,7 @@ import UsersPage from "../UsersPage/UsersPage";
 import { useState } from "react";
 
 const AuthHome = () => {
-  const [isLogged, setIsLogged] = useState(true);
+  const [isLogged, setIsLogged] = useState(false);
 
   const updateIsLogged = (value: boolean) => {
     setIsLogged(value);
@@ -37,10 +37,8 @@ const AuthHome = () => {
                 Sign in to your account
               </DialogDescription>
             </DialogHeader>
-            {/* <DialogFooter> */}
 
             <AuthForm isLogged={isLogged} updateIsLogged={updateIsLogged} />
-            {/* </DialogFooter> */}
           </DialogContent>
         </Dialog>
       )}

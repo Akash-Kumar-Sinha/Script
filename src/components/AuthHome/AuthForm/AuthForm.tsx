@@ -3,8 +3,8 @@ import { FC, useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import InputForm from "./InputForm";
 import ButtonForm from "./ButtonForm";
-// import AuthSocialButton from "./AuthSocialButton";
-// import { BsGithub, BsGoogle } from "react-icons/bs";
+import AuthSocialButton from "./AuthSocialButton";
+import { BsGithub, BsGoogle } from "react-icons/bs";
 import axios from "axios";
 import toast from "react-hot-toast";
 
@@ -75,11 +75,11 @@ const AuthForm: FC<AuthFormProps> = ({ isLogged, updateIsLogged }) => {
     setIsLoading(false);
   };
 
-  // const socialAction = (action: string) => {
-  //   setIsLoading(true);
+  const socialAction = (action: string) => {
+    setIsLoading(true);
 
-  //   // signin
-  // };
+    // signin
+  };
 
   return (
     <div>
@@ -126,7 +126,7 @@ const AuthForm: FC<AuthFormProps> = ({ isLogged, updateIsLogged }) => {
         </div>
       </div>
 
-      {/* <div className="mt-6 gap-3">
+      <div className="mt-6 gap-3">
         <AuthSocialButton
           icon={BsGithub}
           onClick={() => socialAction("github")}
@@ -135,7 +135,7 @@ const AuthForm: FC<AuthFormProps> = ({ isLogged, updateIsLogged }) => {
           icon={BsGoogle}
           onClick={() => socialAction("google")}
         />
-      </div> */}
+      </div>
       <div className="pt-3 gap-2 text-gray-400">
         <div>
           {variant === "LOGIN" ? "New to Script?" : "Already Have an account?"}
