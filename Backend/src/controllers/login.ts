@@ -1,20 +1,26 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import prisma from "../db/prismadb";
+import jwt, { Secret } from 'jsonwebtoken'; 
+
+const SECRET_KEY = "notapi"
+
 
 const login = async (req: Request, res: Response) => {
   try {
+    console.log("login");
     const { email, password } = req.body;
+  
 
     if (!email || !password) {
-      return res.status(400).send("Missing info");
+      return res.status(400).json("Missing info");
     }
     const user = await prisma?.user.findUnique({
       where: {
         email: email,
       },
     });
-
+    
     if (!user) {
       return res.status(401).json({ error: "Invalid email or password" });
     }
@@ -26,7 +32,10 @@ const login = async (req: Request, res: Response) => {
         return res.status(401).json({ error: "Invalid email or password" });
       }
     }
-    res.status(200).json({ message: "Login successful", user });
+
+    const token = jwt.sign({email: user.email, id: user.id }, SECRET_KEY);
+    
+    res.status(200).json({ message: "Login successful", user, token });
   } catch (error: any) {
     console.error("Login Error:", error);
     res.status(500).json({ error: "Internal Server Error" });

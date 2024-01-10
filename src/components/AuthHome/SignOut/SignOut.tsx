@@ -8,7 +8,7 @@ const SignOut = () => {
     <div>
       <Button
         onClick={() => {
-          navigate('/')
+          navigate(-1)
           toast.success("Logged Out");
         }}
       >
