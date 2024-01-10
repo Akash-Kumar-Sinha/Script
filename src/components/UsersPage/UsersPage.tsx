@@ -1,7 +1,9 @@
 import SideBar from "./SideBar/SideBar";
 import ChatBar from "./ChatBar/ChatBar";
+// import { useAuth } from "../utils/ProtectAuth";
 
 const UsersPage = () => {
+  // const { user, login, logout } = useAuth();
   return (
     <div className="flex">
       <div>
@@ -9,6 +11,11 @@ const UsersPage = () => {
       </div>
       <div className="w-full">
         <ChatBar />
+        {/* {user ? (
+        <p>Hello, {user.username}!</p>
+      ) : (
+        <p>Please log in</p>
+      )} */}
       </div>
     </div>
   );

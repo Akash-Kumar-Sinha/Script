@@ -24,7 +24,8 @@ const register = async (req: Request, res: Response) => {
       },
     });
 
-    const token = jwt.sign({email: user.email, id: user.id }, SECRET_KEY);
+    const token = jwt.sign({email: email, id: user.id }, SECRET_KEY);
+    user.hashedPassword = null;
 
     res.status(200).json({ message: "Registration successful", user, token });
   } catch (error: any) {

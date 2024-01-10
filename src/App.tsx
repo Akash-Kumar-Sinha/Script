@@ -4,17 +4,18 @@ import HotToast from "./components/AuthHome/HotToast/HotToast";
 import { Route, Routes } from "react-router-dom";
 import UsersPage from "./components/UsersPage/UsersPage";
 import NoRoute from "./components/Route/NoRoute";
+import { AuthProvider } from "./components/utils/ProtectAuth";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
+    <AuthProvider>
       <HotToast />
       <Routes>
         <Route path="/" element={<AuthHome />}/>
         <Route path="/userspage" element={<UsersPage />}/>
         <Route path="*" element={<NoRoute/>}/>
       </Routes>
-    </div>
+    </AuthProvider>
   );
 }
 
