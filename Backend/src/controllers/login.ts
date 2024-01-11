@@ -1,16 +1,15 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import prisma from "../db/prismadb";
-import jwt, { Secret } from 'jsonwebtoken'; 
+import jwt from "jsonwebtoken";
+import { refreshTokens } from "./refreshToken";
 
-const SECRET_KEY = "notapi"
-
+const SECRET_KEY = "notapi";
 
 const login = async (req: Request, res: Response) => {
   try {
     console.log("login");
     const { email, password } = req.body;
-  
 
     if (!email || !password) {
       return res.status(400).json("Missing info");
@@ -20,7 +19,7 @@ const login = async (req: Request, res: Response) => {
         email: email,
       },
     });
-    
+
     if (!user) {
       return res.status(401).json({ error: "Invalid email or password" });
     }
@@ -33,10 +32,20 @@ const login = async (req: Request, res: Response) => {
       }
     }
 
-    const token = jwt.sign({email: email, id: user.id }, SECRET_KEY);
+    const accessToken = jwt.sign({ email: email, id: user.id }, SECRET_KEY, {
+      expiresIn: "60m",
+    });
+    const refreshToken = jwt.sign(
+      { email: email, id: user.id },
+      "refreshnotapi"
+    );
+
     user.hashedPassword = null;
-    
-    res.status(200).json({ message: "Login successful", user, token });
+    refreshTokens.push(refreshToken);
+
+    res
+      .status(200)
+      .json({ message: "Login successful", user, accessToken, refreshToken });
   } catch (error: any) {
     console.error("Login Error:", error);
     res.status(500).json({ error: "Internal Server Error" });

@@ -39,7 +39,6 @@ const AuthForm = () => {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setIsLoading(true);
     // console.log('Form data:', data);
-
     if (variant === "REGISTER") {
       try {
         await axios

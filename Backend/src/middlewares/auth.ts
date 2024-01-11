@@ -10,12 +10,12 @@ interface AuthRequest extends Request {
 
 export const auth = (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
-    let token = req.headers.authorization;
+    let accessToken = req.headers.authorization;
 
-    if (token) {
-      token = token.split(" ")[1];
+    if (accessToken) {
+      accessToken = accessToken.split(" ")[1];
 
-      let user = jwt.verify(token, SECRET_KEY) as { id: string };
+      let user = jwt.verify(accessToken, SECRET_KEY) as { id: string };
       req.userId = user.id;
     } else {
       res.status(401).json({ message: "Unauthorized Middleware User" });
