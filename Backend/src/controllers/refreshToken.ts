@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import prisma from "../db/prismadb";
-import jwt from "jsonwebtoken";
+import jwt, { Secret } from "jsonwebtoken";
 
-const SECRET_KEY = "notapi";
+const SECRET_KEY = process.env.JWT_SECRET_KEY as Secret;
 export let refreshTokens: string[] = [];
 
 const refreshToken = async (req: Request, res: Response) => {
@@ -25,14 +25,17 @@ const refreshToken = async (req: Request, res: Response) => {
   if (!refreshTokens.includes(refreshToken)) {
     return res.status(403).json("Refresh Token is not valid");
   }
-  jwt.sign(refreshToken, "refreshnotapi", () => {
+
+  jwt.verify(refreshToken, "refreshnotapi", (err: any) => {
+    if (err) {
+      return res.status(403).json("Refresh Token is not valid");
+    }
+
     refreshTokens = refreshTokens.filter(
       (token: string) => token !== refreshToken
     );
 
-    const newAccessToken = jwt.sign({ email: email, id: user.id }, SECRET_KEY, {
-      expiresIn: "60m",
-    });
+    const newAccessToken = jwt.sign({ email: email, id: user.id }, SECRET_KEY);
     const newRefreshToken = jwt.sign(
       { email: email, id: user.id },
       "refreshnotapi"

@@ -4,7 +4,7 @@ import prisma from "../db/prismadb";
 import jwt from "jsonwebtoken";
 import { refreshTokens } from "./refreshToken";
 
-const SECRET_KEY = "notapi";
+const SECRET_KEY = process.env.JWT_SECRET_KEY;
 
 const login = async (req: Request, res: Response) => {
   try {
@@ -14,6 +14,11 @@ const login = async (req: Request, res: Response) => {
     if (!email || !password) {
       return res.status(400).json("Missing info");
     }
+
+    if (!SECRET_KEY) {
+      return res.status(500).json({ error: "JWT secret key is not defined" });
+    }
+
     const user = await prisma?.user.findUnique({
       where: {
         email: email,
@@ -32,9 +37,7 @@ const login = async (req: Request, res: Response) => {
       }
     }
 
-    const accessToken = jwt.sign({ email: email, id: user.id }, SECRET_KEY, {
-      expiresIn: "60m",
-    });
+    const accessToken = jwt.sign({ email: email, id: user.id }, SECRET_KEY);
     const refreshToken = jwt.sign(
       { email: email, id: user.id },
       "refreshnotapi"

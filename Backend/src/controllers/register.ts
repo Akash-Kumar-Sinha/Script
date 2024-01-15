@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import prisma from "../db/prismadb";
-import jwt from "jsonwebtoken";
+import jwt, { Secret } from "jsonwebtoken";
 import { refreshTokens } from "./refreshToken";
 
-const SECRET_KEY = "notapi";
+const SECRET_KEY = process.env.JWT_SECRET_KEY as Secret;
 
 const register = async (req: Request, res: Response) => {
   console.log("register");
@@ -25,9 +25,11 @@ const register = async (req: Request, res: Response) => {
       },
     });
 
-    const accessToken = jwt.sign({ email: email, id: user.id }, SECRET_KEY, {
-      expiresIn: "60m",
-    });
+    if (!user) {
+      return res.status(500).json({ error: "Failed to create user" });
+    }
+
+    const accessToken = jwt.sign({ email: email, id: user.id }, SECRET_KEY);
     const refreshToken = jwt.sign(
       { email: email, id: user.id },
       "refreshnotapi"

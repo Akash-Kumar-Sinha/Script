@@ -1,21 +1,20 @@
-import SideBar from "./SideBar/SideBar";
+import SignOut from "../AuthHome/SignOut/SignOut";
 import ChatBar from "./ChatBar/ChatBar";
-// import { useAuth } from "../utils/ProtectAuth";
+import UserLayout from "./SideBar/UserLayout";
 
 const UsersPage = () => {
   // const { user, login, logout } = useAuth();
   return (
     <div className="flex">
-      <div>
-        <SideBar />
+      <div className="bg-slate-500">
+        <UserLayout>
+          <SignOut/>
+        </UserLayout>
       </div>
+        
       <div className="w-full">
         <ChatBar />
-        {/* {user ? (
-        <p>Hello, {user.username}!</p>
-      ) : (
-        <p>Please log in</p>
-      )} */}
+      
       </div>
     </div>
   );

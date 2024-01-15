@@ -1,6 +1,10 @@
 import express, { Request, Response, Application, NextFunction } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+const session = require('express-session');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+
 const router = require("../src/routes/route");
 
 dotenv.config();

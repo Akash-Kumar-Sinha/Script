@@ -1,20 +1,21 @@
 import { useCallback, useState } from "react";
-
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { BsGithub, BsGoogle } from "react-icons/bs";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+
 import InputForm from "./InputForm";
 import ButtonForm from "./ButtonForm";
 import AuthSocialButton from "./AuthSocialButton";
-import { BsGithub, BsGoogle } from "react-icons/bs";
-import axios from "axios";
-import toast from "react-hot-toast";
-import { useNavigate} from "react-router-dom";
 
 type Variant = "LOGIN" | "REGISTER";
-
 
 const AuthForm = () => {
   const [variant, setVariant] = useState<Variant>("LOGIN");
   const [isLoading, setIsLoading] = useState(false);
+  const [loginToken, setLoginToken] = useState(null);
+  let responseDataFromBackend;
   const toggleVariant = useCallback(() => {
     if (variant === "LOGIN") {
       setVariant("REGISTER");
@@ -36,6 +37,8 @@ const AuthForm = () => {
   });
   const navigate = useNavigate();
 
+  // Refresh Token function to automatically update it
+
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setIsLoading(true);
     // console.log('Form data:', data);
@@ -56,17 +59,20 @@ const AuthForm = () => {
     }
     if (variant === "LOGIN") {
       try {
-        await axios
-          .post("http://localhost:8000/api/login", data)
-          .then(() => {
-            toast.success("Login successful");
-            navigate("/userspage");
-          })
-          .catch((error) => {
-            toast.error("Login went wrong!");
-          });
+        const response = await axios.post(
+          "http://localhost:8000/api/login",
+          data
+        );
+        navigate("/userspage");
+        setLoginToken(response.data.accessToken);
+
+        responseDataFromBackend = response.data;
+
+        // console.log("Response from server:", responseDataFromBackend);
+        toast.success("Login successful");
       } catch (error) {
-        console.log("Login failed", error);
+        console.error("Login failed", error);
+        toast.error("Login went wrong!");
       }
     }
     setIsLoading(false);

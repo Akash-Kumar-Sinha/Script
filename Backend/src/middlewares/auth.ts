@@ -1,30 +1,50 @@
-import { Request, Response, NextFunction } from "express";
-import dotenv from "dotenv";
-import jwt from "jsonwebtoken"; // Import Secret type
-const SECRET_KEY = "notapi";
-dotenv.config();
+import { Request, Response } from "express";
+import prisma from "../db/prismadb";
+import jwt, { Secret, JwtPayload } from "jsonwebtoken";
 
-interface AuthRequest extends Request {
-  userId?: string;
-}
+const SECRET_KEY = process.env.JWT_SECRET_KEY as Secret; // Asserting the type as Secret
+export let refreshTokens: string[] = [];
 
-export const auth = (req: AuthRequest, res: Response, next: NextFunction) => {
-  try {
-    let accessToken = req.headers.authorization;
+const refreshToken = async (req: Request, res: Response) => {
+  console.log("refresh");
+  const { email } = req.body;
+  const user = await prisma?.user.findUnique({
+    where: {
+      email: email,
+    },
+  });
 
-    if (accessToken) {
-      accessToken = accessToken.split(" ")[1];
-
-      let user = jwt.verify(accessToken, SECRET_KEY) as { id: string };
-      req.userId = user.id;
-    } else {
-      res.status(401).json({ message: "Unauthorized Middleware User" });
-    }
-    next();
-  } catch (error) {
-    console.log("auth middleware error ", error);
-    res.status(401).json({ message: "Unauthorized Middleware User" });
+  if (!user) {
+    return res.status(401).json({ error: "Invalid email or password" });
   }
+
+  const refreshToken = req.body.token;
+  if (!refreshToken) {
+    return res.status(401).json("You are not authenticated.");
+  }
+  if (!refreshTokens.includes(refreshToken)) {
+    return res.status(403).json("Refresh Token is not valid");
+  }
+
+  jwt.verify(refreshToken, "refreshnotapi", (err:any) => {
+    if (err) {
+      return res.status(403).json("Refresh Token is not valid");
+    }
+
+    const newAccessToken = jwt.sign({ email: email, id: user.id }, SECRET_KEY);
+    const newRefreshToken = jwt.sign(
+      { email: email, id: user.id },
+      "refreshnotapi"
+    );
+    refreshTokens = refreshTokens.filter(
+      (token: string) => token !== refreshToken
+    );
+    refreshTokens.push(newRefreshToken);
+
+    res
+      .status(200)
+      .json({ accessToken: newAccessToken, refreshToken: newRefreshToken });
+  });
 };
 
-export default auth;
+export default refreshToken;

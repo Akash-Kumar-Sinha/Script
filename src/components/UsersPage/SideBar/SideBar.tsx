@@ -1,12 +1,45 @@
-import SignOut from "../../AuthHome/SignOut/SignOut";
+import { ReactNode, useState } from "react";
+import { Sidebar } from "lucide-react";
 
-import UsersBar from "../ChatBar/UsersBar";
+import {
+  Command,
+  // CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  // CommandSeparator,
+  // CommandShortcut,
+} from "../../../@/components/ui/command";
+// import { Button } from "../../../@/components/ui/button";
+import { Toggle } from "../../../@/components/ui/toggle";
 
-const SideBar = () => {
+const SideBar = ({ children }: { children: ReactNode }) => {
+  const [isCommandVisible, setIsCommandVisible] = useState(true);
+
+  const toggleSidebar = () => {
+    setIsCommandVisible(!isCommandVisible);
+  };
   return (
-    <div className="bg-gray-200 h-screen">
-      <UsersBar>{/* {children} */}</UsersBar>
-      <SignOut />
+    <div className="flex flex-row-reverse px-2">
+        <Toggle 
+        className="bg-gray-300 rounded-xl"  
+        onClick={toggleSidebar}>
+          <Sidebar />
+        </Toggle>
+        {isCommandVisible && (
+      <Command>
+        <CommandInput placeholder="Type a command or search..." />
+
+        <CommandList>
+          <CommandEmpty>No results found.</CommandEmpty>
+          <CommandGroup heading="Welcome">
+            <CommandItem className="text-base flex flex-col items-start">Akash{children}</CommandItem>
+          </CommandGroup>
+        </CommandList>
+      </Command>
+      )}
     </div>
   );
 };
