@@ -14,8 +14,6 @@ type Variant = "LOGIN" | "REGISTER";
 const AuthForm = () => {
   const [variant, setVariant] = useState<Variant>("LOGIN");
   const [isLoading, setIsLoading] = useState(false);
-  const [loginToken, setLoginToken] = useState(null);
-  let responseDataFromBackend;
   const toggleVariant = useCallback(() => {
     if (variant === "LOGIN") {
       setVariant("REGISTER");
@@ -59,21 +57,23 @@ const AuthForm = () => {
     }
     if (variant === "LOGIN") {
       try {
-        const response = await axios.post(
-          "http://localhost:8000/api/login",
-          data
-        );
-        navigate("/userspage");
-        setLoginToken(response.data.accessToken);
+        await axios
+          .post("http://localhost:8000/api/login", data)
+          .then(() => {
+            toast.success("Login successful");
+            navigate("/userspage");
+          })
 
-        responseDataFromBackend = response.data;
-
-        // console.log("Response from server:", responseDataFromBackend);
-        toast.success("Login successful");
-      } catch (error) {
-        console.error("Login failed", error);
-        toast.error("Login went wrong!");
-      }
+          .catch((error) => {
+            toast.error("Login went wrong!");
+          });
+        } catch (error: any) {
+          console.error("Login failed", error);
+          if (error.response) {
+            console.error("Response data:", error.response.data);
+          }
+        }
+        
     }
     setIsLoading(false);
   };
