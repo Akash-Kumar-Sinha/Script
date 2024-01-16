@@ -11,10 +11,9 @@ const UsersPage = () => {
           <SignOut/>
         </UserLayout>
       </div>
-        
-      <div className="w-full">
+        ``
+      <div className="w-full h-screen">
         <ChatBar />
-      
       </div>
     </div>
   );

@@ -2,8 +2,9 @@ import express, { Request, Response, Application, NextFunction } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 const session = require('express-session');
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
+const MongoStore = require('connect-mongo');
+// const passport = require('passport');
+// const LocalStrategy = require('passport-local').Strategy;
 
 const router = require("../src/routes/route");
 
@@ -12,6 +13,17 @@ dotenv.config();
 const app: Application = express();
 const port = process.env.PORT || 8000;
 
+// app.use(session({
+//   secret: 'keyboard cat',
+//   resave: false,
+//   saveUninitialized: true,
+//   store: MongoStore.create({
+//     mongoUrl: process.env.DATABASE_URL, collectionNames: 'sessions'
+//   }),
+//   cookie: { 
+//     maxAge: 1000 * 60 * 60 * 24
+//    }
+// }))
 app.use(cors());
 app.use(express.json());
 

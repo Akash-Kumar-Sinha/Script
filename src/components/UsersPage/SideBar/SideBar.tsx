@@ -14,6 +14,7 @@ import {
 } from "../../../@/components/ui/command";
 // import { Button } from "../../../@/components/ui/button";
 import { Toggle } from "../../../@/components/ui/toggle";
+import DesktopSidebar from "./DesktopSidebar";
 
 const SideBar = ({ children }: { children: ReactNode }) => {
   const [isCommandVisible, setIsCommandVisible] = useState(true);
@@ -25,7 +26,8 @@ const SideBar = ({ children }: { children: ReactNode }) => {
     <div className="flex flex-row-reverse px-2">
         <Toggle 
         className="bg-gray-300 rounded-xl"  
-        onClick={toggleSidebar}>
+        onClick={toggleSidebar}
+        >
           <Sidebar />
         </Toggle>
         {isCommandVisible && (
@@ -35,7 +37,12 @@ const SideBar = ({ children }: { children: ReactNode }) => {
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup heading="Welcome">
-            <CommandItem className="text-base flex flex-col items-start">Akash{children}</CommandItem>
+            <CommandItem className="text-base flex flex-col items-start">
+              <DesktopSidebar/>
+              <div className="main">
+              {children}
+              </div>
+            </CommandItem>
           </CommandGroup>
         </CommandList>
       </Command>
