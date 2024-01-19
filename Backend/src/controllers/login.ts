@@ -3,7 +3,8 @@ import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import prisma from "../db/prismadb";
 
-const SECRET_KEY = process.env.JWT_SECRET_KEY;
+const jwt = require("jsonwebtoken");
+const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 
 const login = async (req: Request, res: Response) => {
   try {
@@ -12,10 +13,6 @@ const login = async (req: Request, res: Response) => {
 
     if (!email || !password) {
       return res.status(400).json("Missing info");
-    }
-
-    if (!SECRET_KEY) {
-      return res.status(500).json({ error: "JWT secret key is not defined" });
     }
 
     const user = await prisma?.user.findUnique({
@@ -35,10 +32,17 @@ const login = async (req: Request, res: Response) => {
         return res.status(401).json({ error: "Invalid email or password" });
       }
     }
+    const payload = {
+      email: email,
+      id: user.id,
+    };
+    const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: "1d" });
 
     user.hashedPassword = null;
 
-    res.status(200).json({ message: "Login successful", user });
+    res
+      .status(200)
+      .json({ message: "Login successful", user, token: "Bearer " + token });
   } catch (error: any) {
     console.error("Login Error:", error);
     res.status(500).json({ error: "Internal Server Error" });

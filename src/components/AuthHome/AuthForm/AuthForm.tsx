@@ -35,11 +35,8 @@ const AuthForm = () => {
   });
   const navigate = useNavigate();
 
-  // Refresh Token function to automatically update it
-
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setIsLoading(true);
-    // console.log('Form data:', data);
     if (variant === "REGISTER") {
       try {
         await axios
@@ -59,7 +56,8 @@ const AuthForm = () => {
       try {
         await axios
           .post("http://localhost:8000/api/login", data)
-          .then(() => {
+          .then((user) => {
+            localStorage.setItem("token", user.data.token);
             toast.success("Login successful");
             navigate("/userspage");
           })
@@ -67,13 +65,12 @@ const AuthForm = () => {
           .catch((error) => {
             toast.error("Login went wrong!");
           });
-        } catch (error: any) {
-          console.error("Login failed", error);
-          if (error.response) {
-            console.error("Response data:", error.response.data);
-          }
+      } catch (error: any) {
+        console.error("Login failed", error);
+        if (error.response) {
+          console.error("Response data:", error.response.data);
         }
-        
+      }
     }
     setIsLoading(false);
   };

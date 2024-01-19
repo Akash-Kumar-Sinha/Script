@@ -1,20 +1,23 @@
-import express, { Request, Response, NextFunction } from "express";
+// route.ts
+import express from "express";
 import register from "../controllers/register";
 import login from "../controllers/login";
-import refresh from "../controllers/refreshToken";
 import passport from "passport";
+import protect from "../controllers/protected";
+
 // import logout from "../controllers/logout";
 // import auth from "../middlewares/auth";
-require("../middlewares/passport");
+import "../middlewares/passport_jwt";
+
 
 const router = express.Router();
 
 router.post("/register", register);
 
-router.post('/login', passport.authenticate('local'), login);
+router.post("/login", login);
 
 // router.post("/refresh", refresh);
 
-// router.post("/logout", auth, logout);
+router.get("/userspage", passport.authenticate("jwt", { session: false }),protect);
 
 module.exports = router;

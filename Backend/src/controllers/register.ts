@@ -1,10 +1,9 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import prisma from "../db/prismadb";
-import jwt, { Secret } from "jsonwebtoken";
-import { refreshTokens } from "./refreshToken";
 
-const SECRET_KEY = process.env.JWT_SECRET_KEY as Secret;
+const jwt = require("jsonwebtoken");
+const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 
 const register = async (req: Request, res: Response) => {
   console.log("register");
@@ -29,23 +28,18 @@ const register = async (req: Request, res: Response) => {
       return res.status(500).json({ error: "Failed to create user" });
     }
 
-    const accessToken = jwt.sign({ email: email, id: user.id }, SECRET_KEY);
-    const refreshToken = jwt.sign(
-      { email: email, id: user.id },
-      "refreshnotapi"
-    );
-
+    const payload = {
+      email: email,
+      id: user.id,
+    };
+    const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: "1d" });
     user.hashedPassword = null;
-    refreshTokens.push(refreshToken);
 
-    res
-      .status(200)
-      .json({
-        message: "Registration successful",
-        user,
-        accessToken,
-        refreshToken,
-      });
+    res.status(200).json({
+      message: "Registration successful",
+      user,
+      token: "Bearer " + token,
+    });
   } catch (error: any) {
     console.error("Registration Error:", error);
     res.status(500).json({ error: "Internal Server Error" });
