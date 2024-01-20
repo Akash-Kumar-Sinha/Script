@@ -1,10 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useRoutes from "../../utils/hooks/useRoutes";
 import DesktopItem from "./DesktopItem";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import toast from "react-hot-toast";
+import Avatar from "../Avatar";
+// import {User} from "@prims"
 
 const DesktopSidebar = () => {
   const routes = useRoutes();
   const [isOpen, setIsOpen] = useState(false);
+
   return (
     <div
       className="
@@ -25,10 +31,7 @@ const DesktopSidebar = () => {
     "
     >
       <nav className="mt-4 flex flex-col justify-between">
-        <ul 
-          role="list" 
-          className="flex flex-col items-center space-y-1"
-        >
+        <ul role="list" className="flex flex-col items-center space-y-1">
           {routes.map((item) => (
             <DesktopItem
               key={item.label}
@@ -41,6 +44,16 @@ const DesktopSidebar = () => {
           ))}
         </ul>
       </nav>
+      <nav className="mt-4 flex flex-col justify-between items-center">
+          <div 
+            onClick={() => setIsOpen(true)} 
+            className="cursor-pointer hover:opacity-75 transition"
+          >
+            <Avatar
+            //  user={currentUser} 
+             />
+          </div>
+        </nav>
     </div>
   );
 };

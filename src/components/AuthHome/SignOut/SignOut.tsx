@@ -1,19 +1,21 @@
+// SignOut.js
 import { Button } from "../../../@/components/ui/button";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
+export const handleLogout = (navigate: import("react-router-dom").NavigateFunction) => {
+  navigate("/");
+  toast.success("Logged Out");
+};
+
 const SignOut = () => {
   const navigate = useNavigate();
 
-  const handlelogout = () => {
-    navigate("/");
-    toast.success("Logged Out");
-  };
   return (
     <div>
       <Button
         onClick={() => {
-          handlelogout();
+          handleLogout(navigate);
         }}
       >
         Sign out

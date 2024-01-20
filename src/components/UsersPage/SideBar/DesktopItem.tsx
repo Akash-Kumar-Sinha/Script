@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import clsx from "clsx";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 interface DesktopItemProps {
   label: string;
@@ -18,33 +18,36 @@ const DesktopItem: FC<DesktopItemProps> = ({
 }) => {
   const handleClick = () => {
     if (onClick) {
-      return onClick;
+      return onClick();
     }
   };
   return (
     <li onClick={handleClick}>
-      <Link
+      <NavLink
         to={href}
         className={clsx(
           `
-            group 
-            flex 
-            gap-x-3 
-            rounded-md 
-            p-3 
-            text-sm 
-            leading-6 
-            font-semibold 
+          group 
+          flex 
+          gap-x-3 
+          rounded-md 
+          p-3 
+          text-sm 
+          leading-6 
+          font-semibold 
+          hover:text-black 
+          hover:bg-gray-100
+          `,
+          !active &&
+            `
             text-gray-500 
-            hover:text-black 
-            hover:bg-gray-100
         `,
           active && "bg-gray-100 text-black"
         )}
       >
         <Icon className="h-6 w-6 shrink-0" />
         <span className="sr-only">{label}</span>
-      </Link>
+      </NavLink>
     </li>
   );
 };

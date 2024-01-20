@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { Sidebar } from "lucide-react";
 
 import {
@@ -14,15 +14,21 @@ import {
 } from "../../../@/components/ui/command";
 // import { Button } from "../../../@/components/ui/button";
 import { Toggle } from "../../../@/components/ui/toggle";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import toast from "react-hot-toast";
+
 
 const SideBar = ({ children }: { children: ReactNode }) => {
   const [isCommandVisible, setIsCommandVisible] = useState(true);
-
   const toggleSidebar = () => {
     setIsCommandVisible(!isCommandVisible);
   };
+
+
+  
   return (
-    <>
+    <div>
         <Toggle 
         className="bg-gray-300 rounded-xl"  
         onClick={toggleSidebar}
@@ -39,7 +45,8 @@ const SideBar = ({ children }: { children: ReactNode }) => {
           <CommandGroup heading="Welcome">
             <CommandItem className="text-base flex flex-col items-start">
               <div className="main">
-              {children}
+              {children}kl
+              {/* {user} */}
               </div>
             </CommandItem>
           </CommandGroup>
@@ -47,7 +54,7 @@ const SideBar = ({ children }: { children: ReactNode }) => {
       </Command>
     </div>
       )}
-    </>
+    </div>
 
   );
 };

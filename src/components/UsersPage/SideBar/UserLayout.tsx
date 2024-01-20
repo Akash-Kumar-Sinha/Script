@@ -1,4 +1,3 @@
-// layout.tsx
 import { ReactNode } from "react";
 
 import SideBar from "./SideBar";
