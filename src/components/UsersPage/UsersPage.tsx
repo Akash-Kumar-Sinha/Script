@@ -5,15 +5,16 @@ import UserLayout from "./SideBar/UserLayout";
 const UsersPage = () => {
   return (
     <>
-      <div>
-      <MobileFooter/>
-
-        <div className="flex flex-row">
-          <div className="bg-slate-500 ">
+      <div className="md:h-96">
+        <div>
+          <MobileFooter />
+        </div>
+        <div className="flex flex-col md:flex-row h-full md:h-[94vh] lg:h-screen">
+        <div className="bg-slate-500 md:w-1/4">
             <UserLayout>Akash UserLayout</UserLayout>
           </div>
 
-          <div className="static w-full h-screen">
+          <div className="relative w-full md:w-3/4">
             <ChatBar />
           </div>
         </div>
