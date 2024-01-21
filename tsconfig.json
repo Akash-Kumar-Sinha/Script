@@ -23,7 +23,8 @@
       "cmdk": ["./node_modules/cmdk/dist/index.d.ts"],
       "@radix-ui/react-context-menu": ["./node_modules/@radix-ui/react-context-menu/dist/index.d.ts"],
       "@radix-ui/react-aspect-ratio": ["./node_modules/@radix-ui/react-context-menu/dist/index.d.ts"],
-      "react-resizable-panels": ["./node_modules/@radix-ui/react-context-menu/dist/index.d.ts"]
+      "react-resizable-panels": ["./node_modules/@radix-ui/react-context-menu/dist/index.d.ts"],
+      
     },
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"]

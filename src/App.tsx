@@ -1,9 +1,9 @@
 import React from "react";
 import AuthHome from "./components/AuthHome/AuthHome";
-import HotToast from "./components/AuthHome/HotToast/HotToast";
+import HotToast from "./components/utils/HotToast/HotToast";
 import { Route, Routes } from "react-router-dom";
 import UsersPage from "./components/UsersPage/UsersPage";
-import NoRoute from "./components/Route/NoRoute";
+import NoRoute from "./components/utils/Route/NoRoute";
 import { AuthProvider } from "./components/utils/ProtectAuth";
 
 const App = () => {

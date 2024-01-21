@@ -4,7 +4,6 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 export const handleLogout = (navigate: import("react-router-dom").NavigateFunction) => {
-  console.log("lofjsdlkfjsiofndsj")
   navigate("/");
   toast.success("Logged Out");
 };

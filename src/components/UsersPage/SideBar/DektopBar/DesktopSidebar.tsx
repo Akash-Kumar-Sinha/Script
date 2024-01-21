@@ -1,7 +1,7 @@
 import { useState } from "react";
-import useRoutes from "../../utils/hooks/useRoutes";
+import useRoutes from "../../../utils/hooks/useRoutes";
 import DesktopItem from "./DesktopItem";
-import Avatar from "../Avatar";
+import Avatars from "../../Avatar";
 
 const DesktopSidebar = () => {
   const routes = useRoutes();
@@ -45,7 +45,7 @@ const DesktopSidebar = () => {
           onClick={() => setIsOpen(true)}
           className="cursor-pointer hover:opacity-75 transition"
         >
-          <Avatar
+          <Avatars
           //  user={currentUser}
           />
         </div>

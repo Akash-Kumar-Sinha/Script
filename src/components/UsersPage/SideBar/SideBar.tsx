@@ -9,13 +9,12 @@ import {
   CommandList,
   CommandSeparator,
 } from "../../../@/components/ui/command";
-import DesktopSidebar from "./DesktopSidebar";
+import DesktopSidebar from "./DektopBar/DesktopSidebar";
 
 const SideBar = ({ children }: { children: ReactNode }) => {
   return (
     <div className="lg:pl-16 lg:w-96 hidden md:pl-8 md:block">
       <Command className="flex h-screen">
-
         <div className="flex justify-around">
           <div className="">
             <div>
@@ -24,11 +23,11 @@ const SideBar = ({ children }: { children: ReactNode }) => {
               </div>
             </div>
           </div>
-            <CommandSeparator />
+          <CommandSeparator />
 
           <CommandList>
-        <CommandInput placeholder="Type a command or search..." />
-              <CommandEmpty>No results found.</CommandEmpty>
+            <CommandInput placeholder="Type a command or search..." />
+            <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup>
               <CommandItem className="text-base flex flex-col items-start">
                 <div className="main w-60">
@@ -36,7 +35,6 @@ const SideBar = ({ children }: { children: ReactNode }) => {
                   Akash
                 </div>
               </CommandItem>
-              
             </CommandGroup>
           </CommandList>
         </div>

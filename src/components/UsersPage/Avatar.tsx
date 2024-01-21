@@ -1,12 +1,17 @@
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "../../@/components/ui/avatar";
 import useFetchCurrentUser from "../utils/hooks/useFetchCurrentUser";
 
-const Avatar = () => {
+const Avatars = () => {
   const currentUserData = useFetchCurrentUser() as unknown as {
     user: {
       image: string | null;
     };
   };
-  // console.log("currentUserData", currentUserData);  
+  // console.log("currentUserData", currentUserData);
 
   const user = (
     currentUserData as {
@@ -20,40 +25,30 @@ const Avatar = () => {
 
   return (
     <div className="relative">
-      <div
+      <Avatar>
+        <AvatarImage src={imageUrl} />
+        <AvatarFallback>PF</AvatarFallback>
+      </Avatar>
+      {/* {isActive ? (  */}
+      <span
         className="
-          relative 
-          inline-block 
-          rounded-full 
-          overflow-hidden
-          h-9 
-          w-9 
-          md:h-11 
-          md:w-11
-        "
-      >
-        <img src={imageUrl} alt="Avatar" />
-      </div>
-      {/* {isActive ? ( */}
-        <span 
-          className="
-            absolute 
-            block 
-            rounded-full 
-            bg-green-500 
-            ring-2 
-            ring-white 
-            top-0 
+            absolute
+            block
+            rounded-full
+            bg-green-500
+            ring-2
+            ring-white
+            top-0
             right-0
-            h-2 
-            w-2 
-            md:h-3 
+            h-2
+            w-2
+            md:h-3
             md:w-3
-          " 
-        />
-      {/* ) : null}  */}
+          "
+      />
+      {/* ) : null} */}
     </div>
   );
 };
 
-export default Avatar;
+export default Avatars;
