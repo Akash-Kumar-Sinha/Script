@@ -1,9 +1,6 @@
-import { useEffect, useState } from "react";
+import {useState } from "react";
 import useRoutes from "../../utils/hooks/useRoutes";
 import DesktopItem from "./DesktopItem";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import toast from "react-hot-toast";
 import Avatar from "../Avatar";
 // import {User} from "@prims"
 
@@ -14,9 +11,9 @@ const DesktopSidebar = () => {
   return (
     <div
       className="
-        hidden 
-        lg:fixed 
-        lg:inset-y-0 
+      hidden 
+      lg:fixed 
+          lg:inset-y-0 
         lg:left-0 
         lg:z-40 
         lg:w-20 
@@ -45,15 +42,15 @@ const DesktopSidebar = () => {
         </ul>
       </nav>
       <nav className="mt-4 flex flex-col justify-between items-center">
-          <div 
-            onClick={() => setIsOpen(true)} 
-            className="cursor-pointer hover:opacity-75 transition"
-          >
-            <Avatar
-            //  user={currentUser} 
-             />
-          </div>
-        </nav>
+        <div
+          onClick={() => setIsOpen(true)}
+          className="cursor-pointer hover:opacity-75 transition"
+        >
+          <Avatar
+          //  user={currentUser}
+          />
+        </div>
+      </nav>
     </div>
   );
 };

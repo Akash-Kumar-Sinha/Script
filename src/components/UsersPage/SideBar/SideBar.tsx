@@ -1,61 +1,47 @@
-import { ReactNode, useEffect, useState } from "react";
-import { Sidebar } from "lucide-react";
+import { ReactNode } from "react";
 
 import {
   Command,
-  // CommandDialog,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
-  // CommandSeparator,
-  // CommandShortcut,
+  CommandSeparator,
 } from "../../../@/components/ui/command";
-// import { Button } from "../../../@/components/ui/button";
-import { Toggle } from "../../../@/components/ui/toggle";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import toast from "react-hot-toast";
-
+import DesktopSidebar from "./DesktopSidebar";
 
 const SideBar = ({ children }: { children: ReactNode }) => {
-  const [isCommandVisible, setIsCommandVisible] = useState(true);
-  const toggleSidebar = () => {
-    setIsCommandVisible(!isCommandVisible);
-  };
-
-
-  
   return (
-    <div>
-        <Toggle 
-        className="bg-gray-300 rounded-xl"  
-        onClick={toggleSidebar}
-        >
-          <Sidebar />
-        </Toggle>
-        {isCommandVisible && (
-        <div className="flex flex-row-reverse px-2">
-      <Command>
-        <CommandInput placeholder="Type a command or search..." />
+    <div className="lg:pl-16 lg:w-96 hidden md:block">
+      <Command className="flex h-screen">
 
-        <CommandList>
-          <CommandEmpty>No results found.</CommandEmpty>
-          <CommandGroup heading="Welcome">
-            <CommandItem className="text-base flex flex-col items-start">
-              <div className="main">
-              {children}kl
-              {/* {user} */}
+        <div className="flex justify-around">
+          <div className="">
+            <div>
+              <div>
+                <DesktopSidebar />
               </div>
-            </CommandItem>
-          </CommandGroup>
-        </CommandList>
+            </div>
+          </div>
+            <CommandSeparator />
+
+          <CommandList>
+        <CommandInput placeholder="Type a command or search..." />
+              <CommandEmpty>No results found.</CommandEmpty>
+            <CommandGroup>
+              <CommandItem className="text-base flex flex-col items-start">
+                <div className="main w-60">
+                  {children}
+                  Akash
+                </div>
+              </CommandItem>
+              
+            </CommandGroup>
+          </CommandList>
+        </div>
       </Command>
     </div>
-      )}
-    </div>
-
   );
 };
 

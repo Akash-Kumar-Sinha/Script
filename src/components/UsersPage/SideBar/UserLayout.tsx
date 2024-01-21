@@ -4,9 +4,13 @@ import SideBar from "./SideBar";
 
 const UserLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <SideBar>
-      <div>{children}</div>
-    </SideBar>
+    <div className="">
+     
+        <SideBar>
+          <div>{children}</div>
+        </SideBar>
+    
+    </div>
   );
 };
 

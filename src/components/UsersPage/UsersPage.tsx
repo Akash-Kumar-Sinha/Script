@@ -1,27 +1,19 @@
-import { useState, useEffect } from "react";
 import ChatBar from "./ChatBar/ChatBar";
 import UserLayout from "./SideBar/UserLayout";
-import DesktopSidebar from "./SideBar/DesktopSidebar";
 
 const UsersPage = () => {
-  
   return (
     <>
-      <div className="flex">
-        <div className="mr-20">
-          <DesktopSidebar
-          //  currentUser={currentUser}
-           />
-        </div>
+      <div>
 
-        <div className="bg-slate-500">
-          <UserLayout>
-            kdsa
-          </UserLayout>
-        </div>
+        <div className="flex flex-row">
+          <div className="bg-slate-500 ">
+            <UserLayout>Akash UserLayout</UserLayout>
+          </div>
 
-        <div className="relative w-full h-screen">
-          <ChatBar />
+          <div className="static w-full h-screen">
+            <ChatBar />
+          </div>
         </div>
       </div>
     </>

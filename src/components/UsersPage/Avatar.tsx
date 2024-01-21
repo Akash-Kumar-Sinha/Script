@@ -51,7 +51,7 @@ const Avatar = () => {
             md:w-3
           " 
         />
-      {/* ) : null} */}
+      {/* ) : null}  */}
     </div>
   );
 };
