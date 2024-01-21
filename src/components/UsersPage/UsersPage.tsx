@@ -1,10 +1,12 @@
 import ChatBar from "./ChatBar/ChatBar";
+import MobileFooter from "./SideBar/MobileFooter";
 import UserLayout from "./SideBar/UserLayout";
 
 const UsersPage = () => {
   return (
     <>
       <div>
+      <MobileFooter/>
 
         <div className="flex flex-row">
           <div className="bg-slate-500 ">

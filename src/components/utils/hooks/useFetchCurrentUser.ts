@@ -21,7 +21,6 @@ const useFetchCurrentUser = () => {
             Authorization: token,
           },
         });
-
         setCurrentUser(response.data);
         // console.log("data", response);
       } catch (error) {

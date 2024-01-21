@@ -13,7 +13,7 @@ import DesktopSidebar from "./DesktopSidebar";
 
 const SideBar = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="lg:pl-16 lg:w-96 hidden md:block">
+    <div className="lg:pl-16 lg:w-96 hidden md:pl-8 md:block">
       <Command className="flex h-screen">
 
         <div className="flex justify-around">
