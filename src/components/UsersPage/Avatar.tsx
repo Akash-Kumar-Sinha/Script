@@ -11,7 +11,7 @@ const Avatars = () => {
       image: string | null;
     };
   };
-  // console.log("currentUserData", currentUserData);
+  console.log("currentUserData", currentUserData);
 
   const user = (
     currentUserData as {

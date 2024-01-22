@@ -1,24 +1,40 @@
-// route.ts
-import express from "express";
+// routes/route.ts
+import express, { Request, Response } from "express";
 import register from "../controllers/register";
 import login from "../controllers/login";
 import passport from "passport";
 import getCurrentUser from "../controllers/getCurrentUser";
 
-// import logout from "../controllers/logout";
-// import auth from "../middlewares/auth";
 import "../middlewares/passport_jwt";
-
+import "../middlewares/passport_google";
 
 const router = express.Router();
+
+router.use(passport.initialize());
 
 router.post("/register", register);
 
 router.post("/login", login);
 
-// router.post("/refresh", refresh);userspage
-// router.get("/userspage", passport.authenticate("jwt", { session: false }));
+router.get(
+  "/google",
+  passport.authenticate("google", { scope: ["profile", "email", "openid"] })
+);
 
-router.get("/currentuser", passport.authenticate("jwt", { session: false }), getCurrentUser);
+router.get(
+  "/google/callback",
+  passport.authenticate("google", { failureRedirect: "/" }),
+  (req: Request, res: Response) => {
+    console.log("route: passport authenticate google");
+    getCurrentUser(req, res);
+    // res.redirect("http://localhost:3000/userpage");
+  }
+);
+
+router.get(
+  "/currentuser",
+  passport.authenticate("jwt", { session: false }),
+  getCurrentUser
+);
 
 module.exports = router;

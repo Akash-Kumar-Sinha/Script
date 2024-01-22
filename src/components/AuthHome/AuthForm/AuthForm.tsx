@@ -75,10 +75,22 @@ const AuthForm = () => {
     setIsLoading(false);
   };
 
-  const socialAction = (action: string) => {
+  const socialAction = async (action: string) => {
     setIsLoading(true);
 
-    // signin
+    try {
+      if (action === "google") {
+        const response = (window.location.href =
+          "http://localhost:8000/api/google");
+
+        console.log("Google authentication response:", response);
+      }
+    } catch (error) {
+      console.error("Error during social action:", error);
+      toast.error("An error occurred during google action");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
