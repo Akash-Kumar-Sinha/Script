@@ -10,11 +10,11 @@ const UsersPage = () => {
           <MobileFooter />
         </div>
         <div className="flex flex-col md:flex-row h-full md:h-[94vh] lg:h-screen">
-          <div className="bg-slate-500 md:w-1/4">
+          <div className="bg-gray-300 md:hidden lg:block">
             <UserLayout>Akash UserLayout</UserLayout>
           </div>
 
-          <div className="relative w-full md:w-3/4">
+          <div className="relative w-full">
             <ChatBar />
           </div>
         </div>

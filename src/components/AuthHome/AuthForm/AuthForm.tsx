@@ -46,7 +46,7 @@ const AuthForm = () => {
             navigate("/userspage");
           })
           .catch((error) => {
-            toast.error("Registration went wrong!");
+            toast.error("authForm: Registration went wrong!");
           });
       } catch (error) {
         console.log("Registration failed", error);
@@ -63,7 +63,7 @@ const AuthForm = () => {
           })
 
           .catch((error) => {
-            toast.error("Login went wrong!");
+            toast.error("authForm: Login went wrong!");
           });
       } catch (error: any) {
         console.error("Login failed", error);
@@ -87,7 +87,7 @@ const AuthForm = () => {
       }
     } catch (error) {
       console.error("Error during social action:", error);
-      toast.error("An error occurred during google action");
+      toast.error("authForm: An error occurred during google action");
     } finally {
       setIsLoading(false);
     }

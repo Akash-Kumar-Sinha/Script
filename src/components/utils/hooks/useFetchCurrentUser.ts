@@ -24,8 +24,8 @@ const useFetchCurrentUser = () => {
         setCurrentUser(response.data);
         // console.log("data", response);
       } catch (error) {
-        navigate("/");
-        toast.error("Invalid Credentials!");
+        // navigate("/");
+        toast.error("useFetchCurrentUser: Invalid Credentials!");
         console.error("Fetch Current User Error:", error);
       }
     };
