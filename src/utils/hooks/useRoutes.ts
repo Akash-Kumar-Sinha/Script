@@ -4,7 +4,7 @@ import { HiChat } from "react-icons/hi";
 import { HiArrowLeftOnRectangle, HiUsers } from "react-icons/hi2";
 
 import useConversation from "./useConversation";
-import { handleLogout } from "../../AuthHome/SignOut/SignOut";
+import { handleLogout } from "../../components/AuthHome/SignOut/SignOut";
 
 const useRoutes = () => {
   const navigate = useNavigate();

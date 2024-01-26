@@ -1,6 +1,6 @@
 import React from "react";
-import useConversation from "../../../utils/hooks/useConversation";
-import useRoutes from "../../../utils/hooks/useRoutes";
+import useConversation from "../../../../utils/hooks/useConversation";
+import useRoutes from "../../../../utils/hooks/useRoutes";
 import MobileItem from "./MobileItem";
 const MobileFooter = () => {
   const routes = useRoutes();

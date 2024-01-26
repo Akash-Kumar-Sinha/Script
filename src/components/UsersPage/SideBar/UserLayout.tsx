@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from "react";
 import SideBar from "./SideBar";
-import useRoutes from "../../utils/hooks/useRoutes";
-import useFetchCurrentUser from "../../utils/hooks/useFetchCurrentUser";
+import useRoutes from "../../../utils/hooks/useRoutes";
+import useFetchCurrentUser from "../../../utils/hooks/useFetchCurrentUser";
 import axios from "axios";
 import UsersList from "../../Users/UsersList";
 
