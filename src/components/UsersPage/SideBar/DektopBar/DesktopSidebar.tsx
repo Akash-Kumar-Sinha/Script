@@ -1,7 +1,7 @@
 import { useState } from "react";
 import useRoutes from "../../../utils/hooks/useRoutes";
 import DesktopItem from "./DesktopItem";
-import Avatars from "../../Avatar";
+import Avatars from "../../../Users/Avatar";
 
 const DesktopSidebar = () => {
   const routes = useRoutes();

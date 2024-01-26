@@ -7,6 +7,8 @@ import getCurrentUser from "../controllers/getCurrentUser";
 
 import "../middlewares/passport_jwt";
 import "../middlewares/passport_google";
+import getUsers from "../controllers/getUsers";
+import Users from "../controllers/Users";
 
 const router = express.Router();
 
@@ -23,12 +25,7 @@ router.get(
 
 router.get(
   "/google/callback",
-  passport.authenticate("google", { failureRedirect: "/" }),
-  (req: Request, res: Response) => {
-    console.log("route: passport authenticate google");
-    getCurrentUser(req, res);
-    // res.redirect("http://localhost:3000/userpage");
-  }
+  passport.authenticate("google", { failureRedirect: "http://localhost:3000/",successRedirect: "http://localhost:3000/userspage" }), getCurrentUser
 );
 
 router.get(
@@ -36,5 +33,9 @@ router.get(
   passport.authenticate("jwt", { session: false }),
   getCurrentUser
 );
+
+router.get('/getUsers', getUsers)
+router.get('/users', Users)
+
 
 module.exports = router;

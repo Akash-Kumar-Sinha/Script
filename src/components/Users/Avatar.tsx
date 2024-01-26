@@ -1,3 +1,4 @@
+import { FC } from "react";
 import {
   Avatar,
   AvatarFallback,
@@ -5,23 +6,35 @@ import {
 } from "../../@/components/ui/avatar";
 import useFetchCurrentUser from "../utils/hooks/useFetchCurrentUser";
 
-const Avatars = () => {
+interface User {
+  id: string;
+  name: string | null;
+  email: string | null;
+}
+
+interface AvatarsProps {
+  user?: User; // Update to accept a single User, not an array
+}
+
+const Avatars: FC<AvatarsProps> = ({ user }) => {
   const currentUserData = useFetchCurrentUser() as unknown as {
-    user: {
+    activeUser: {
       image: string | null;
     };
   };
-  console.log("currentUserData", currentUserData);
 
-  const user = (
+  const activeUser = (
     currentUserData as {
-      user: {
+      activeUser: {
         image: string | null;
       };
     }
-  )?.user;
+  )?.activeUser;
 
-  const imageUrl = user?.image || "placeholder.jpg";
+  // console.log(currentUserData);
+  
+
+  const imageUrl = activeUser?.image || "placeholder.jpg";
 
   return (
     <div className="relative">

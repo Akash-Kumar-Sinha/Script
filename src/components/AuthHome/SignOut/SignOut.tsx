@@ -3,7 +3,8 @@ import { Button } from "../../../@/components/ui/button";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
-export const handleLogout = (navigate: import("react-router-dom").NavigateFunction) => {
+export const handleLogout = async (navigate: import("react-router-dom").NavigateFunction) => {
+  await localStorage.removeItem("token");
   navigate("/");
   toast.success("Logged Out");
 };
