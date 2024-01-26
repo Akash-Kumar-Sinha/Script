@@ -37,7 +37,7 @@ const UserBox: FC<UserBoxProps> = ({ data }) => {
         flex 
         items-center 
         space-x-3 
-        bg-white 
+        bg-gray-300 
         p-3 
         hover:bg-neutral-100
         rounded-lg
