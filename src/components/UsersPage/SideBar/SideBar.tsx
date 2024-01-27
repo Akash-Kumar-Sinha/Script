@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
 import {
   Command,
-  CommandEmpty,
   CommandGroup,
   CommandItem,
   CommandList,
@@ -15,7 +14,6 @@ const SideBar = ({ children }: { children: ReactNode }) => {
     <div className="bg-gray-300 lg:pl-16 absolute lg:w-[400px] w-full">
       <MobileFooter />
       <Command className="flex h-screen">
-        <CommandEmpty>No results found.</CommandEmpty>
         <div className="flex justify-around">
           <CommandSeparator />
           <CommandList>

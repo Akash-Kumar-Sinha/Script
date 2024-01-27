@@ -33,10 +33,12 @@ const UserLayout = ({ children }: { children?: ReactNode }) => {
     fetchData();
   }, [userEmail]);
   return (
-    <div className="flex w-full">
+    <div className="flex">
       <SideBar>
         {isLoading ? (
-          <div>Loading...</div>
+          <div className="flex items-center justify-center h-full mr-14">
+            Loading...
+          </div>
         ) : (
           <div>
             <UsersList items={users} />
@@ -44,7 +46,7 @@ const UserLayout = ({ children }: { children?: ReactNode }) => {
           </div>
         )}
       </SideBar>
-       <div className="hidden lg:block lg:pl-80 h-screen w-full">
+      <div className="hidden lg:block lg:pl-80 h-screen w-full">
         <ChatBar />
       </div>
     </div>
