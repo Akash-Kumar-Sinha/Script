@@ -1,7 +1,8 @@
 import { FC, useState, useEffect } from "react";
 import UserBox from "./UserBox";
-import useFetchCurrentUser from "../utils/hooks/useFetchCurrentUser";
+import useFetchCurrentUser from "../../utils/hooks/useFetchCurrentUser";
 import axios from "axios";
+import { Input } from "../../@/components/ui/input";
 
 interface User {
   id: string;
@@ -67,6 +68,9 @@ const UsersList: FC<UsersListProps> = ({ items = [] }) => {
             "
           >
             People
+            <div className="bg-gray-300 hover:bg-gray-200">
+              <Input type="text" placeholder="Type a command or search..." />
+            </div>
           </div>
         </div>
 

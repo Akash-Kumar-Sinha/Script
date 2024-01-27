@@ -5,6 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import UsersPage from "./components/UsersPage/UsersPage";
 import NoRoute from "./utils/Route/NoRoute";
 import { AuthProvider } from "./utils/ProtectAuth";
+import UserLayout from "./components/UsersPage/SideBar/UserLayout";
 
 const App = () => {
   return (
@@ -12,7 +13,8 @@ const App = () => {
       <HotToast />
       <Routes>
         <Route path="/" element={<AuthHome />}/>
-        <Route path="/userspage" element={<UsersPage />}/>
+        <Route path="/users" element={<UserLayout />}/>
+
         <Route path="*" element={<NoRoute/>}/>
       </Routes>
     </AuthProvider>

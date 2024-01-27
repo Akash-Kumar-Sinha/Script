@@ -1,28 +1,28 @@
-import { ReactNode} from "react";
-
+import { ReactNode } from "react";
 import {
   Command,
   CommandEmpty,
   CommandGroup,
-  CommandInput,
   CommandItem,
   CommandList,
   CommandSeparator,
 } from "../../../@/components/ui/command";
+import DesktopSidebar from "./DektopBar/DesktopSidebar";
+import MobileFooter from "./MobileBar/MobileFooter";
 
 const SideBar = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="lg:pl-16 lg:w-96 hidden md:pl-8 md:block">
+    <div className="bg-gray-300 lg:pl-16 absolute lg:w-[400px] w-full">
+      <MobileFooter />
       <Command className="flex h-screen">
+        <CommandEmpty>No results found.</CommandEmpty>
         <div className="flex justify-around">
           <CommandSeparator />
-
           <CommandList>
-            {/* <CommandInput placeholder="Type a command or search..." /> */}
-            <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup>
               <CommandItem className="text-base flex flex-col items-start">
-                      {children}
+                <DesktopSidebar />
+                {children}
               </CommandItem>
             </CommandGroup>
           </CommandList>

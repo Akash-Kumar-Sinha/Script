@@ -43,7 +43,7 @@ const AuthForm = () => {
           .post("http://localhost:8000/api/register", data)
           .then(() => {
             toast.success("Registration successful");
-            navigate("/userspage");
+            navigate("/users");
           })
           .catch((error) => {
             toast.error("authForm: Registration went wrong!");
@@ -59,9 +59,8 @@ const AuthForm = () => {
           .then((user) => {
             localStorage.setItem("token", user.data.token);
             toast.success("Login successful");
-            navigate("/userspage");
+            navigate("/users");
           })
-
           .catch((error) => {
             toast.error("authForm: Login went wrong!");
           });

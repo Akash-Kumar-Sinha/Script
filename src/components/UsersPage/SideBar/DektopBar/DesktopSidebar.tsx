@@ -8,6 +8,7 @@ const DesktopSidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
+    <div>
     <div
       className="
         hidden 
@@ -51,6 +52,7 @@ const DesktopSidebar = () => {
         </div>
       </nav>
     </div>
+              </div>
   );
 };
 

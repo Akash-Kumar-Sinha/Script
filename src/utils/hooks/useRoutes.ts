@@ -15,15 +15,15 @@ const useRoutes = () => {
     () => [
       {
         label: "chat",
-        href: "/users",
+        href: "/conversations",
         icon: HiChat,
-        active: pathname === "/users",
+        active: pathname === "/conversations" || !!conversationId,
       },
       {
         label: "Users",
-        href: "/userspage",
+        href: "/users",
         icon: HiUsers,
-        active: pathname === "/userspage" || !!conversationId,
+        active: pathname === "/users" || !!conversationId,
       },
       {
         label: "Logout",

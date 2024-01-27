@@ -4,7 +4,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "../../@/components/ui/avatar";
-import useFetchCurrentUser from "../utils/hooks/useFetchCurrentUser";
+import useFetchCurrentUser from "../../utils/hooks/useFetchCurrentUser";
 
 interface User {
   id: string;
