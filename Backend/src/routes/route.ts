@@ -9,6 +9,7 @@ import "../middlewares/passport_jwt";
 import "../middlewares/passport_google";
 import getUsers from "../controllers/getUsers";
 import Users from "../controllers/Users";
+import conversations  from "../controllers/conversation";
 
 const router = express.Router();
 
@@ -36,6 +37,7 @@ router.get(
 
 router.get('/getUsers', getUsers)
 router.get('/users', Users)
+router.post('/conversations',passport.authenticate("jwt", { session: false }), conversations)
 
 
 module.exports = router;

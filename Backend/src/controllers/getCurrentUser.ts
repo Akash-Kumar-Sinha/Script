@@ -1,9 +1,21 @@
 // controllers/getCurrentUser.ts
 import { Request, Response } from "express";
 
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  emailVerified: boolean;
+  image: string;
+  createdAt: string;
+  updatedAt: string;
+  conversationIds: [];
+  seenMessageIds: [];
+}
+
 const getCurrentUser = (req: Request, res: Response) => {
   try {
-    const userData = req.user;
+    const userData = req.user as User;
     console.log("getCurrent User");
     // console.log(userData);
 

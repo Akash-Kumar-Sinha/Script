@@ -19,7 +19,7 @@ const getUsers = async (req: Request, res: Response) => {
         },
       });
 
-      console.log(users);
+      // console.log("getUsers", users);
 
       res.status(200).json({ message: "Fetch Users successful", users });
     }

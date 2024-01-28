@@ -30,7 +30,7 @@ const UsersList: FC<UsersListProps> = ({ items = [] }) => {
           `http://localhost:8000/api/getUsers?userEmail=${userEmail}`
         );
         setUsers(response.data.users);
-        console.log("API call successful");
+        // console.log("API call successful");
       } catch (error) {
         console.error("Error making API call", error);
       } finally {

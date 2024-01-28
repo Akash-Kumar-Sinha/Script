@@ -16,17 +16,40 @@ interface UserBoxProps {
 const UserBox: FC<UserBoxProps> = ({ data }) => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-
   const handleClick = useCallback(() => {
     setIsLoading(true);
 
-    axios
-      .post("/api/conversations", { userId: data.id })
-      .then((data) => {
-        navigate(`/conversations/${data.data.id}`);
-      })
-      .finally(() => setIsLoading(false));
-  }, [data, navigate]);
+    try {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        throw new Error("Token not found");
+      }
+
+      axios
+        .post(
+          "http://localhost:8000/api/conversations",
+          { userId: data.id },
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        )
+        .then(() => {
+          navigate(`/conversations/${data.id}`);
+        })
+        .catch((error) => {
+          console.error("Axios error:", error);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } catch (error) {
+      console.error("Unexpected error:", error);
+      setIsLoading(false);
+    }
+  }, [data, navigate, setIsLoading]);
 
   return (
     <div
