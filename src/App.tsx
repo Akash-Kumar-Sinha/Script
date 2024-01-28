@@ -2,10 +2,10 @@ import React from "react";
 import AuthHome from "./components/AuthHome/AuthHome";
 import HotToast from "./utils/HotToast/HotToast";
 import { Route, Routes } from "react-router-dom";
-import UsersPage from "./components/UsersPage/UsersPage";
 import NoRoute from "./utils/Route/NoRoute";
 import { AuthProvider } from "./utils/ProtectAuth";
 import UserLayout from "./components/UsersPage/SideBar/UserLayout";
+import ConversationsHome from "./components/Conversations/ConversationsHome";
 
 const App = () => {
   return (
@@ -14,6 +14,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<AuthHome />}/>
         <Route path="/users" element={<UserLayout />}/>
+        <Route path="/conversations" element={<ConversationsHome />}/>
 
         <Route path="*" element={<NoRoute/>}/>
       </Routes>

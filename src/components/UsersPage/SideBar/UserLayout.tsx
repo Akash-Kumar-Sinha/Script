@@ -17,12 +17,10 @@ const UserLayout = ({ children }: { children?: ReactNode }) => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        // console.log("http://localhost:8000/api/getUsers", userEmail);
         const response = await axios.get(
           `http://localhost:8000/api/getUsers?userEmail=${userEmail}`
         );
         setUsers(response.data);
-        // console.log("API call successful");
       } catch (error) {
         console.error("Error making API call", error);
       } finally {

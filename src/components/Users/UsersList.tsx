@@ -11,7 +11,7 @@ interface User {
 }
 
 interface UsersListProps {
-  items?: User[]; // Make items optional
+  items?: User[];
 }
 
 const UsersList: FC<UsersListProps> = ({ items = [] }) => {

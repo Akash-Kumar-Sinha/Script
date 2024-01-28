@@ -1,5 +1,5 @@
 // routes/route.ts
-import express, { Request, Response } from "express";
+import express from "express";
 import register from "../controllers/register";
 import login from "../controllers/login";
 import passport from "passport";
@@ -9,7 +9,8 @@ import "../middlewares/passport_jwt";
 import "../middlewares/passport_google";
 import getUsers from "../controllers/getUsers";
 import Users from "../controllers/Users";
-import conversations  from "../controllers/conversation";
+import conversations from "../controllers/conversation";
+import getConversation from "../controllers/getConversation";
 
 const router = express.Router();
 
@@ -26,7 +27,11 @@ router.get(
 
 router.get(
   "/google/callback",
-  passport.authenticate("google", { failureRedirect: "http://localhost:3000/",successRedirect: "http://localhost:3000/userspage" }), getCurrentUser
+  passport.authenticate("google", {
+    failureRedirect: "http://localhost:3000/",
+    successRedirect: "http://localhost:3000/userspage",
+  }),
+  getCurrentUser
 );
 
 router.get(
@@ -35,9 +40,20 @@ router.get(
   getCurrentUser
 );
 
-router.get('/getUsers', getUsers)
-router.get('/users', Users)
-router.post('/conversations',passport.authenticate("jwt", { session: false }), conversations)
+router.get("/getUsers", getUsers);
 
+router.get("/users", Users);
+
+router.post(
+  "/conversations",
+  passport.authenticate("jwt", { session: false }),
+  conversations
+);
+
+router.get(
+  "/getconversation",
+  passport.authenticate("jwt", { session: false }),
+  getConversation
+);
 
 module.exports = router;

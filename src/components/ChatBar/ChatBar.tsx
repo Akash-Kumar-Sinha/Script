@@ -11,7 +11,7 @@ const ChatBar = () => {
         flex 
         justify-center 
         items-center 
-        bg-white
+        bg-gray-200
       "
     >
       <div className="text-center items-center flex flex-col">

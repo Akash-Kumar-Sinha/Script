@@ -11,6 +11,8 @@
 # production
 /build
 
+trash.txt
+
 # misc
 .env
 .DS_Store

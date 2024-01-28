@@ -1,6 +1,5 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import prisma from "../db/prismadb";
-import getCurrentUser from "./getCurrentUser";
 
 interface User {
   id: string;
@@ -18,7 +17,7 @@ const conversations = async (req: Request, res: Response) => {
     console.log("conversations")
   try {
     const currentUser = req.user as User;
-    console.log("currentUser", currentUser)
+    // console.log("currentUser", currentUser)
 
     const body = await req.body;
     
