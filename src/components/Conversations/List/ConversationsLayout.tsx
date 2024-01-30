@@ -1,6 +1,6 @@
 // ConversationsLayout.tsx
 import React from 'react';
-import SideBar from '../../UsersPage/SideBar/SideBar';
+import SideBar from '../../SideBar/SideBar';
 import ChatBar from '../../ChatBar/ChatBar';
 import ConversationsList from './ConversationsList';
 import useFetchConversation from '../../../utils/hooks/useFetchConversation';

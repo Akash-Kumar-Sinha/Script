@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
-import prisma from "../db/prismadb";
+import prisma from "../../db/prismadb";
 
 const Users =  async (req: Request, res: Response) => {
     try {
+      console.log("users")
       const users = await prisma.user.findMany();
       res.json(users);
     } catch (error) {

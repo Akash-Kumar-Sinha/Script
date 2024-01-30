@@ -1,14 +1,14 @@
 // routes/route.ts
 import express from "express";
-import register from "../controllers/register";
-import login from "../controllers/login";
+import register from "../controllers/authentication/register";
+import login from "../controllers/authentication/login";
 import passport from "passport";
-import getCurrentUser from "../controllers/getCurrentUser";
+import getCurrentUser from "../controllers/users/getCurrentUser";
 
 import "../middlewares/passport_jwt";
 import "../middlewares/passport_google";
-import getUsers from "../controllers/getUsers";
-import Users from "../controllers/Users";
+import getUsers from "../controllers/users/getUsers";
+import Users from "../controllers/users/Users";
 import conversations from "../controllers/conversation";
 import getConversation from "../controllers/getConversation";
 

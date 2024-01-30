@@ -1,7 +1,7 @@
 // login.ts
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
-import prisma from "../db/prismadb";
+import prisma from "../../db/prismadb";
 
 const jwt = require("jsonwebtoken");
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;

@@ -2,21 +2,22 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import useFetchCurrentUser from "./useFetchCurrentUser";
+import { FullConversationType } from "../Types";
 
-interface Conversations {
-  id: string;
-  createdAt: string;
-  lastMessageAt: string;
-  name: string;
-  isGroup: boolean;
-  messages: any[];
-}
+// interface Conversations {
+//   id: string;
+//   createdAt: string;
+//   lastMessageAt: string;
+//   name: string;
+//   isGroup: boolean;
+//   messages: any[];
+// }
 
 const useFetchConversation = () => {
   const currentUserData = useFetchCurrentUser();
   const { user } = currentUserData || { user: { email: "" } };
   const userEmail = user.email;
-  const [conversations, setConversations] = useState<Conversations[]>([]);
+  const [conversations, setConversations] = useState<FullConversationType[]>([]);
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
@@ -37,6 +38,7 @@ const useFetchConversation = () => {
         );
 
         setConversations(response.data);
+        
         // console.log("data", response);
       } catch (error) {
         console.error("Fetch conversation Error:", error);

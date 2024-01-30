@@ -4,7 +4,7 @@ import HotToast from "./utils/HotToast/HotToast";
 import { Route, Routes } from "react-router-dom";
 import NoRoute from "./utils/Route/NoRoute";
 import { AuthProvider } from "./utils/ProtectAuth";
-import UserLayout from "./components/UsersPage/SideBar/UserLayout";
+import UserLayout from "./components/UsersPage/List/UserLayout";
 import ConversationsHome from "./components/Conversations/ConversationsHome";
 
 const App = () => {

@@ -1,6 +1,6 @@
 // login.ts
 import { Request, Response } from "express";
-import prisma from "../db/prismadb";
+import prisma from "../../db/prismadb";
 
 const getUsers = async (req: Request, res: Response) => {
   try {

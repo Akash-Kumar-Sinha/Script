@@ -1,13 +1,13 @@
 import { FC, useState, useEffect } from "react";
 import UserBox from "./UserBox";
-import useFetchCurrentUser from "../../utils/hooks/useFetchCurrentUser";
+import useFetchCurrentUser from "../../../utils/hooks/useFetchCurrentUser";
 import axios from "axios";
-import { Input } from "../../@/components/ui/input";
+import { Input } from "../../../@/components/ui/input";
 
 interface User {
   id: string;
-  name: string | null;
-  email: string | null;
+  name: string ;
+  email: string;
 }
 
 interface UsersListProps {

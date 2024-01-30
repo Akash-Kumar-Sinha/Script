@@ -1,9 +1,9 @@
 import { ReactNode, useEffect, useState } from "react";
-import SideBar from "./SideBar";
+import SideBar from "../../SideBar/SideBar";
 import useRoutes from "../../../utils/hooks/useRoutes";
 import useFetchCurrentUser from "../../../utils/hooks/useFetchCurrentUser";
 import axios from "axios";
-import UsersList from "../../Users/UsersList";
+import UsersList from "./UsersList";
 import ChatBar from "../../ChatBar/ChatBar";
 
 const UserLayout = ({ children }: { children?: ReactNode }) => {

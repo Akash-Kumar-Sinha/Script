@@ -1,4 +1,4 @@
-import UserLayout from "./SideBar/UserLayout";
+import UserLayout from "./List/UserLayout";
 
 const UsersPage = () => {
   return (

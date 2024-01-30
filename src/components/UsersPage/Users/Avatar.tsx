@@ -3,8 +3,8 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "../../@/components/ui/avatar";
-import useFetchCurrentUser from "../../utils/hooks/useFetchCurrentUser";
+} from "../../../@/components/ui/avatar";
+import useFetchCurrentUser from "../../../utils/hooks/useFetchCurrentUser";
 
 interface User {
   id: string;
@@ -13,7 +13,7 @@ interface User {
 }
 
 interface AvatarsProps {
-  user?: User; // Update to accept a single User, not an array
+  user?: User; 
 }
 
 const Avatars: FC<AvatarsProps> = ({ user }) => {
