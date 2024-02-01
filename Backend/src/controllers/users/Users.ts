@@ -3,7 +3,7 @@ import prisma from "../../db/prismadb";
 
 const Users =  async (req: Request, res: Response) => {
     try {
-      console.log("users")
+      // console.log("users")
       const users = await prisma.user.findMany();
       res.json(users);
     } catch (error) {

@@ -14,7 +14,7 @@ interface User {
   }
 
 const getConversation = async(req: Request, res: Response)=>{
-    console.log("getConversation")
+    // console.log("getConversation")
 
     const currentUser = req.user as User;
     // console.log(currentUser)

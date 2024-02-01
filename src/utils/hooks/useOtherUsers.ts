@@ -34,18 +34,28 @@ interface User {
   conversationIds: string[];
   seenMessageIds: string[];
 }
-const useOtherUsers = (conversation: FullConversationType | { users: User[] }) => {
+
+const useOtherUsers = (
+  conversation: FullConversationType | { user: User[] }
+) => {
   const currentUserData = useFetchCurrentUser();
 
   const otherUser = useMemo(() => {
     const { user } = currentUserData || { user: { email: "" } };
     const currentUserEmail = user.email;
 
-    const otherUser = conversation.users.filter((user) => user.email !== currentUserEmail);
-    return otherUser[0];
-
+    if ("user" in conversation) {
+      const otherUsers = (conversation as { user: User[] }).user.filter(
+        (u) => u.email !== currentUserEmail
+      );
+      return otherUsers[0];
+    } else {
+      const otherUsers = (conversation as FullConversationType).users.filter(
+        (u) => u.email !== currentUserEmail
+      );
+      return otherUsers[0];
     }
-  ,[currentUserData, conversation.users] );
+  }, [currentUserData, conversation]);
 
   return otherUser;
 };

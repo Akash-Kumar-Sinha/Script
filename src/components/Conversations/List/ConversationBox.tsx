@@ -30,7 +30,7 @@ const ConversationBox: FC<ConversationBoxProps> = ({ data, selected }) => {
   const otherUser = useOtherUsers(data);
   const navigate = useNavigate();
   const conversations = useFetchConversation();
-  // console.log("otherUser", otherUser);
+  // console.log("otherUser", data);
 
   // console.log("ConversationBox", conversations);
 

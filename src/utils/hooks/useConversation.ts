@@ -1,14 +1,15 @@
-import  { useMemo } from "react";
+import  { useMemo, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 const useConversation = () => {
   const params = useParams();
+  // console.log(params.id)
   const conversationId = useMemo(() => {
-    if (!params?.conversationId) {
+    if (!params?.id) {
       return "";
     }
-    return params.comversationId as string;
-  }, [params?.conversationId]);
+    return params.id as string;
+  }, [params?.id]);
   const isOpen = useMemo(() => !!conversationId, [conversationId]);
 
   return useMemo(

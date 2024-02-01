@@ -5,12 +5,16 @@ import login from "../controllers/authentication/login";
 import passport from "passport";
 import getCurrentUser from "../controllers/users/getCurrentUser";
 
-import "../middlewares/passport_jwt";
-import "../middlewares/passport_google";
 import getUsers from "../controllers/users/getUsers";
 import Users from "../controllers/users/Users";
 import conversations from "../controllers/conversation";
 import getConversation from "../controllers/getConversation";
+import getConversationById from "../controllers/getConversationById";
+import getMessage from "../controllers/getMessage";
+import Messages from "../controllers/message";
+
+import "../middlewares/passport_google";
+import "../middlewares/passport_jwt";
 
 const router = express.Router();
 
@@ -54,6 +58,24 @@ router.get(
   "/getconversation",
   passport.authenticate("jwt", { session: false }),
   getConversation
+);
+
+router.get(
+  `/getconversationsbyid/:conversationId`,
+  passport.authenticate("jwt", { session: false }),
+  getConversationById
+);
+
+router.get(
+  `/getmessage/:conversationId`,
+  passport.authenticate("jwt", { session: false }),
+  getMessage
+);
+
+router.post(
+  "/message",
+  // passport.authenticate("jwt", { session: false }),
+  Messages
 );
 
 module.exports = router;
