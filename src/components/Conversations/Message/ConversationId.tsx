@@ -82,6 +82,7 @@ const ConversationId = () => {
               },
             }
           );
+          // console.log("messageResponse", messageResponse.data)
           setMessage(messageResponse.data);
         } catch (error) {
           console.log("messageResponse", error);
@@ -96,6 +97,7 @@ const ConversationId = () => {
     fetchConversation();
   }, [conversationId]);
 
+  // console.log("message:", message)
   // console.log("conversation", conversation);
   // console.log("Message", message);
 
@@ -117,7 +119,7 @@ const ConversationId = () => {
     <div className="lg:pl-80 h-screen">
       <div className="h-screen flex flex-col">
         <Header conversation={conversation} />
-        <ChatBody />
+        <ChatBody initialMessages={message} />
         <Form/>
       </div>
     </div>

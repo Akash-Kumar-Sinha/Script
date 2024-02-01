@@ -14,7 +14,7 @@ interface User {
 }
 
 const getMessage = async (req: Request, res: Response) => {
-  // console.log("getMessage");
+  console.log("getMessage");
 
   try {
     const currentUser = req.user as User;
@@ -26,10 +26,11 @@ const getMessage = async (req: Request, res: Response) => {
     // console.log("user exist");
 
     const { conversationId } = req.params;
+    // console.log(conversationId)
 
     const messages = await prisma.message.findMany({
       where: {
-        id: conversationId,
+        conversationId: conversationId,
       },
       include: {
         sender: true,
@@ -39,7 +40,7 @@ const getMessage = async (req: Request, res: Response) => {
         createdAt: "asc",
       },
     });
-    // console.log("messages");
+    // console.log("messages", messages);
     return res.json(messages);
   } catch (error) {
     console.log("getMessage", error);

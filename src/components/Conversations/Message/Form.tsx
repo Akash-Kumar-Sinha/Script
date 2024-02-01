@@ -15,7 +15,7 @@ const Form = () => {
 
   const { user } = currentUserData ? currentUserData : { user: { email: "" } };
   const userEmail = user.email;
-  console.log(userEmail);
+  // console.log(userEmail);
 
   const {
     register,
@@ -46,7 +46,7 @@ const Form = () => {
         { ...data, conversationId }
       );
 
-      console.log("Response data:", response.data);
+      // console.log("Response data:", response.data);
     } catch (error: any) {
       // console.error("form Response")
       console.error("Handle error", error.message);
@@ -67,6 +67,7 @@ const Form = () => {
         w-full
       "
     >
+      
       <HiPhoto size={30} className="text-sky-300" />
       <form
         onSubmit={handleSubmit(onSubmit)}

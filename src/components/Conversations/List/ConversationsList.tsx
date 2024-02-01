@@ -32,7 +32,7 @@ const ConversationsList: FC<ConversationsListProps> = ({ initialItems }) => {
     setItems(conversations)
   },[conversations])
   // console.log("conversations", conversations)
-  // console.log("items", items)
+  // console.log("items", initialItems)
 
   const setIsModalOpen = () => {
     console.log("setIsModalOpen")
