@@ -1,18 +1,6 @@
 import { Request, Response } from "express";
 import prisma from "../db/prismadb";
 
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  emailVerified: boolean;
-  image: string;
-  createdAt: string;
-  updatedAt: string;
-  conversationIds: [];
-  seenMessageIds: [];
-}
-
 const Messages = async (req: Request, res: Response) => {
   console.log("Message");
   try {
@@ -22,7 +10,6 @@ const Messages = async (req: Request, res: Response) => {
         email: userEmail,
       },
     });
-    // console.log(conversationId )
     const { message, image, conversationId } = req.body;
 
     if (!currentUser?.id || !currentUser?.email) {
@@ -31,31 +18,30 @@ const Messages = async (req: Request, res: Response) => {
     }
 
     const newMessage = await prisma.message.create({
-        data: {
-          body: message,
-          image: image,
-          conversation: {
-            connect: {
-              id: conversationId,
-            },
-          },
-          sender: {
-            connect: {
-              id: currentUser.id,
-            },
-          },
-          seen: {
-            connect: {
-              id: currentUser.id,
-            },
+      data: {
+        body: message,
+        image: image,
+        conversation: {
+          connect: {
+            id: conversationId,
           },
         },
-        include: {
-          seen: true,
-          sender: true,
+        sender: {
+          connect: {
+            id: currentUser.id,
+          },
         },
-      });
-      
+        seen: {
+          connect: {
+            id: currentUser.id,
+          },
+        },
+      },
+      include: {
+        seen: true,
+        sender: true,
+      },
+    });
 
     const updatedConversation = await prisma.conversation.update({
       where: {
@@ -78,7 +64,7 @@ const Messages = async (req: Request, res: Response) => {
         },
       },
     });
-    // console.log("newMessage", newMessage);
+
     return res.json(newMessage);
   } catch (error: any) {
     console.log("Messages", error.message);

@@ -16,7 +16,7 @@ interface User {
 const getCurrentUser = (req: Request, res: Response) => {
   try {
     const userData = req.user as User;
-    console.log("getCurrentUser");
+    // console.log("getCurrentUser");
     // console.log(userData);
 
     res.json({ message: "Access granted", user: userData });

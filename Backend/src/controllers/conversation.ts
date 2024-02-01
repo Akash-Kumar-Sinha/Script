@@ -14,13 +14,12 @@ interface User {
 }
 
 const conversations = async (req: Request, res: Response) => {
-    console.log("conversations")
+  console.log("conversations");
   try {
     const currentUser = req.user as User;
-    // console.log("currentUser", currentUser)
 
     const body = await req.body;
-    
+
     const { userId, isGroup, members, name } = body;
 
     if (!currentUser?.id || !currentUser?.email) {
@@ -53,8 +52,8 @@ const conversations = async (req: Request, res: Response) => {
           users: true,
         },
       });
-    // console.log("newConversation", newConversation)
-      
+      // console.log("newConversation", newConversation)
+
       return res.status(200).json(newConversation);
     }
 
@@ -78,7 +77,7 @@ const conversations = async (req: Request, res: Response) => {
     const singleConversations = existingConversations[0];
 
     if (singleConversations) {
-    // console.log("singleConversations", singleConversations)
+      // console.log("singleConversations", singleConversations)
       return res.json(singleConversations);
     }
 

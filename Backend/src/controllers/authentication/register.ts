@@ -37,13 +37,11 @@ const register = async (req: Request, res: Response) => {
 
     user.hashedPassword = null;
 
-    res
-      .status(200)
-      .json({
-        message: "Registration successful",
-        user,
-        token: "Bearer " + token,
-      });
+    res.status(200).json({
+      message: "Registration successful",
+      user,
+      token: "Bearer " + token,
+    });
   } catch (error: any) {
     console.error("Registration Error:", error);
     res.status(500).json({ error: "Internal Server Error" });

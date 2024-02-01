@@ -14,7 +14,7 @@ interface User {
 }
 
 const getConversationById = async (req: Request, res: Response) => {
-    console.log("getConversationById");
+  console.log("getConversationById");
 
   try {
     const currentUser = req.user as User;
@@ -24,7 +24,6 @@ const getConversationById = async (req: Request, res: Response) => {
     }
     const { conversationId } = req.params;
 
-    // console.log("getConversationById:", conversationId);
     const conversation = await prisma.conversation.findUnique({
       where: {
         id: conversationId as string,
@@ -33,8 +32,6 @@ const getConversationById = async (req: Request, res: Response) => {
         users: true,
       },
     });
-
-    // console.log("Fetched conversation:", conversation);
 
     return res.json(conversation);
   } catch (error) {

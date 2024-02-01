@@ -3,10 +3,9 @@ import { Request, Response } from "express";
 import prisma from "../../db/prismadb";
 
 const getUsers = async (req: Request, res: Response) => {
-  console.log("getUsers")
+  console.log("getUsers");
   try {
     const userEmail = req.query.userEmail as string;
-    // console.log("userEmail", userEmail);
 
     if (userEmail) {
       const users = await prisma?.user.findMany({

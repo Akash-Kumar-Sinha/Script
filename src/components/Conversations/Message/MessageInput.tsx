@@ -1,37 +1,33 @@
-import React from 'react'
-import { 
-  FieldErrors, 
-  FieldValues, 
-  UseFormRegister
-} from "react-hook-form";
-import { Input } from '../../../@/components/ui/input';
+import React from "react";
+import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
+import { Input } from "../../../@/components/ui/input";
 
 interface MessageInputProps {
   placeholder?: string;
   id: string;
   type?: string;
   required?: boolean;
-  register: UseFormRegister<FieldValues>,
-  errors: FieldErrors
+  register: UseFormRegister<FieldValues>;
+  errors: FieldErrors;
 }
 
-const MessageInput: React.FC<MessageInputProps> = ({ 
-  placeholder, 
-  id, 
-  type, 
-  required, 
+const MessageInput: React.FC<MessageInputProps> = ({
+  placeholder,
+  id,
+  type,
+  required,
   register,
-  errors
+  errors,
 }) => {
   return (
     <div className="relative w-full">
-      <Input 
-      id={id}
-      type={type}
-      autoComplete={id}
-      {...register(id,{required})}
-      placeholder={placeholder}
-      className="
+      <Input
+        id={id}
+        type={type}
+        autoComplete={id}
+        {...register(id, { required })}
+        placeholder={placeholder}
+        className="
       text-black
       font-light
       py-2
@@ -43,7 +39,7 @@ const MessageInput: React.FC<MessageInputProps> = ({
     "
       />
     </div>
-  )
-}
+  );
+};
 
-export default MessageInput
+export default MessageInput;

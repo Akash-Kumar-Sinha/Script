@@ -31,10 +31,9 @@ const UserBox: FC<UserBoxProps> = ({ data }) => {
             Authorization: token,
           },
         }
-        );
-        if (response.status === 200) {
-          // console.log("Successful response:", response.data.id);
-          navigate(`/conversations/${response.data.id}`);
+      );
+      if (response.status === 200) {
+        navigate(`/conversations/${response.data.id}`);
       } else {
         console.error("Unsuccessful response:", response.status, response.data);
       }

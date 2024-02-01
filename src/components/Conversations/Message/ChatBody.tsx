@@ -14,12 +14,30 @@ const ChatBody: FC<ChatBodyProps> = ({ initialMessages }) => {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   const { conversationId } = useConversation();
-  // console.log(conversationId)
-  // console.log(messages)
 
-  // useEffect(()=>{
-  //   axios.post(`http://localhost:3000/${conversationId}/seen`)
-  // },[conversationId])
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+  
+    if (!token) {
+      console.log("Token not found");
+      throw new Error("Token not found");
+    }
+  
+    axios.post(
+      `http://localhost:8000/api/${conversationId}/seen`,
+      { conversationId },
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+      
+    )
+    .catch(error => {
+      console.error("Error while marking conversation as seen:", error.message);
+    });
+  }, [conversationId]);
+  
 
   return (
     <div className="flex-1 overflow-y-auto">
@@ -29,7 +47,7 @@ const ChatBody: FC<ChatBodyProps> = ({ initialMessages }) => {
           key={message.id}
           data={message}
         />
-       ))}
+      ))}
       <div ref={bottomRef} className="pt-24" />
     </div>
   );

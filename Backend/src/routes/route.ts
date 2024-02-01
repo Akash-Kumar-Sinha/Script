@@ -15,6 +15,7 @@ import Messages from "../controllers/message";
 
 import "../middlewares/passport_google";
 import "../middlewares/passport_jwt";
+import seenRoute from "../controllers/seenRoute";
 
 const router = express.Router();
 
@@ -72,10 +73,12 @@ router.get(
   getMessage
 );
 
+router.post("/message", Messages);
+
 router.post(
-  "/message",
-  // passport.authenticate("jwt", { session: false }),
-  Messages
+  "/:conversationId/seen",
+  passport.authenticate("jwt", { session: false }),
+  seenRoute
 );
 
 module.exports = router;

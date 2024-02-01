@@ -23,10 +23,8 @@ const getMessage = async (req: Request, res: Response) => {
       console.log("user not exist");
       return res.json([]);
     }
-    // console.log("user exist");
 
     const { conversationId } = req.params;
-    // console.log(conversationId)
 
     const messages = await prisma.message.findMany({
       where: {
@@ -40,7 +38,7 @@ const getMessage = async (req: Request, res: Response) => {
         createdAt: "asc",
       },
     });
-    // console.log("messages", messages);
+    
     return res.json(messages);
   } catch (error) {
     console.log("getMessage", error);

@@ -1,4 +1,3 @@
-import React from "react";
 import useConversation from "../../../utils/hooks/useConversation";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import axios from "axios";
@@ -10,12 +9,10 @@ import useFetchCurrentUser from "../../../utils/hooks/useFetchCurrentUser";
 
 const Form = () => {
   const { conversationId } = useConversation();
-  // console.log(conversationId);
   const currentUserData = useFetchCurrentUser();
 
   const { user } = currentUserData ? currentUserData : { user: { email: "" } };
   const userEmail = user.email;
-  // console.log(userEmail);
 
   const {
     register,
@@ -28,27 +25,45 @@ const Form = () => {
     },
   });
 
+  const handleUpload = async (result: any) => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      console.log("Token not found");
+      throw new Error("Token not found");
+    }
+
+    try {
+      const response = await axios.post(
+        `http://localhost:8000/api/message?userEmail=${userEmail}`,
+        {
+          image: result.info.secure_url,
+          conversationId: conversationId,
+        }
+      );
+      console.log("Response data:", response.data);
+    } catch (error: any) {
+      console.error("form Response");
+      console.error("Handle upload error", error.message);
+    }
+  };
+  console.log("handleUpload");
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const token = localStorage.getItem("token");
 
     if (!token) {
       console.log("Token not found");
-
       throw new Error("Token not found");
     }
-
     setValue("message", "", { shouldValidate: true });
 
     try {
-      // console.log(...data)
-      const response = await axios.post(
+      await axios.post(
         `http://localhost:8000/api/message?userEmail=${userEmail}`,
         { ...data, conversationId }
       );
-
-      // console.log("Response data:", response.data);
     } catch (error: any) {
-      // console.error("form Response")
+      console.error("form Response");
       console.error("Handle error", error.message);
     }
   };
@@ -67,7 +82,6 @@ const Form = () => {
         w-full
       "
     >
-      
       <HiPhoto size={30} className="text-sky-300" />
       <form
         onSubmit={handleSubmit(onSubmit)}

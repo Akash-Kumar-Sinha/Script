@@ -16,14 +16,18 @@ const MessageBox: FC<MessageBoxProps> = ({ data, isLast }) => {
   const { user } = currentUserData || { user: { email: "" } };
 
   const isOwn = user.email === data?.sender?.email;
+  
   const seenList = (data.seen || [])
     .filter((user) => user.email !== data?.sender?.email)
     .map((user) => user.name)
     .join(", ");
 
   const container = clsx("flex gap-3 p-4", isOwn && "justify-end");
+
   const avatar = clsx(isOwn && "order-2");
+
   const body = clsx("flex flex-col gap-2", isOwn && "items-end");
+
   const message = clsx(
     "text-sm w-fit overflow-hidden",
     isOwn ? "bg-sky-500 text-white" : "bg-gray-100",
@@ -55,6 +59,17 @@ const MessageBox: FC<MessageBoxProps> = ({ data, isLast }) => {
             <div>{data.body}</div>
           )}
         </div>
+        {isLast && isOwn && seenList.length > 0 && (
+          <div 
+            className="
+            text-xs 
+            font-light 
+            text-gray-500
+            "
+          >
+            {`Seen by ${seenList}`}
+          </div>
+        )}
       </div>
     </div>
   );
