@@ -6,6 +6,13 @@ import MessageInput from "./MessageInput";
 import { Button } from "../../../@/components/ui/button";
 import { HiPaperAirplane } from "react-icons/hi";
 import useFetchCurrentUser from "../../../utils/hooks/useFetchCurrentUser";
+import { useRef } from "react";
+
+declare global {
+  interface Window {
+    cloudinary: any;
+  }
+}
 
 const Form = () => {
   const { conversationId } = useConversation();
@@ -25,29 +32,55 @@ const Form = () => {
     },
   });
 
-  const handleUpload = async (result: any) => {
-    const token = localStorage.getItem("token");
+  const cloudinaryRef = useRef<any>();
+  const widgetRef = useRef<any>();
 
-    if (!token) {
-      console.log("Token not found");
-      throw new Error("Token not found");
+  const handleUpload = async () => {
+    if (!window.cloudinary) {
+      console.error("Cloudinary is not available.");
+      return;
     }
 
-    try {
-      const response = await axios.post(
-        `http://localhost:8000/api/message?userEmail=${userEmail}`,
-        {
-          image: result.info.secure_url,
-          conversationId: conversationId,
+    cloudinaryRef.current = window.cloudinary;
+
+    widgetRef.current = cloudinaryRef.current.createUploadWidget(
+      {
+        cloudName: process.env.REACT_APP_CLOUDINARY_NAME,
+        uploadPreset: process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET,
+      },
+      async function (error: any, result: any) {
+        if (error) {
+          console.error("Error during upload:", error);
+          return;
         }
-      );
-      console.log("Response data:", response.data);
-    } catch (error: any) {
-      console.error("form Response");
-      console.error("Handle upload error", error.message);
+
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+          console.error("Token not found");
+          throw new Error("Token not found");
+        }
+        if (result.info.secure_url) {
+          try {
+            await axios.post(
+              `http://localhost:8000/api/message?userEmail=${userEmail}`,
+              {
+                image: result.info.secure_url,
+                conversationId: conversationId,
+              }
+            );
+          } catch (error: any) {
+            console.error("Form response error:", error.message);
+          }
+        }
+      }
+    );
+
+    if (widgetRef.current) {
+      widgetRef.current.open();
     }
   };
-  console.log("handleUpload");
+
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const token = localStorage.getItem("token");
 
@@ -82,7 +115,9 @@ const Form = () => {
         w-full
       "
     >
-      <HiPhoto size={30} className="text-sky-300" />
+      <button onClick={handleUpload}>
+        <HiPhoto size={30} className="text-sky-300" />
+      </button>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex items-center gap-2 lg:gap-4 w-full"
