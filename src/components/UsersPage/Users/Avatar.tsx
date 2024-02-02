@@ -31,15 +31,10 @@ const Avatars: FC<AvatarsProps> = ({ user }) => {
     }
   )?.activeUser;
 
-  // console.log(currentUserData);
-  
-
-  const imageUrl = activeUser?.image || "placeholder.jpg";
-
   return (
     <div className="relative">
       <Avatar>
-        <AvatarImage src={imageUrl} />
+        <AvatarImage src={activeUser?.image ?? "placeholder.jpg"} />
         <AvatarFallback>PF</AvatarFallback>
       </Avatar>
       {/* {isActive ? (  */}

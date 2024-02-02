@@ -31,7 +31,7 @@ const ConversationId = () => {
   const conversationId = useParams();
   const [loading, setLoading] = useState(true);
   const [conversation, setConversation] = useState<
-    Conversation & { user: User[] }
+    Conversation & { users: User[] }
   >({
     id: "",
     createdAt: "",
@@ -39,7 +39,7 @@ const ConversationId = () => {
     name: "",
     isGroup: false,
     messages: [],
-    user: [],
+    users: [],
   });
 
   const [message, setMessage] = useState();
