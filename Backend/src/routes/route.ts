@@ -16,6 +16,8 @@ import Messages from "../controllers/message";
 import "../middlewares/passport_google";
 import "../middlewares/passport_jwt";
 import seenRoute from "../controllers/seenRoute";
+import conversationDelete from "../controllers/conversationDelete";
+import setting from "../controllers/setting";
 
 const router = express.Router();
 
@@ -80,5 +82,17 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   seenRoute
 );
+
+router.delete(
+  "/conversationDelete/:conversationId",
+  passport.authenticate("jwt", { session: false }),
+  conversationDelete
+)
+
+router.post(
+  "/setting",
+  passport.authenticate("jwt", { session: false }),
+  setting
+)
 
 module.exports = router;

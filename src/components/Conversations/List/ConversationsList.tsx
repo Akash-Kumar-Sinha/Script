@@ -9,15 +9,6 @@ import ConversationBox from "./ConversationBox";
 import { FullConversationType } from "../../../utils/Types";
 import useFetchConversation from "../../../utils/hooks/useFetchConversation";
 
-// interface Conversations {
-//   id: string;
-//   createdAt: string;
-//   lastMessageAt: string;
-//   name: string;
-//   isGroup: boolean;
-//   messages: any[];
-// }
-
 interface ConversationsListProps {
   initialItems: FullConversationType[];
 }

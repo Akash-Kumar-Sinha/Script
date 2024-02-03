@@ -59,7 +59,7 @@ const AuthForm = () => {
           .then((user) => {
             localStorage.setItem("token", user.data.token);
             toast.success("Login successful");
-            navigate("/users");
+            navigate("/conversations");
           })
           .catch((error) => {
             toast.error("authForm: Login went wrong!");

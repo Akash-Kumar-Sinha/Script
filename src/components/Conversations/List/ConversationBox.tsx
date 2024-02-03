@@ -11,15 +11,6 @@ import useOtherUsers from "../../../utils/hooks/useOtherUsers";
 import { FullConversationType } from "../../../utils/Types";
 import Avatars from "../../UsersPage/Users/Avatar";
 
-// interface Conversations {
-//   id: string;
-//   createdAt: string;
-//   lastMessageAt: string;
-//   name: string;
-//   isGroup: boolean;
-//   messages: any[];
-// }
-
 interface ConversationBoxProps {
   data: FullConversationType;
   selected?: boolean;

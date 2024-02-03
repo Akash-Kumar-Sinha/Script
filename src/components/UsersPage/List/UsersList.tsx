@@ -6,9 +6,16 @@ import { Input } from "../../../@/components/ui/input";
 
 interface User {
   id: string;
-  name: string ;
+  name: string;
   email: string;
+  emailVerified: boolean;
+  image: string;
+  createdAt: string;
+  updatedAt: string;
+  conversationIds: [];
+  seenMessageIds: [];
 }
+
 
 interface UsersListProps {
   items?: User[];

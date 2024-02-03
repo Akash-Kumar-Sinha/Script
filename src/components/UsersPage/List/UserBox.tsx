@@ -5,9 +5,16 @@ import Avatars from "../Users/Avatar";
 
 interface User {
   id: string;
-  name: string | null;
-  email: string | null;
+  name: string;
+  email: string;
+  emailVerified: boolean;
+  image: string;
+  createdAt: string;
+  updatedAt: string;
+  conversationIds: [];
+  seenMessageIds: [];
 }
+
 
 interface UserBoxProps {
   data: User;
