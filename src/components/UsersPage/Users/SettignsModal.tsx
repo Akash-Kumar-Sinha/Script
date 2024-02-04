@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { FC, useRef, useState } from "react";
 import {
-  FieldValue,
   FieldValues,
   SubmitHandler,
   useForm,
@@ -54,12 +53,11 @@ const SettignsModal: FC<SettignsModalProps> = ({
 
   const image = watch("image");
 
-
-
   const cloudinaryRef = useRef<any>();
   const widgetRef = useRef<any>();
 
   const handleUpload = async () => {
+    console.log("upload");
     if (!window.cloudinary) {
       console.error("Cloudinary is not available.");
       return;
@@ -73,17 +71,15 @@ const SettignsModal: FC<SettignsModalProps> = ({
         uploadPreset: process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET,
       },
       async function (error: any, result: any) {
-
-          
-          if (error) {
+        if (error) {
           console.error("Error during upload:", error);
           return;
         }
 
         if (result.info.secure_url) {
-            setValue("image", result?.info?.secure_url, {
-              shouldValidate: true,
-            });
+          setValue("image", result?.info?.secure_url, {
+            shouldValidate: true,
+          });
         }
       }
     );
@@ -93,8 +89,8 @@ const SettignsModal: FC<SettignsModalProps> = ({
     }
   };
 
-
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    console.log("submit");
     setIsLoading(true);
     const token = localStorage.getItem("token");
 
@@ -109,8 +105,8 @@ const SettignsModal: FC<SettignsModalProps> = ({
       })
       .then((response) => {
         // console.log(response.data)
-        window.location.reload();
         onClose();
+        window.location.reload();
       })
       .catch(() => {
         toast.error("Something Went Wrong!");
@@ -120,7 +116,7 @@ const SettignsModal: FC<SettignsModalProps> = ({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form>
         <div className="space-y-12">
           <div className="border-b border-gray-900/10 pb-12">
             <h2
@@ -164,27 +160,23 @@ const SettignsModal: FC<SettignsModalProps> = ({
                     width="48"
                     height="48"
                     className="rounded-full"
-                    src={
-                      image || currentUser?.image || "placeholder.jpg"
-                    }
+                    src={image || currentUser?.image || "placeholder.jpg"}
                     alt="Avatar"
                   />
-                  <button onClick={handleUpload}>
-                    <ButtonForm
+                  <ButtonForm
                     disabled={isLoading}
                     secondary
                     type="button"
-                    >
-
+                    onClick={handleUpload}
+                  >
                     change
-                    </ButtonForm>
-                  </button>
+                  </ButtonForm>
                 </div>
               </div>
             </div>
-            </div>
+          </div>
         </div>
-        <div 
+        <div
           className="
             mt-6 
             flex 
@@ -195,7 +187,8 @@ const SettignsModal: FC<SettignsModalProps> = ({
         >
           <ButtonForm
             disabled={isLoading}
-            secondary 
+            secondary
+            type="button"
             onClick={onClose}
           >
             Cancel
@@ -203,6 +196,7 @@ const SettignsModal: FC<SettignsModalProps> = ({
           <ButtonForm
             disabled={isLoading}
             type="submit"
+            onClick={handleSubmit(onSubmit)}
           >
             Save
           </ButtonForm>

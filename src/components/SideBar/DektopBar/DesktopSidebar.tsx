@@ -28,7 +28,7 @@ const DesktopSidebar = () => {
       <SettignsModal
       currentUser={currentUser}
       isOpen={isOpen}
-      onClose={()=>{}}
+      onClose={() => setIsOpen(false)}
       />
       <div>
         <div

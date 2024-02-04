@@ -10,6 +10,7 @@ interface User {
   id: string;
   name: string | null;
   email: string | null;
+  image: string | null;
 }
 
 interface AvatarsProps {
@@ -17,24 +18,13 @@ interface AvatarsProps {
 }
 
 const Avatars: FC<AvatarsProps> = ({ user }) => {
-  const currentUserData = useFetchCurrentUser() as unknown as {
-    activeUser: {
-      image: string | null;
-    };
-  };
+  const currentUserData = useFetchCurrentUser() as unknown as User
 
-  const activeUser = (
-    currentUserData as {
-      activeUser: {
-        image: string | null;
-      };
-    }
-  )?.activeUser;
 
   return (
     <div className="relative">
       <Avatar>
-        <AvatarImage src={activeUser?.image ?? "placeholder.jpg"} />
+        <AvatarImage src={user?.image ? user?.image: "placeholder.jpg"} />
         <AvatarFallback>PF</AvatarFallback>
       </Avatar>
       {/* {isActive ? (  */}
