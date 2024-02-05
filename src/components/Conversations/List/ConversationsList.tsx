@@ -8,29 +8,53 @@ import useConversation from "../../../utils/hooks/useConversation";
 import ConversationBox from "./ConversationBox";
 import { FullConversationType } from "../../../utils/Types";
 import useFetchConversation from "../../../utils/hooks/useFetchConversation";
+import GroupChatModal from "../../GroupChat/GroupChatModal";
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  emailVerified: boolean;
+  image: string;
+  createdAt: string;
+  updatedAt: string;
+  conversationIds: [];
+  seenMessageIds: [];
+}
 
 interface ConversationsListProps {
   initialItems: FullConversationType[];
+  otherUsers: User[];
 }
 
-const ConversationsList: FC<ConversationsListProps> = ({ initialItems }) => {
-  const [items, setItems] = useState(initialItems);
+const ConversationsList: FC<ConversationsListProps> = ({
+  initialItems,
+  otherUsers,
+}) => {
   const navigate = useNavigate();
+  const [items, setItems] = useState(initialItems);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { conversationId, isOpen } = useConversation();
-  const conversations = useFetchConversation()
-  useEffect(()=>{
-
-    setItems(conversations)
-  },[conversations])
+  const conversations = useFetchConversation();
+  useEffect(() => {
+    setItems(conversations);
+  }, [conversations]);
   // console.log("conversations", conversations)
   // console.log("items", initialItems)
 
-  const setIsModalOpen = () => {
-    console.log("setIsModalOpen")
-  }
-  
+  // const setIsModalOpen = () => {
+  //   console.log("setIsModalOpen")
+  // }
+  // console.log(otherUsers)
+
   return (
     <>
+      <GroupChatModal
+        otherUsers={otherUsers}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
+
       <aside
         className={clsx(
           `
@@ -50,11 +74,9 @@ const ConversationsList: FC<ConversationsListProps> = ({ initialItems }) => {
       >
         <div className="px-5">
           <div className="flex justify-between mb-4 pt-4">
-            <div className="text-2xl font-bold text-neutral-800">
-              Messages
-            </div>
+            <div className="text-2xl font-bold text-neutral-800">Messages</div>
             <div
-              onClick={() => setIsModalOpen()}
+              onClick={() => setIsModalOpen(true)}
               className="
                 rounded-full 
                 p-2 
@@ -68,7 +90,7 @@ const ConversationsList: FC<ConversationsListProps> = ({ initialItems }) => {
               <MdOutlineGroupAdd size={20} />
             </div>
           </div>
-          
+
           {items.map((item) => (
             <ConversationBox
               key={item.id}

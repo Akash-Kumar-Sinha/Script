@@ -1,20 +1,64 @@
 // ConversationsLayout.tsx
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import SideBar from '../../SideBar/SideBar';
 import ChatBar from '../../ChatBar/ChatBar';
 import ConversationsList from './ConversationsList';
 import useFetchConversation from '../../../utils/hooks/useFetchConversation';
+import useFetchCurrentUser from '../../../utils/hooks/useFetchCurrentUser';
+import axios from 'axios';
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  emailVerified: boolean;
+  image: string;
+  createdAt: string;
+  updatedAt: string;
+  conversationIds: [];
+  seenMessageIds: [];
+}
+
 
 const ConversationsLayout = ({ children }: { children: React.ReactNode }) => {
   const conversation = useFetchConversation();
+  const currentUserData = useFetchCurrentUser();
 
+  const [otherUsers, setOtherUsers] = useState<User[]>([]);
+  const { user } = currentUserData ? currentUserData : { user: { email: "" } };
+  const userEmail = user.email;
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        const response = await axios.get(
+          `http://localhost:8000/api/getUsers?userEmail=${userEmail}`
+        );
+        setOtherUsers(response.data.users);
+      } catch (error) {
+        console.error("Error making API call", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [userEmail]);
+
+  
+
+  if(!otherUsers){
+    return <div>Loading...</div>
+  }
   // console.log("ConversationsLayout", conversation)
+  // console.log("ConversationsLayout", otherUsers)
 
   return (
     <div className="flex">
       <SideBar>
         <div>
-          <ConversationsList initialItems={conversation} />
+        <ConversationsList otherUsers={otherUsers} initialItems={conversation} />
           {children}
         </div>
       </SideBar>
