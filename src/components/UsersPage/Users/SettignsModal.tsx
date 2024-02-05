@@ -1,13 +1,13 @@
-import axios from "axios";
 import React, { FC, useRef, useState } from "react";
+import axios from "axios";
 import {
   FieldValues,
   SubmitHandler,
   useForm,
 } from "react-hook-form";
 import toast from "react-hot-toast";
-import { IoTrendingUp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
+
 import Modal from "./Modal";
 import InputForm from "../../AuthHome/AuthForm/InputForm";
 import ButtonForm from "../../AuthHome/AuthForm/ButtonForm";
@@ -106,7 +106,7 @@ const SettignsModal: FC<SettignsModalProps> = ({
       .then((response) => {
         // console.log(response.data)
         onClose();
-        window.location.reload();
+        navigate(0)
       })
       .catch(() => {
         toast.error("Something Went Wrong!");

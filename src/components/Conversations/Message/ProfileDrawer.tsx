@@ -1,10 +1,10 @@
 import { useMemo, useState, FC, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { IoClose, IoTrash } from "react-icons/io5";
-import useOtherUsers from "../../../utils/hooks/useOtherUsers";
 import { format } from "date-fns";
+
+import useOtherUsers from "../../../utils/hooks/useOtherUsers";
 import Avatars from "../../UsersPage/Users/Avatar";
-import Modal from "../../UsersPage/Users/Modal";
 import ConfirmModal from "./ConfirmModal";
 
 interface User {

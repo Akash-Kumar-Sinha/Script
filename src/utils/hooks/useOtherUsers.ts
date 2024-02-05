@@ -1,6 +1,5 @@
 // useFetchMessage.ts
-import { useEffect, useMemo, useState } from "react";
-import axios from "axios";
+import { useMemo } from "react";
 import useFetchCurrentUser from "./useFetchCurrentUser";
 import { FullConversationType } from "../Types";
 

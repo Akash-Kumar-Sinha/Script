@@ -39,13 +39,6 @@ const ConversationsList: FC<ConversationsListProps> = ({
   useEffect(() => {
     setItems(conversations);
   }, [conversations]);
-  // console.log("conversations", conversations)
-  // console.log("items", initialItems)
-
-  // const setIsModalOpen = () => {
-  //   console.log("setIsModalOpen")
-  // }
-  // console.log(otherUsers)
 
   return (
     <>

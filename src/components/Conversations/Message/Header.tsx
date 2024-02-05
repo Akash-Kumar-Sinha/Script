@@ -1,8 +1,9 @@
 import React, { FC, useMemo, useState } from "react";
-import useOtherUsers from "../../../utils/hooks/useOtherUsers";
 import { Link } from "react-router-dom";
 import { HiChevronLeft } from "react-icons/hi";
 import { HiEllipsisHorizontal } from "react-icons/hi2";
+
+import useOtherUsers from "../../../utils/hooks/useOtherUsers";
 import Avatars from "../../UsersPage/Users/Avatar";
 import ProfileDrawer from "./ProfileDrawer";
 

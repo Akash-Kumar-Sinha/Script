@@ -1,12 +1,12 @@
 import React, { FC, useCallback, useState } from "react";
-import useConversation from "../../../utils/hooks/useConversation";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import { FiAlertTriangle } from "react-icons/fi";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
+
+import useConversation from "../../../utils/hooks/useConversation";
 import Modal from "../../UsersPage/Users/Modal";
 import { Dialog } from "@headlessui/react";
-import { Button } from "../../../@/components/ui/button";
 import ButtonForm from "../../AuthHome/AuthForm/ButtonForm";
 
 interface ConfirmModalProps {
@@ -22,50 +22,35 @@ const ConfirmModal: FC<ConfirmModalProps> = ({ isOpen, onClose }) => {
 
   const onDelete = useCallback(() => {
     setLoading(true);
+    try {
+      const token = localStorage.getItem("token");
 
-    const token = localStorage.getItem("token");
-
-        if (!token) {
-          throw new Error("Token not found");
+      if (!token) {
+        throw new Error("Token not found");
+      }
+      axios.delete(
+        `http://localhost:8000/api/conversationDelete/${conversationId}`,
+        {
+          headers: {
+            Authorization: token,
+          },
         }
-
-    axios
-      .delete(`http://localhost:8000/api/conversationDelete/${conversationId}`,
-      {
-        headers: {
-          Authorization: token,
-        },
-      })
-      .then(() => {
-        onClose();
-        navigate("/conversations");
-      })
-      .catch((error) => {
-        toast.error("Something went wrong");
-        console.error("Error deleting conversation:", error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+      );
+      onClose();
+      navigate(-1);
+    } catch (error) {
+      toast.error("Something went wrong");
+      console.error("Error deleting conversation:", error);
+    } finally {
+      setLoading(false);
+    }
   }, [conversationId, navigate, onClose]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <div className="sm:flex sm:items-start">
         <div
-          className="
-            mx-auto 
-            flex 
-            h-12 
-            w-12 
-            flex-shrink-0 
-            items-center 
-            justify-center 
-            rounded-full 
-            bg-red-100 
-            sm:mx-0 
-            sm:h-10 
-            sm:w-10
+          className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10
           "
         >
           <FiAlertTriangle

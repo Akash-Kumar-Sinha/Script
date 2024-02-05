@@ -1,11 +1,12 @@
 // ConversationsLayout.tsx
-import React, { useEffect, useState } from 'react';
-import SideBar from '../../SideBar/SideBar';
-import ChatBar from '../../ChatBar/ChatBar';
-import ConversationsList from './ConversationsList';
-import useFetchConversation from '../../../utils/hooks/useFetchConversation';
-import useFetchCurrentUser from '../../../utils/hooks/useFetchCurrentUser';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+
+import SideBar from "../../SideBar/SideBar";
+import ChatBar from "../../ChatBar/ChatBar";
+import ConversationsList from "./ConversationsList";
+import useFetchConversation from "../../../utils/hooks/useFetchConversation";
+import useFetchCurrentUser from "../../../utils/hooks/useFetchCurrentUser";
 
 interface User {
   id: string;
@@ -18,7 +19,6 @@ interface User {
   conversationIds: [];
   seenMessageIds: [];
 }
-
 
 const ConversationsLayout = ({ children }: { children: React.ReactNode }) => {
   const conversation = useFetchConversation();
@@ -46,10 +46,8 @@ const ConversationsLayout = ({ children }: { children: React.ReactNode }) => {
     fetchData();
   }, [userEmail]);
 
-  
-
-  if(!otherUsers){
-    return <div>Loading...</div>
+  if (!otherUsers) {
+    return <div>Loading...</div>;
   }
   // console.log("ConversationsLayout", conversation)
   // console.log("ConversationsLayout", otherUsers)
@@ -58,7 +56,10 @@ const ConversationsLayout = ({ children }: { children: React.ReactNode }) => {
     <div className="flex">
       <SideBar>
         <div>
-        <ConversationsList otherUsers={otherUsers} initialItems={conversation} />
+          <ConversationsList
+            otherUsers={otherUsers}
+            initialItems={conversation}
+          />
           {children}
         </div>
       </SideBar>

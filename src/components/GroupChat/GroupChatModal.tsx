@@ -1,8 +1,9 @@
-import axios from "axios";
 import React, { FC, useState } from "react";
+import axios from "axios";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+
 import Modal from "../UsersPage/Users/Modal";
 import InputForm from "../AuthHome/AuthForm/InputForm";
 import SelectMembers from "./SelectMembers";
@@ -51,7 +52,6 @@ const GroupChatModal: FC<GroupChatModalProps> = ({
   // console.log("members", members);
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log("onSubmit", data);
     setIsLoading(true);
 
     const token = localStorage.getItem("token");
@@ -75,8 +75,8 @@ const GroupChatModal: FC<GroupChatModalProps> = ({
       )
       .then((response) => {
         onClose();
-        window.location.reload();
-        console.log(response);
+        navigate(0)
+        // console.log(response);
       })
       .catch((error: any) => {
         console.log("GroupChatModal: ", error.message);
