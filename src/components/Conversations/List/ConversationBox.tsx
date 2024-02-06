@@ -10,6 +10,7 @@ import useFetchConversation from "../../../utils/hooks/useFetchConversation";
 import useOtherUsers from "../../../utils/hooks/useOtherUsers";
 import { FullConversationType } from "../../../utils/Types";
 import Avatars from "../../UsersPage/Users/Avatar";
+import AvatarsGroup from "../../GroupChat/AvatarsGroup";
 
 interface ConversationBoxProps {
   data: FullConversationType;
@@ -85,7 +86,11 @@ const ConversationBox: FC<ConversationBoxProps> = ({ data, selected }) => {
         selected ? "bg-neutral-100" : "bg-gray-300"
       )}
     >
-      <Avatars user={otherUser} />
+      {data.isGroup ? (
+        <AvatarsGroup users={data.users} />
+      ) : (
+        <Avatars user={otherUser} />
+      )}
       <div className="min-w-0 flex-1">
         <div className="focus:outline-none">
           <div className="flex justify-between items-center mb-1">

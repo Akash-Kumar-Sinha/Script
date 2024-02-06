@@ -6,6 +6,7 @@ import { HiEllipsisHorizontal } from "react-icons/hi2";
 import useOtherUsers from "../../../utils/hooks/useOtherUsers";
 import Avatars from "../../UsersPage/Users/Avatar";
 import ProfileDrawer from "./ProfileDrawer";
+import AvatarsGroup from "../../GroupChat/AvatarsGroup";
 
 interface User {
   id: string;
@@ -80,7 +81,11 @@ const Header: FC<HeaderProps> = ({ conversation }) => {
           >
             <HiChevronLeft size={32} />
           </Link>
-          <Avatars user={otherUser} />
+          {conversation.isGroup ? (
+            <AvatarsGroup users={conversation.users} />
+          ) : (
+            <Avatars user={otherUser} />
+          )}
           <div className="flex flex-col">
             <div>{conversation.name || otherUser.name}</div>
             <div className="text-sm font-light text-neutral-500">

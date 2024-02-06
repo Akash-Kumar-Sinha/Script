@@ -4,6 +4,7 @@ import useFetchCurrentUser from "../../../utils/hooks/useFetchCurrentUser";
 import clsx from "clsx";
 import Avatars from "../../UsersPage/Users/Avatar";
 import { format } from "date-fns";
+import ImageModal from "./ImageModal";
 
 interface MessageBoxProps {
   data: FullMessageType;
@@ -47,8 +48,14 @@ const MessageBox: FC<MessageBoxProps> = ({ data, isLast }) => {
           </div>
         </div>
         <div className={message}>
+          <ImageModal
+          src={data.image}
+          isOpen={imageModalOpen}
+          onClose={()=>setImageModalOpen(false)}
+          />
           {data.image ? (
             <img
+            onClick={()=>setImageModalOpen(true)}
               alt=""
               height="288"
               width="288"

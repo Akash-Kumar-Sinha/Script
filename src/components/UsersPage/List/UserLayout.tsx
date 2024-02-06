@@ -33,16 +33,10 @@ const UserLayout = ({ children }: { children?: ReactNode }) => {
   return (
     <div className="flex">
       <SideBar>
-        {isLoading ? (
-          <div className="flex items-center justify-center h-full mr-14">
-            Loading...
-          </div>
-        ) : (
           <div>
             <UsersList items={users} />
             {children}
           </div>
-        )}
       </SideBar>
       <div className="hidden lg:block lg:pl-80 h-screen w-full">
         <ChatBar />

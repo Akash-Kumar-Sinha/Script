@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useCallback, useState, FC } from "react";
 import { useNavigate } from "react-router-dom";
 import Avatars from "../Users/Avatar";
+import LoadingModal from "../../LoadingIcon/LoadingModal";
 
 interface User {
   id: string;
@@ -14,7 +15,6 @@ interface User {
   conversationIds: [];
   seenMessageIds: [];
 }
-
 
 interface UserBoxProps {
   data: User;
@@ -52,9 +52,13 @@ const UserBox: FC<UserBoxProps> = ({ data }) => {
   }, [data.id, setIsLoading]);
 
   return (
-    <div
-      onClick={handleClick}
-      className="
+    <>
+    {isLoading &&(
+      <LoadingModal />
+    )}
+      <div
+        onClick={handleClick}
+        className="
         w-full 
         relative 
         flex 
@@ -67,16 +71,17 @@ const UserBox: FC<UserBoxProps> = ({ data }) => {
         transition
         cursor-pointer
       "
-    >
-      <Avatars user={data} />
-      <div className="min-w-0 flex-1">
-        <div className="focus:outline-none">
-          <div className="flex justify-between items-center mb-1">
-            <p className="text-sm font-medium text-gray-900">{data.name}</p>
+      >
+        <Avatars user={data} />
+        <div className="min-w-0 flex-1">
+          <div className="focus:outline-none">
+            <div className="flex justify-between items-center mb-1">
+              <p className="text-sm font-medium text-gray-900">{data.name}</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
