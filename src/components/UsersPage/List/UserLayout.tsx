@@ -1,10 +1,12 @@
 import { ReactNode, useEffect, useState } from "react";
+import axios from "axios";
+
 import SideBar from "../../SideBar/SideBar";
 import useRoutes from "../../../utils/hooks/useRoutes";
 import useFetchCurrentUser from "../../../utils/hooks/useFetchCurrentUser";
-import axios from "axios";
 import UsersList from "./UsersList";
 import ChatBar from "../../ChatBar/ChatBar";
+import LoadingModal from "../../LoadingIcon/LoadingModal";
 
 const UserLayout = ({ children }: { children?: ReactNode }) => {
   const routes = useRoutes();
@@ -30,6 +32,11 @@ const UserLayout = ({ children }: { children?: ReactNode }) => {
 
     fetchData();
   }, [userEmail]);
+
+  if (isLoading) {
+    return <LoadingModal />;
+  }
+
   return (
     <div className="flex">
       <SideBar>
@@ -45,4 +52,4 @@ const UserLayout = ({ children }: { children?: ReactNode }) => {
   );
 };
 
-export default UserLayout;
+export default UserLayout;  

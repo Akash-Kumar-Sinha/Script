@@ -1,7 +1,7 @@
-// SignOut.js
-import { Button } from "../../../@/components/ui/button";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+
+import { Button } from "../../../@/components/ui/button";
 
 export const handleLogout = async (navigate: import("react-router-dom").NavigateFunction) => {
   await localStorage.removeItem("token");

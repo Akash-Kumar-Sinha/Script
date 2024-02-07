@@ -1,6 +1,7 @@
-import { Input } from "../../../@/components/ui/input";
 import clsx from "clsx";
 import { FieldValues, FieldErrors, UseFormRegister } from "react-hook-form";
+
+import { Input } from "../../../@/components/ui/input";
 
 interface InputPorps {
   label: string;
@@ -23,7 +24,6 @@ const InputForm: React.FC<InputPorps> = ({
 }) => {
   return (
     <div>
-      {/* <Input/> */}
       <label
         className="flex felx-start text-sm font-medium leading-6 text-gray-900"
         htmlFor={id}

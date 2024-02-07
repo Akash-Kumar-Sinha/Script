@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 
 interface User {
   id: string;
@@ -38,10 +38,7 @@ const AvatarsGroup: FC<AvatarsGroupProps> = ({ users = [] }) => {
           ${positionMap[index as keyof typeof positionMap]}
         `}
         >
-          <img
-            src={user?.image || "/images/placeholder.jpg"}
-            alt="Avatar"
-          />
+          <img src={user?.image || "/images/placeholder.jpg"} alt="Avatar" />
         </div>
       ))}
     </div>

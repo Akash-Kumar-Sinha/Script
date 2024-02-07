@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 import axios from "axios";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -75,7 +75,7 @@ const GroupChatModal: FC<GroupChatModalProps> = ({
       )
       .then((response) => {
         onClose();
-        navigate(0)
+        navigate(0);
         // console.log(response);
       })
       .catch((error: any) => {

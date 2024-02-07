@@ -1,4 +1,5 @@
 import { FC } from "react";
+
 import {
   Avatar,
   AvatarFallback,
@@ -19,7 +20,6 @@ interface AvatarsProps {
 
 const Avatars: FC<AvatarsProps> = ({ user }) => {
   const currentUserData = useFetchCurrentUser() as unknown as User
-
 
   return (
     <div className="relative">

@@ -1,5 +1,5 @@
+import { useCallback, useState, FC } from "react";
 import axios from "axios";
-import React, { useCallback, useState, FC } from "react";
 import { useNavigate } from "react-router-dom";
 import Avatars from "../Users/Avatar";
 import LoadingModal from "../../LoadingIcon/LoadingModal";
@@ -49,13 +49,11 @@ const UserBox: FC<UserBoxProps> = ({ data }) => {
     } finally {
       setIsLoading(false);
     }
-  }, [data.id, setIsLoading]);
+  }, [data.id, navigate, setIsLoading]);
 
   return (
     <>
-    {isLoading &&(
-      <LoadingModal />
-    )}
+      {isLoading && <LoadingModal />}
       <div
         onClick={handleClick}
         className="

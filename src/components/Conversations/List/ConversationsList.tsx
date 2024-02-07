@@ -1,6 +1,4 @@
-// ConversationsList.tsx
-import React, { FC, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { FC, useEffect, useState } from "react";
 import { MdOutlineGroupAdd } from "react-icons/md";
 import clsx from "clsx";
 
@@ -31,11 +29,11 @@ const ConversationsList: FC<ConversationsListProps> = ({
   initialItems,
   otherUsers,
 }) => {
-  const navigate = useNavigate();
   const [items, setItems] = useState(initialItems);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { conversationId, isOpen } = useConversation();
   const conversations = useFetchConversation();
+
   useEffect(() => {
     setItems(conversations);
   }, [conversations]);

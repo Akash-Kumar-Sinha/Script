@@ -1,12 +1,10 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { useCallback, useMemo } from "react";
 import { format } from "date-fns";
 import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
 
 import useFetchCurrentUser from "../../../utils/hooks/useFetchCurrentUser";
-import useConversation from "../../../utils/hooks/useConversation";
-import useFetchConversation from "../../../utils/hooks/useFetchConversation";
 import useOtherUsers from "../../../utils/hooks/useOtherUsers";
 import { FullConversationType } from "../../../utils/Types";
 import Avatars from "../../UsersPage/Users/Avatar";
@@ -21,10 +19,6 @@ const ConversationBox: FC<ConversationBoxProps> = ({ data, selected }) => {
   const currentUserData = useFetchCurrentUser();
   const otherUser = useOtherUsers(data);
   const navigate = useNavigate();
-  const conversations = useFetchConversation();
-  // console.log("otherUser", otherUser);
-
-  // console.log("ConversationBox", conversations);
 
   const handleClick = useCallback(() => {
     navigate(`/conversations/${data.id}`);

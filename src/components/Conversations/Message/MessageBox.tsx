@@ -1,11 +1,11 @@
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
+import clsx from "clsx";
+import { format } from "date-fns";
+
 import { FullMessageType } from "../../../utils/Types";
 import useFetchCurrentUser from "../../../utils/hooks/useFetchCurrentUser";
-import clsx from "clsx";
-import Avatars from "../../UsersPage/Users/Avatar";
-import { format } from "date-fns";
 import ImageModal from "./ImageModal";
-
+import Avatars from "../../UsersPage/Users/Avatar";
 interface MessageBoxProps {
   data: FullMessageType;
   isLast?: boolean;

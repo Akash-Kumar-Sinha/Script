@@ -1,4 +1,3 @@
-// ConversationsLayout.tsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -7,6 +6,7 @@ import ChatBar from "../../ChatBar/ChatBar";
 import ConversationsList from "./ConversationsList";
 import useFetchConversation from "../../../utils/hooks/useFetchConversation";
 import useFetchCurrentUser from "../../../utils/hooks/useFetchCurrentUser";
+import LoadingModal from "../../LoadingIcon/LoadingModal";
 
 interface User {
   id: string;
@@ -47,10 +47,12 @@ const ConversationsLayout = ({ children }: { children: React.ReactNode }) => {
   }, [userEmail]);
 
   if (!otherUsers) {
-    return <div>Loading...</div>;
+    return <LoadingModal />;
   }
-  // console.log("ConversationsLayout", conversation)
-  // console.log("ConversationsLayout", otherUsers)
+
+  if (isLoading) {
+    return <LoadingModal />;
+  }
 
   return (
     <div className="flex">

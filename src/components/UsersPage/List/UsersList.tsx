@@ -1,8 +1,10 @@
 import { FC, useState, useEffect } from "react";
+import axios from "axios";
+
 import UserBox from "./UserBox";
 import useFetchCurrentUser from "../../../utils/hooks/useFetchCurrentUser";
-import axios from "axios";
 import { Input } from "../../../@/components/ui/input";
+import LoadingModal from "../../LoadingIcon/LoadingModal";
 
 interface User {
   id: string;
@@ -15,7 +17,6 @@ interface User {
   conversationIds: [];
   seenMessageIds: [];
 }
-
 
 interface UsersListProps {
   items?: User[];
@@ -37,7 +38,6 @@ const UsersList: FC<UsersListProps> = ({ items = [] }) => {
           `http://localhost:8000/api/getUsers?userEmail=${userEmail}`
         );
         setUsers(response.data.users);
-        // console.log("API call successful");
       } catch (error) {
         console.error("Error making API call", error);
       } finally {
@@ -47,6 +47,10 @@ const UsersList: FC<UsersListProps> = ({ items = [] }) => {
 
     fetchData();
   }, [userEmail]);
+
+  if (isLoading) {
+    return <LoadingModal />;
+  }
 
   return (
     <aside

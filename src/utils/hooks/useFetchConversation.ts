@@ -1,19 +1,12 @@
-// useFetchConversation.ts
 import { useEffect, useState } from "react";
 import axios from "axios";
+
 import useFetchCurrentUser from "./useFetchCurrentUser";
 import { FullConversationType } from "../Types";
-
-// interface Conversations {
-//   id: string;
-//   createdAt: string;
-//   lastMessageAt: string;
-//   name: string;
-//   isGroup: boolean;
-//   messages: any[];
-// }
+import useConversation from "./useConversation";
 
 const useFetchConversation = () => {
+  const id = useConversation()
   const currentUserData = useFetchCurrentUser();
   const { user } = currentUserData || { user: { email: "" } };
   const userEmail = user.email;
@@ -46,7 +39,7 @@ const useFetchConversation = () => {
     };
 
     fetchCurrentUser();
-  }, [userEmail]);
+  }, [userEmail,conversations,id]);
 
   return conversations;
 };

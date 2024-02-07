@@ -1,10 +1,14 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import ChatBar from "../../ChatBar/ChatBar";
+
 import Header from "./Header";
 import ChatBody from "./ChatBody";
 import Form from "./Form";
+import SideBar from "../../SideBar/SideBar";
+import ConversationsList from "../List/ConversationsList";
+import useFetchCurrentUser from "../../../utils/hooks/useFetchCurrentUser";
+import LoadingModal from "../../LoadingIcon/LoadingModal";
 
 interface User {
   id: string;
@@ -27,9 +31,8 @@ interface Conversation {
   messages: any[];
 }
 
-const ConversationId = () => {
-  const conversationId = useParams();
-  const [loading, setLoading] = useState(true);
+const ConversationId = ({ children }: { children?: React.ReactNode }) => {
+  const { id } = useParams<{ id: string }>();
   const [conversation, setConversation] = useState<
     Conversation & { users: User[] }
   >({
@@ -41,86 +44,72 @@ const ConversationId = () => {
     messages: [],
     users: [],
   });
-
-  const [message, setMessage] = useState();
-
-  // console.log("conversationId", conversationId.id);
+  const [message, setMessage] = useState<any[]>([]);
+  const currentUserData = useFetchCurrentUser();
+  const [otherUsers, setOtherUsers] = useState<User[]>([]);
+  const { user } = currentUserData ? currentUserData : { user: { email: "" } };
+  const userEmail = user.email;
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchConversation = async () => {
+    const fetchData = async () => {
       try {
-        if (!conversationId) {
-          throw new Error("Conversation ID not found");
-        }
-
+        setIsLoading(true);
         const token = localStorage.getItem("token");
+        if (!token) throw new Error("Token not found");
 
-        if (!token) {
-          throw new Error("Token not found");
-        }
-
-        try {
-          const conversationResponse = await axios.get(
-            `http://localhost:8000/api/getconversationsbyid/${conversationId.id}`,
-            {
-              headers: {
-                Authorization: token,
-              },
-            }
-          );
-          setConversation(conversationResponse.data);
-        } catch (error) {
-          console.log("conversationResponse", error);
-        }
-
-        try {
-          const messageResponse = await axios.get(
-            `http://localhost:8000/api/getmessage/${conversationId.id}`,
-            {
-              headers: {
-                Authorization: token,
-              },
-            }
-          );
-          // console.log("messageResponse", messageResponse.data)
-          setMessage(messageResponse.data);
-        } catch (error) {
-          console.log("messageResponse", error);
-        }
-      } catch (error: any) {
-        console.log("error", error.message || "Error fetching conversation");
+        const conversationResponse = await axios.get(
+          `http://localhost:8000/api/getconversationsbyid/${id}`,
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        );
+        setConversation(conversationResponse.data);
+        const messageResponse = await axios.get(
+          `http://localhost:8000/api/getmessage/${id}`,
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        );
+        setMessage(messageResponse.data);
+        const response = await axios.get(
+          `http://localhost:8000/api/getUsers?userEmail=${userEmail}`
+        );
+        setOtherUsers(response.data.users);
+      } catch (error) {
+        console.error("Error fetching data:", error);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
+    fetchData();
+  }, [id, userEmail]);
 
-    fetchConversation();
-  }, [conversationId]);
-
-  // console.log("message:", message)
-  // console.log("conversation", conversation);
-  // console.log("Message", message);
-
-  if (loading) {
-    <p>Loading ConversationId.tsx</p>;
-  }
-
-  if (!message) {
-    return (
-      <div className="lg:pl-80 h-screen">
-        <div className="h-full flex flex-col">
-          <ChatBar />
-        </div>
-      </div>
-    );
+  if (isLoading) {
+    return <LoadingModal />;
   }
 
   return (
-    <div className="lg:pl-80 h-screen">
-      <div className="h-screen flex flex-col">
-        <Header conversation={conversation} />
-        <ChatBody initialMessages={message} />
-        <Form/>
+    <div>
+      <SideBar>
+        <div>
+          <ConversationsList
+            otherUsers={otherUsers}
+            initialItems={[conversation]}
+          />
+          {children}
+        </div>
+      </SideBar>
+      <div className="lg:pl-96 h-screen">
+        <div className="h-screen flex flex-col">
+          <Header conversation={conversation} />
+          <ChatBody initialMessages={message} />
+          <Form />
+        </div>
       </div>
     </div>
   );
