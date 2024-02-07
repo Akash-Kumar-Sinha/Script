@@ -4,7 +4,7 @@ import axios from "axios";
 import UserBox from "./UserBox";
 import useFetchCurrentUser from "../../../utils/hooks/useFetchCurrentUser";
 import { Input } from "../../../@/components/ui/input";
-import LoadingModal from "../../LoadingIcon/LoadingModal";
+import LoadingModal from "../../Loading/LoadingModal";
 
 interface User {
   id: string;
@@ -48,9 +48,9 @@ const UsersList: FC<UsersListProps> = ({ items = [] }) => {
     fetchData();
   }, [userEmail]);
 
-  if (isLoading) {
-    return <LoadingModal />;
-  }
+  // if (isLoading) {
+  //   return <LoadingModal />;
+  // }
 
   return (
     <aside
@@ -84,12 +84,15 @@ const UsersList: FC<UsersListProps> = ({ items = [] }) => {
             </div>
           </div>
         </div>
-
-        {!users.length ? (
+        {isLoading ? (
+        <LoadingModal />
+      ) : (
+        !users.length ? (
           <p>No user Exist</p>
         ) : (
           users.map((user) => <UserBox key={user.id} data={user} />)
-        )}
+        )
+      )} 
       </div>
     </aside>
   );

@@ -6,7 +6,7 @@ import useRoutes from "../../../utils/hooks/useRoutes";
 import useFetchCurrentUser from "../../../utils/hooks/useFetchCurrentUser";
 import UsersList from "./UsersList";
 import ChatBar from "../../ChatBar/ChatBar";
-import LoadingModal from "../../LoadingIcon/LoadingModal";
+import LoadingModal from "../../Loading/LoadingModal";
 
 const UserLayout = ({ children }: { children?: ReactNode }) => {
   const routes = useRoutes();

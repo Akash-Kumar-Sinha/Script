@@ -2,7 +2,7 @@ import { useCallback, useState, FC } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Avatars from "../Users/Avatar";
-import LoadingModal from "../../LoadingIcon/LoadingModal";
+import LoadingModal from "../../Loading/LoadingModal";
 
 interface User {
   id: string;

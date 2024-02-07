@@ -6,7 +6,7 @@ import ChatBar from "../../ChatBar/ChatBar";
 import ConversationsList from "./ConversationsList";
 import useFetchConversation from "../../../utils/hooks/useFetchConversation";
 import useFetchCurrentUser from "../../../utils/hooks/useFetchCurrentUser";
-import LoadingModal from "../../LoadingIcon/LoadingModal";
+import LoadingModal from "../../Loading/LoadingModal";
 
 interface User {
   id: string;
@@ -46,24 +46,20 @@ const ConversationsLayout = ({ children }: { children: React.ReactNode }) => {
     fetchData();
   }, [userEmail]);
 
-  if (!otherUsers) {
-    return <LoadingModal />;
-  }
-
-  if (isLoading) {
-    return <LoadingModal />;
-  }
-
   return (
     <div className="flex">
       <SideBar>
-        <div>
-          <ConversationsList
-            otherUsers={otherUsers}
-            initialItems={conversation}
-          />
-          {children}
-        </div>
+        {isLoading ? (
+          <LoadingModal />
+        ) : (
+          <div>
+            <ConversationsList
+              otherUsers={otherUsers}
+              initialItems={conversation}
+            />
+            {children}
+          </div>
+        )}
       </SideBar>
       <div className="hidden lg:block lg:pl-80 h-screen w-full">
         <ChatBar />

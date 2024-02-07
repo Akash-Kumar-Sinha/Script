@@ -8,7 +8,7 @@ import Form from "./Form";
 import SideBar from "../../SideBar/SideBar";
 import ConversationsList from "../List/ConversationsList";
 import useFetchCurrentUser from "../../../utils/hooks/useFetchCurrentUser";
-import LoadingModal from "../../LoadingIcon/LoadingModal";
+import LoadingModal from "../../Loading/LoadingModal";
 
 interface User {
   id: string;
@@ -89,29 +89,33 @@ const ConversationId = ({ children }: { children?: React.ReactNode }) => {
     fetchData();
   }, [id, userEmail]);
 
-  if (isLoading) {
-    return <LoadingModal />;
-  }
-
   return (
-    <div>
-      <SideBar>
+    <>
+      {isLoading ? (
+        <LoadingModal />
+      ) : (
         <div>
-          <ConversationsList
-            otherUsers={otherUsers}
-            initialItems={[conversation]}
-          />
-          {children}
+          <div className="hidden lg:block">
+            <SideBar>
+              <div>
+                <ConversationsList
+                  otherUsers={otherUsers}
+                  initialItems={[conversation]}
+                />
+                {children}
+              </div>
+            </SideBar>
+          </div>
+          <div className="lg:pl-96 h-screen">
+            <div className="h-screen flex flex-col">
+              <Header conversation={conversation} />
+              <ChatBody initialMessages={message} />
+              <Form />
+            </div>
+          </div>
         </div>
-      </SideBar>
-      <div className="lg:pl-96 h-screen">
-        <div className="h-screen flex flex-col">
-          <Header conversation={conversation} />
-          <ChatBody initialMessages={message} />
-          <Form />
-        </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

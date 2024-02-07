@@ -7,6 +7,7 @@ import ConversationBox from "./ConversationBox";
 import { FullConversationType } from "../../../utils/Types";
 import useFetchConversation from "../../../utils/hooks/useFetchConversation";
 import GroupChatModal from "../../GroupChat/GroupChatModal";
+import LoadingModal from "../../Loading/LoadingModal";
 
 interface User {
   id: string;
@@ -31,13 +32,16 @@ const ConversationsList: FC<ConversationsListProps> = ({
 }) => {
   const [items, setItems] = useState(initialItems);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const { conversationId, isOpen } = useConversation();
   const conversations = useFetchConversation();
 
   useEffect(() => {
-    setItems(conversations);
+    if (conversations) {
+      setItems(conversations);
+      setIsLoading(false);
+    }
   }, [conversations]);
-
   return (
     <>
       <GroupChatModal
@@ -82,13 +86,17 @@ const ConversationsList: FC<ConversationsListProps> = ({
             </div>
           </div>
 
-          {items.map((item) => (
-            <ConversationBox
-              key={item.id}
-              data={item}
-              selected={conversationId === item.id}
-            />
-          ))}
+          {isLoading ? (
+            <LoadingModal />
+          ) : (
+            items.map((item) => (
+              <ConversationBox
+                key={item.id}
+                data={item}
+                selected={conversationId === item.id}
+              />
+            ))
+          )}
         </div>
       </aside>
     </>
