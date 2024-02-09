@@ -45,10 +45,9 @@ const ConversationId = ({ children }: { children?: React.ReactNode }) => {
     users: [],
   });
   const [message, setMessage] = useState<any[]>([]);
-  const currentUserData = useFetchCurrentUser();
+  const currentUserData = useFetchCurrentUser() as User | null;
+  const userEmail = currentUserData?.email; 
   const [otherUsers, setOtherUsers] = useState<User[]>([]);
-  const { user } = currentUserData ? currentUserData : { user: { email: "" } };
-  const userEmail = user.email;
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {

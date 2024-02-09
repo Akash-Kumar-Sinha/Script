@@ -23,6 +23,7 @@ interface UserBoxProps {
 const UserBox: FC<UserBoxProps> = ({ data }) => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  // console.log(data)
   const handleClick = useCallback(async () => {
     setIsLoading(true);
     try {

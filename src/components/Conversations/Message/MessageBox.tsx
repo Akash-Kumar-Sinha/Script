@@ -11,12 +11,23 @@ interface MessageBoxProps {
   isLast?: boolean;
 }
 
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  emailVerified: boolean;
+  image: string;
+  createdAt: string;
+  updatedAt: string;
+  conversationIds: [];
+  seenMessageIds: [];
+}
+
 const MessageBox: FC<MessageBoxProps> = ({ data, isLast }) => {
   const [imageModalOpen, setImageModalOpen] = useState(false);
-  const currentUserData = useFetchCurrentUser();
-  const { user } = currentUserData || { user: { email: "" } };
+  const currentUserData = useFetchCurrentUser() as User | null;
 
-  const isOwn = user.email === data?.sender?.email;
+  const isOwn = currentUserData?.email === data?.sender?.email;
   
   const seenList = (data.seen || [])
     .filter((user) => user.email !== data?.sender?.email)

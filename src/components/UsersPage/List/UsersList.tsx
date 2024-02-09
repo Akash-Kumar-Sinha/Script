@@ -23,10 +23,9 @@ interface UsersListProps {
 }
 
 const UsersList: FC<UsersListProps> = ({ items = [] }) => {
-  const currentUserData = useFetchCurrentUser();
+  const currentUserData = useFetchCurrentUser() as User | null;
+  const userEmail = currentUserData?.email; 
   const [users, setUsers] = useState<User[]>([]);
-  const { user } = currentUserData || { user: { email: "" } };
-  const userEmail = user.email;
 
   const [isLoading, setIsLoading] = useState(true);
 

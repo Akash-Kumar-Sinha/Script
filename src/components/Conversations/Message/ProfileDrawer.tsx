@@ -56,9 +56,6 @@ const ProfileDrawer: FC<ProfileDrawerProps> = ({ isOpen, onClose, data }) => {
     return `Active`;
   }, [data]);
 
-  console.log("need to look at it")
-  // data.users.email((user):string => user.email.join(', '))
-
   return (
     <>
       <ConfirmModal

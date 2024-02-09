@@ -9,6 +9,18 @@ import { Button } from "../../../@/components/ui/button";
 import { HiPaperAirplane } from "react-icons/hi";
 import useFetchCurrentUser from "../../../utils/hooks/useFetchCurrentUser";
 
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  emailVerified: boolean;
+  image: string;
+  createdAt: string;
+  updatedAt: string;
+  conversationIds: [];
+  seenMessageIds: [];
+}
+
 declare global {
   interface Window {
     cloudinary: any;
@@ -17,10 +29,8 @@ declare global {
 
 const Form = () => {
   const { conversationId } = useConversation();
-  const currentUserData = useFetchCurrentUser();
-
-  const { user } = currentUserData ? currentUserData : { user: { email: "" } };
-  const userEmail = user.email;
+  const currentUserData = useFetchCurrentUser() as User | null;
+  const userEmail = currentUserData?.email; 
 
   const {
     register,

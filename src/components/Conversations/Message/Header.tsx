@@ -45,6 +45,8 @@ const Header: FC<HeaderProps> = ({ conversation }) => {
       : "Active";
   }, [conversation]);
 
+  // console.log(conversation)
+
   return (
     <>
       <ProfileDrawer

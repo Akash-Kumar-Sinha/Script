@@ -24,6 +24,7 @@ const DesktopSidebar = () => {
 
   const currentUser = useFetchCurrentUser() as unknown as User;
 
+  // console.log(currentUser)
   return (
     <>
       <SettignsModal

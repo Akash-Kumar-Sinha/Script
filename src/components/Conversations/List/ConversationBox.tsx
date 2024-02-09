@@ -15,11 +15,22 @@ interface ConversationBoxProps {
   selected?: boolean;
 }
 
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  emailVerified: boolean;
+  image: string;
+  createdAt: string;
+  updatedAt: string;
+  conversationIds: [];
+  seenMessageIds: [];
+}
+
 const ConversationBox: FC<ConversationBoxProps> = ({ data, selected }) => {
-  const currentUserData = useFetchCurrentUser();
+  const currentUserData = useFetchCurrentUser() as User | null;
   const otherUser = useOtherUsers(data);
   const navigate = useNavigate();
-
   const handleClick = useCallback(() => {
     navigate(`/conversations/${data.id}`);
   }, [navigate, data.id]);
@@ -29,10 +40,9 @@ const ConversationBox: FC<ConversationBoxProps> = ({ data, selected }) => {
     return messages[messages.length - 1];
   }, [data.messages]);
 
-  const { user } = currentUserData || { user: { email: "" } };
   const userEmail = useMemo(() => {
-    return user.email;
-  }, [user.email]);
+    return currentUserData?.email;
+  }, [currentUserData?.email]);
 
   const hasSeen = useMemo(() => {
     if (!lastMessage) {

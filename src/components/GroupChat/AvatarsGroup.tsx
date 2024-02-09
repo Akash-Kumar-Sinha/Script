@@ -38,7 +38,7 @@ const AvatarsGroup: FC<AvatarsGroupProps> = ({ users = [] }) => {
           ${positionMap[index as keyof typeof positionMap]}
         `}
         >
-          <img src={user?.image || "/images/placeholder.jpg"} alt="Avatar" />
+          <img src={user?.image || "placeholder.jpg"} alt="Avatar" />
         </div>
       ))}
     </div>

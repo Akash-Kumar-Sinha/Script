@@ -22,11 +22,9 @@ interface User {
 
 const ConversationsLayout = ({ children }: { children: React.ReactNode }) => {
   const conversation = useFetchConversation();
-  const currentUserData = useFetchCurrentUser();
-
+  const currentUserData = useFetchCurrentUser() as User | null;
   const [otherUsers, setOtherUsers] = useState<User[]>([]);
-  const { user } = currentUserData ? currentUserData : { user: { email: "" } };
-  const userEmail = user.email;
+  const userEmail = currentUserData?.email; 
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
@@ -45,6 +43,8 @@ const ConversationsLayout = ({ children }: { children: React.ReactNode }) => {
 
     fetchData();
   }, [userEmail]);
+  console.log("conversationsLayout", otherUsers)
+  console.log("conversationsLayout", conversation)
 
   return (
     <div className="flex">

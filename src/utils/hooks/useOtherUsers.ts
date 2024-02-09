@@ -37,11 +37,10 @@ interface User {
 const useOtherUsers = (
   conversation: FullConversationType | { user: User[] }
 ) => {
-  const currentUserData = useFetchCurrentUser();
+  const currentUserData = useFetchCurrentUser() as User | null;
 
   const otherUser = useMemo(() => {
-    const { user } = currentUserData || { user: { email: "" } };
-    const currentUserEmail = user.email;
+    const currentUserEmail = currentUserData?.email;
 
     if ("user" in conversation) {
       const otherUsers = (conversation as { user: User[] }).user.filter(

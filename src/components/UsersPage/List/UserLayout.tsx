@@ -8,12 +8,24 @@ import UsersList from "./UsersList";
 import ChatBar from "../../ChatBar/ChatBar";
 import LoadingModal from "../../Loading/LoadingModal";
 
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  emailVerified: boolean;
+  image: string;
+  createdAt: string;
+  updatedAt: string;
+  conversationIds: [];
+  seenMessageIds: [];
+}
+
+
 const UserLayout = ({ children }: { children?: ReactNode }) => {
   const routes = useRoutes();
-  const currentUserData = useFetchCurrentUser();
+  const currentUserData = useFetchCurrentUser() as User | null;
+  const userEmail = currentUserData?.email; 
   const [users, setUsers] = useState<[]>([]);
-  const { user } = currentUserData ? currentUserData : { user: { email: "" } };
-  const userEmail = user.email;
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {

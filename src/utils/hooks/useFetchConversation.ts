@@ -5,11 +5,22 @@ import useFetchCurrentUser from "./useFetchCurrentUser";
 import { FullConversationType } from "../Types";
 import useConversation from "./useConversation";
 
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  emailVerified: boolean;
+  image: string;
+  createdAt: string;
+  updatedAt: string;
+  conversationIds: [];
+  seenMessageIds: [];
+}
+
 const useFetchConversation = () => {
   const id = useConversation()
-  const currentUserData = useFetchCurrentUser();
-  const { user } = currentUserData || { user: { email: "" } };
-  const userEmail = user.email;
+  const currentUserData = useFetchCurrentUser() as User | null;
+  const userEmail = currentUserData?.email; 
   const [conversations, setConversations] = useState<FullConversationType[]>([]);
 
   useEffect(() => {
