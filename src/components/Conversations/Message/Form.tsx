@@ -9,6 +9,7 @@ import { Button } from "../../../@/components/ui/button";
 import { HiPaperAirplane } from "react-icons/hi";
 import useFetchCurrentUser from "../../../utils/hooks/useFetchCurrentUser";
 
+const PORT = process.env.REACT_APP_SERVER_PORT;
 interface User {
   id: string;
   name: string;
@@ -74,7 +75,7 @@ const Form = () => {
         if (result.info.secure_url) {
           try {
             await axios.post(
-              `http://localhost:8000/api/message?userEmail=${userEmail}`,
+              `http://localhost:${PORT}/api/message?userEmail=${userEmail}`,
               {
                 image: result.info.secure_url,
                 conversationId: conversationId,
@@ -103,7 +104,7 @@ const Form = () => {
 
     try {
       await axios.post(
-        `http://localhost:8000/api/message?userEmail=${userEmail}`,
+        `http://localhost:${PORT}/api/message?userEmail=${userEmail}`,
         { ...data, conversationId }
       );
     } catch (error: any) {

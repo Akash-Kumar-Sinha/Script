@@ -7,6 +7,8 @@ import useConversation from "../../../utils/hooks/useConversation";
 import MessageBox from "./MessageBox";
 import pusherClient from "../../../utils/Pusher/pusher";
 import { find } from "lodash";
+
+const PORT = process.env.REACT_APP_SERVER_PORT;
 interface ChatBodyProps {
   initialMessages: FullMessageType[];
 }
@@ -30,7 +32,7 @@ const ChatBody: FC<ChatBodyProps> = ({ initialMessages }) => {
         }
 
         await axios.post(
-          `http://localhost:8000/api/${conversationId}/seen`,
+          `http://localhost:${PORT}/api/${conversationId}/seen`,
           { conversationId },
           {
             headers: {
@@ -58,7 +60,7 @@ const ChatBody: FC<ChatBodyProps> = ({ initialMessages }) => {
         throw new Error("Token not found");
       }
       axios.post(
-        `http://localhost:8000/api/${conversationId}/seen`,
+        `http://localhost:${PORT}/api/${conversationId}/seen`,
         { conversationId },
         {
           headers: {

@@ -9,6 +9,8 @@ import Modal from "../../UsersPage/Users/Modal";
 import { Dialog } from "@headlessui/react";
 import ButtonForm from "../../AuthHome/AuthForm/ButtonForm";
 
+const PORT = process.env.REACT_APP_SERVER_PORT;
+
 interface ConfirmModalProps {
   isOpen?: boolean;
   onClose: () => void;
@@ -29,7 +31,7 @@ const ConfirmModal: FC<ConfirmModalProps> = ({ isOpen, onClose }) => {
         throw new Error("Token not found");
       }
       axios.delete(
-        `http://localhost:8000/api/conversationDelete/${conversationId}`,
+        `http://localhost:${PORT}/api/conversationDelete/${conversationId}`,
         {
           headers: {
             Authorization: token,

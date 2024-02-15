@@ -11,6 +11,8 @@ import useFetchCurrentUser from "../../../utils/hooks/useFetchCurrentUser";
 import LoadingModal from "../../Loading/LoadingModal";
 import useFetchConversation from "../../../utils/hooks/useFetchConversation";
 
+const PORT = process.env.REACT_APP_SERVER_PORT
+
 interface User {
   id: string;
   name: string;
@@ -60,7 +62,7 @@ const ConversationId = ({ children }: { children?: React.ReactNode }) => {
         if (!token) throw new Error("Token not found");
 
         const conversationResponse = await axios.get(
-          `http://localhost:8000/api/getconversationsbyid/${id}`,
+          `http://localhost:${PORT}/api/getconversationsbyid/${id}`,
           {
             headers: {
               Authorization: token,
@@ -69,7 +71,7 @@ const ConversationId = ({ children }: { children?: React.ReactNode }) => {
         );
         setConversation(conversationResponse.data);
         const messageResponse = await axios.get(
-          `http://localhost:8000/api/getmessage/${id}`,
+          `http://localhost:${PORT}/api/getmessage/${id}`,
           {
             headers: {
               Authorization: token,
@@ -78,7 +80,7 @@ const ConversationId = ({ children }: { children?: React.ReactNode }) => {
         );
         setMessage(messageResponse.data);
         const response = await axios.get(
-          `http://localhost:8000/api/getUsers?userEmail=${userEmail}`
+          `http://localhost:${PORT}/api/getUsers?userEmail=${userEmail}`
         );
         setOtherUsers(response.data.users);
       } catch (error) {
