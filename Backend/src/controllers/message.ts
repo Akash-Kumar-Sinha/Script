@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import prisma from "../db/prismadb";
+import { pusherServer } from "../middlewares/pusher";
 
 const Messages = async (req: Request, res: Response) => {
   console.log("Message");
@@ -64,6 +65,17 @@ const Messages = async (req: Request, res: Response) => {
         },
       },
     });
+
+    await pusherServer.trigger(conversationId, 'messages:new', newMessage)
+
+    const lastMessage =   updatedConversation.messages[updatedConversation.messages.length -1]
+
+    updatedConversation.users.map((user)=>{
+      pusherServer.trigger(user.email!, 'conversation:update',{
+        id: conversationId,
+        message: [lastMessage]
+      })
+    })
 
     return res.json(newMessage);
   } catch (error: any) {

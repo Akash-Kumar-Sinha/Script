@@ -11,6 +11,8 @@ import AuthSocialButton from "./AuthSocialButton";
 
 type Variant = "LOGIN" | "REGISTER";
 
+const PORT = process.env.REACT_APP_SERVER_PORT
+
 const AuthForm = () => {
   const [variant, setVariant] = useState<Variant>("LOGIN");
   const [isLoading, setIsLoading] = useState(false);
@@ -40,7 +42,7 @@ const AuthForm = () => {
     if (variant === "REGISTER") {
       try {
         await axios
-          .post("http://localhost:8000/api/register", data)
+          .post(`http://localhost:${PORT}/api/register`, data)
           .then(() => {
             toast.success("Registration successful");
             navigate("/users");
@@ -55,7 +57,7 @@ const AuthForm = () => {
     if (variant === "LOGIN") {
       try {
         await axios
-          .post("http://localhost:8000/api/login", data)
+          .post(`http://localhost:${PORT}/api/login`, data)
           .then((user) => {
             localStorage.setItem("token", user.data.token);
             toast.success("Login successful");
@@ -80,7 +82,7 @@ const AuthForm = () => {
     try {
       if (action === "google") {
         const response = (window.location.href =
-          "http://localhost:8000/api/google");
+          `http://localhost:${PORT}/api/google`);
 
         console.log("Google authentication response:", response);
       }

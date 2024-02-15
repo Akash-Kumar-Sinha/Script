@@ -9,6 +9,7 @@ import SideBar from "../../SideBar/SideBar";
 import ConversationsList from "../List/ConversationsList";
 import useFetchCurrentUser from "../../../utils/hooks/useFetchCurrentUser";
 import LoadingModal from "../../Loading/LoadingModal";
+import useFetchConversation from "../../../utils/hooks/useFetchConversation";
 
 interface User {
   id: string;
@@ -31,6 +32,7 @@ interface Conversation {
   messages: any[];
 }
 
+
 const ConversationId = ({ children }: { children?: React.ReactNode }) => {
   const { id } = useParams<{ id: string }>();
   const [conversation, setConversation] = useState<
@@ -50,7 +52,7 @@ const ConversationId = ({ children }: { children?: React.ReactNode }) => {
   const [otherUsers, setOtherUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
+   useEffect(() => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
@@ -88,6 +90,9 @@ const ConversationId = ({ children }: { children?: React.ReactNode }) => {
     fetchData();
   }, [id, userEmail]);
 
+    // console.log("conversationId 3", otherUsers)
+    // console.log("conversationId 4", conversations)
+
   return (
     <>
       {isLoading ? (
@@ -99,8 +104,8 @@ const ConversationId = ({ children }: { children?: React.ReactNode }) => {
               <div>
                 <ConversationsList
                   otherUsers={otherUsers}
-                  initialItems={[conversation]}
-                />
+                  initialItems={[conversation]} 
+               />
                 {children}
               </div>
             </SideBar>

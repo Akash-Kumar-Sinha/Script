@@ -9,6 +9,7 @@ import InputForm from "../AuthHome/AuthForm/InputForm";
 import SelectMembers from "./SelectMembers";
 import ButtonForm from "../AuthHome/AuthForm/ButtonForm";
 
+const PORT = process.env.REACT_APP_SERVER_PORT
 interface User {
   id: string;
   name: string;
@@ -62,7 +63,7 @@ const GroupChatModal: FC<GroupChatModalProps> = ({
 
     axios
       .post(
-        "http://localhost:8000/api/conversations",
+        `http://localhost:${PORT}/api/conversations`,
         {
           ...data,
           isGroup: true,

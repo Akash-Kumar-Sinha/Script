@@ -12,6 +12,7 @@ import Modal from "./Modal";
 import InputForm from "../../AuthHome/AuthForm/InputForm";
 import ButtonForm from "../../AuthHome/AuthForm/ButtonForm";
 
+const PORT = process.env.REACT_APP_SERVER_PORT
 interface User {
   id: string;
   name: string;
@@ -98,7 +99,7 @@ const SettignsModal: FC<SettignsModalProps> = ({
       throw new Error("Token not found");
     }
     axios
-      .post(`http://localhost:8000/api/setting`, data, {
+      .post(`http://localhost:${PORT}/api/setting`, data, {
         headers: {
           Authorization: token,
         },

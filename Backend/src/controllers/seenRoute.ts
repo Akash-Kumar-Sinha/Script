@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import prisma from "../db/prismadb";
+import { pusherServer } from "../middlewares/pusher";
 
 interface User {
   id: string;
@@ -63,6 +64,18 @@ const seenRoute = async (req: Request, res: Response) => {
         },
       },
     });
+
+    await pusherServer.trigger(currentUser.email, "conversation:update", {
+      id: conversationId,
+      messages: [updateMessage],
+    });
+
+    if (lastMessage.seenIds.indexOf(currentUser.id) !== -1) {
+      return res.json(conversation);
+    }
+
+    await pusherServer.trigger(conversationId!, 'meessage:update', updateMessage)
+
     return res.json(updateMessage);
   } catch (error) {
     console.log("seenRoute Error", error);

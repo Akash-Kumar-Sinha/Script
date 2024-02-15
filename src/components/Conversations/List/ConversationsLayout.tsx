@@ -8,6 +8,7 @@ import useFetchConversation from "../../../utils/hooks/useFetchConversation";
 import useFetchCurrentUser from "../../../utils/hooks/useFetchCurrentUser";
 import LoadingModal from "../../Loading/LoadingModal";
 
+const PORT = process.env.REACT_APP_SERVER_PORT
 interface User {
   id: string;
   name: string;
@@ -31,7 +32,7 @@ const ConversationsLayout = ({ children }: { children: React.ReactNode }) => {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          `http://localhost:8000/api/getUsers?userEmail=${userEmail}`
+          `http://localhost:${PORT}/api/getUsers?userEmail=${userEmail}`
         );
         setOtherUsers(response.data.users);
       } catch (error) {
@@ -43,8 +44,8 @@ const ConversationsLayout = ({ children }: { children: React.ReactNode }) => {
 
     fetchData();
   }, [userEmail]);
-  console.log("conversationsLayout", otherUsers)
-  console.log("conversationsLayout", conversation)
+  // console.log("conversationsLayout 3", otherUsers)
+  // console.log("conversationsLayout 4", conversation)
 
   return (
     <div className="flex">

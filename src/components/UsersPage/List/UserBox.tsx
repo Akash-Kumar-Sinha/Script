@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Avatars from "../Users/Avatar";
 import LoadingModal from "../../Loading/LoadingModal";
 
+const PORT = process.env.REACT_APP_SERVER_PORT
 interface User {
   id: string;
   name: string;
@@ -32,7 +33,7 @@ const UserBox: FC<UserBoxProps> = ({ data }) => {
         throw new Error("Token not found");
       }
       const response = await axios.post(
-        "http://localhost:8000/api/conversations",
+        `http://localhost:${PORT}/api/conversations`,
         { userId: data.id },
         {
           headers: {

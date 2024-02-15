@@ -3,6 +3,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
+const PORT = process.env.REACT_APP_SERVER_PORT
+
 const useFetchCurrentUser = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const navigate = useNavigate();
@@ -17,7 +19,7 @@ const useFetchCurrentUser = () => {
         }
 
         const response = await axios.get(
-          "http://localhost:8000/api/currentuser",
+          `http://localhost:${PORT}/api/currentuser`,
           {
             headers: {
               Authorization: token,

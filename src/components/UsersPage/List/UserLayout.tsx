@@ -8,6 +8,8 @@ import UsersList from "./UsersList";
 import ChatBar from "../../ChatBar/ChatBar";
 import LoadingModal from "../../Loading/LoadingModal";
 
+const PORT = process.env.REACT_APP_SERVER_PORT
+
 interface User {
   id: string;
   name: string;
@@ -32,7 +34,7 @@ const UserLayout = ({ children }: { children?: ReactNode }) => {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          `http://localhost:8000/api/getUsers?userEmail=${userEmail}`
+          `http://localhost:${PORT}/api/getUsers?userEmail=${userEmail}`
         );
         setUsers(response.data);
       } catch (error) {

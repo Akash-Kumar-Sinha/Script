@@ -5,6 +5,7 @@ import useFetchCurrentUser from "./useFetchCurrentUser";
 import { FullConversationType } from "../Types";
 import useConversation from "./useConversation";
 
+const PORT = process.env.REACT_APP_SERVER_PORT
 interface User {
   id: string;
   name: string;
@@ -33,7 +34,7 @@ const useFetchConversation = () => {
         }
 
         const response = await axios.get(
-          "http://localhost:8000/api/getconversation",
+          `http://localhost:${PORT}/api/getconversation`,
           {
             headers: {
               Authorization: token,

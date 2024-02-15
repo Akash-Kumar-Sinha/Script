@@ -6,6 +6,8 @@ import useFetchCurrentUser from "../../../utils/hooks/useFetchCurrentUser";
 import { Input } from "../../../@/components/ui/input";
 import LoadingModal from "../../Loading/LoadingModal";
 
+const PORT = process.env.REACT_APP_SERVER_PORT
+
 interface User {
   id: string;
   name: string;
@@ -34,7 +36,7 @@ const UsersList: FC<UsersListProps> = ({ items = [] }) => {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          `http://localhost:8000/api/getUsers?userEmail=${userEmail}`
+          `http://localhost:${PORT}/api/getUsers?userEmail=${userEmail}`
         );
         setUsers(response.data.users);
       } catch (error) {
