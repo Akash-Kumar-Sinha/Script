@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import prisma from "../db/prismadb";
+import { pusherServer } from "../middlewares/pusher";
 
 interface User {
   id: string;
@@ -52,7 +53,11 @@ const conversations = async (req: Request, res: Response) => {
           users: true,
         },
       });
-      // console.log("newConversation", newConversation)
+      newConversation.users.forEach((user)=>{
+        if(user.email){
+          pusherServer.trigger(user.email, 'conversation:new', newConversation)
+        }
+      })
 
       return res.status(200).json(newConversation);
     }
@@ -98,7 +103,13 @@ const conversations = async (req: Request, res: Response) => {
         users: true,
       },
     });
-    // console.log("newConversation", newConversation)
+
+    newConversation.users.forEach((user)=>{
+      if(user.email){
+        pusherServer.trigger(user.email, 'conversation:new', newConversation)
+      }
+    })
+    
     return res.json(newConversation);
   } catch (error) {
     console.log("conversation.ts: ", error);

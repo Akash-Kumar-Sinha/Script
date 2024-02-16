@@ -6,6 +6,7 @@ import {
   AvatarImage,
 } from "../../../@/components/ui/avatar";
 import useFetchCurrentUser from "../../../utils/hooks/useFetchCurrentUser";
+import useActiveList from "../../../utils/hooks/useActiveList";
 
 interface User {
   id: string;
@@ -13,13 +14,15 @@ interface User {
   email: string | null;
   image: string | null;
 }
-
 interface AvatarsProps {
   user?: User; 
 }
 
 const Avatars: FC<AvatarsProps> = ({ user }) => {
   const currentUserData = useFetchCurrentUser() as unknown as User
+  const {members} = useActiveList()
+
+  const isActive = members.indexOf(user?.email!) !== -1
 
   return (
     <div className="relative">
@@ -27,7 +30,7 @@ const Avatars: FC<AvatarsProps> = ({ user }) => {
         <AvatarImage src={user?.image ? user?.image: "placeholder.jpg"} />
         <AvatarFallback>PF</AvatarFallback>
       </Avatar>
-      {/* {isActive ? (  */}
+      {isActive ? ( 
       <span
         className="
             absolute
@@ -44,7 +47,7 @@ const Avatars: FC<AvatarsProps> = ({ user }) => {
             md:w-3
           "
       />
-      {/* ) : null} */}
+      ) : null}
     </div>
   );
 };

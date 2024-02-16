@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import prisma from "../db/prismadb";
+import { pusherServer } from "../middlewares/pusher";
 
 interface User {
   id: string;
@@ -45,7 +46,14 @@ const conversationDelete = async(req: Request, res: Response) => {
             }
         }
     })
-    
+
+    existingConversation?.users.forEach((user)=>{
+      if(user.email){
+        pusherServer.trigger(user.email, 'conversation:remove', existingConversation)
+      }
+    })
+
+    res.json(deltedConversation);
   } catch (error) {
     console.log("conversationDelete: ", error);
     res.status(500).json("Internal Server error");

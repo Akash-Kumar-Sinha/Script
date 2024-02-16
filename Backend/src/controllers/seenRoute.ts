@@ -48,13 +48,13 @@ const seenRoute = async (req: Request, res: Response) => {
       return res.json(conversation);
     }
 
-    const updateMessage = await prisma.message.update({
+    const updatedMessage = await prisma.message.update({
       where: {
         id: lastMessage.id,
       },
       include: {
         sender: true,
-        seen: true,
+        seen: true, 
       },
       data: {
         seen: {
@@ -65,18 +65,18 @@ const seenRoute = async (req: Request, res: Response) => {
       },
     });
 
-    await pusherServer.trigger(currentUser.email, "conversation:update", {
+    await pusherServer.trigger(currentUser.email, 'conversation:update', {
       id: conversationId,
-      messages: [updateMessage],
+      messages: [updatedMessage],
     });
 
     if (lastMessage.seenIds.indexOf(currentUser.id) !== -1) {
       return res.json(conversation);
     }
 
-    await pusherServer.trigger(conversationId!, 'meessage:update', updateMessage)
+    await pusherServer.trigger(conversationId!, 'message:update', updatedMessage);
 
-    return res.json(updateMessage);
+    return res.json(updatedMessage);
   } catch (error) {
     console.log("seenRoute Error", error);
     res.status(500).json("Internal Server Error");
