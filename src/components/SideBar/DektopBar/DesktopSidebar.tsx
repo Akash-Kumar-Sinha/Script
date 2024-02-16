@@ -24,7 +24,6 @@ const DesktopSidebar = () => {
 
   const currentUser = useFetchCurrentUser() as unknown as User;
 
-  // console.log(currentUser)
   return (
     <>
       <SettignsModal
@@ -52,7 +51,7 @@ const DesktopSidebar = () => {
     "
         >
           <nav className="mt-4 flex flex-col justify-between">
-            <ul role="list" className="flex flex-col items-center space-y-1">
+            <ul className="flex flex-col items-center space-y-1">
               {routes.map((item) => (
                 <DesktopItem
                   key={item.label}

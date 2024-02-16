@@ -3,25 +3,6 @@ import { useMemo } from "react";
 import useFetchCurrentUser from "./useFetchCurrentUser";
 import { FullConversationType } from "../Types";
 
-interface Message {
-  id: string;
-  body: string;
-  image: string;
-  createdAt: string;
-  seenIds: string[];
-  conversationId: string[];
-  senderId: string;
-}
-
-interface Conversations {
-  id: string;
-  createdAt: string;
-  lastMessageAt: string;
-  name: string;
-  isGroup: boolean;
-  messages: Message[];
-}
-
 interface User {
   id: string;
   name: string;

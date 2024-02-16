@@ -2,7 +2,6 @@ import { ReactNode, useEffect, useState } from "react";
 import axios from "axios";
 
 import SideBar from "../../SideBar/SideBar";
-import useRoutes from "../../../utils/hooks/useRoutes";
 import useFetchCurrentUser from "../../../utils/hooks/useFetchCurrentUser";
 import UsersList from "./UsersList";
 import ChatBar from "../../ChatBar/ChatBar";
@@ -24,7 +23,6 @@ interface User {
 
 
 const UserLayout = ({ children }: { children?: ReactNode }) => {
-  const routes = useRoutes();
   const currentUserData = useFetchCurrentUser() as User | null;
   const userEmail = currentUserData?.email; 
   const [users, setUsers] = useState<[]>([]);

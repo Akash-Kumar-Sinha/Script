@@ -9,9 +9,8 @@ import SideBar from "../../SideBar/SideBar";
 import ConversationsList from "../List/ConversationsList";
 import useFetchCurrentUser from "../../../utils/hooks/useFetchCurrentUser";
 import LoadingModal from "../../Loading/LoadingModal";
-import useFetchConversation from "../../../utils/hooks/useFetchConversation";
 
-const PORT = process.env.REACT_APP_SERVER_PORT
+const PORT = process.env.REACT_APP_SERVER_PORT;
 
 interface User {
   id: string;
@@ -34,7 +33,6 @@ interface Conversation {
   messages: any[];
 }
 
-
 const ConversationId = ({ children }: { children?: React.ReactNode }) => {
   const { id } = useParams<{ id: string }>();
   const [conversation, setConversation] = useState<
@@ -50,11 +48,14 @@ const ConversationId = ({ children }: { children?: React.ReactNode }) => {
   });
   const [message, setMessage] = useState<any[]>([]);
   const currentUserData = useFetchCurrentUser() as User | null;
-  const userEmail = currentUserData?.email; 
+  const userEmail = currentUserData?.email;
   const [otherUsers, setOtherUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  if (!id) {
+    console.log("aofhsajk");
+  }
 
-   useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
@@ -92,9 +93,6 @@ const ConversationId = ({ children }: { children?: React.ReactNode }) => {
     fetchData();
   }, [id, userEmail]);
 
-    // console.log("conversationId 3", otherUsers)
-    // console.log("conversationId 4", conversations)
-
   return (
     <>
       {isLoading ? (
@@ -106,8 +104,8 @@ const ConversationId = ({ children }: { children?: React.ReactNode }) => {
               <div>
                 <ConversationsList
                   otherUsers={otherUsers}
-                  initialItems={[conversation]} 
-               />
+                  initialItems={[conversation]}
+                />
                 {children}
               </div>
             </SideBar>

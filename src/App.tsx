@@ -7,14 +7,12 @@ import { AuthProvider } from "./utils/ProtectAuth";
 import UserLayout from "./components/UsersPage/List/UserLayout";
 import ConversationsHome from "./components/Conversations/ConversationsHome";
 import ConversationId from "./components/Conversations/Message/ConversationId";
-import ActiveStatus from "./components/UsersPage/Users/ActiveStatus";
 
 const App = () => {
   
   return (
     <AuthProvider>
       <HotToast />
-      {/* <ActiveStatus/> */}
       <Routes>
         <Route path="/" element={<AuthHome />}/>
         <Route path="/users" element={<UserLayout />}/>
