@@ -14,13 +14,12 @@ interface User {
 }
 
 const getMessage = async (req: Request, res: Response) => {
-  console.log("getMessage");
 
   try {
     const currentUser = req.user as User;
 
     if (!currentUser.email) {
-      console.log("user not exist");
+      console.log("user not found");
       return res.json([]);
     }
 

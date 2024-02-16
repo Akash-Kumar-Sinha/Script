@@ -42,12 +42,15 @@ const ProfileDrawer: FC<ProfileDrawerProps> = ({ isOpen, onClose, data }) => {
   const [confirmOpen, setConfirmOpen] = useState(false);
 
   const joinedDate = useMemo(() => {
-    return format(new Date(otherUser.createdAt), "pp");
-  }, [otherUser.createdAt]);
+    if (otherUser) {
+      return format(new Date(otherUser.createdAt), "pp");
+    }
+    return "";
+  }, [otherUser]);
 
   const title = useMemo(() => {
-    return data.name || otherUser.name;
-  }, [data.name, otherUser.name]);
+    return data.name || (otherUser ? otherUser.name : "");
+  }, [data.name, otherUser]);
 
   const statusText = useMemo(() => {
     if (data.isGroup) {
@@ -161,20 +164,20 @@ const ProfileDrawer: FC<ProfileDrawerProps> = ({ isOpen, onClose, data }) => {
                                   </dd>
                                 </div>
                               )}
-                              {data.isGroup &&(
+                              {data.isGroup && (
                                 <div>
-                                <dt
-                                  className="
+                                  <dt
+                                    className="
                                 text-sm 
                                 font-medium 
                                 text-gray-500 
                                 sm:w-40 
                                 sm:flex-shrink-0
                               "
-                                >
-                                  Emails
-                                </dt>
-                                <dd
+                                  >
+                                    Emails
+                                  </dt>
+                                  <dd
                                     className="
                                   mt-1 
                                   text-sm 
@@ -207,11 +210,11 @@ const ProfileDrawer: FC<ProfileDrawerProps> = ({ isOpen, onClose, data }) => {
                                   sm:col-span-2
                                 "
                                   >
-                                    {otherUser.email}
+                                    {otherUser ? otherUser.email : ""}
                                   </dd>
                                 </div>
                               )}
-                              {!data.isGroup && (
+                              {!data.isGroup && otherUser && (
                                 <>
                                   <hr />
                                   <div>

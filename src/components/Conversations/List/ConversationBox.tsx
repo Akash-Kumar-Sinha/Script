@@ -3,12 +3,14 @@ import { useCallback, useMemo } from "react";
 import { format } from "date-fns";
 import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
+import { useAtom } from "jotai";
 
 import useFetchCurrentUser from "../../../utils/hooks/useFetchCurrentUser";
 import useOtherUsers from "../../../utils/hooks/useOtherUsers";
 import { FullConversationType } from "../../../utils/Types";
 import Avatars from "../../UsersPage/Users/Avatar";
 import AvatarsGroup from "../../GroupChat/AvatarsGroup";
+import { paramsAtom } from "../../../utils/lib/atom";
 
 interface ConversationBoxProps {
   data: FullConversationType;
@@ -31,7 +33,11 @@ const ConversationBox: FC<ConversationBoxProps> = ({ data, selected }) => {
   const currentUserData = useFetchCurrentUser() as User | null;
   const otherUser = useOtherUsers(data);
   const navigate = useNavigate();
+
+  const [globalParams, setParamsAtom] = useAtom(paramsAtom);
+
   const handleClick = useCallback(() => {
+    setParamsAtom(data.id);
     navigate(`/conversations/${data.id}`);
   }, [navigate, data.id]);
 

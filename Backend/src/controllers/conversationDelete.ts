@@ -15,7 +15,6 @@ interface User {
 }
 
 const conversationDelete = async(req: Request, res: Response) => {
-  console.log("conversationDelete");
   try {
     const { conversationId } = req.params;
     const currentUser = req.user as User;

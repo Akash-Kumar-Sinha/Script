@@ -15,7 +15,6 @@ interface User {
 }
 
 const conversations = async (req: Request, res: Response) => {
-  console.log("conversations");
   try {
     const currentUser = req.user as User;
 
@@ -82,7 +81,6 @@ const conversations = async (req: Request, res: Response) => {
     const singleConversations = existingConversations[0];
 
     if (singleConversations) {
-      // console.log("singleConversations", singleConversations)
       return res.json(singleConversations);
     }
 

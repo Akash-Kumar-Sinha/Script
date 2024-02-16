@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { useAtom } from "jotai";
 
 import SideBar from "../../SideBar/SideBar";
 import ChatBar from "../../ChatBar/ChatBar";
@@ -7,8 +9,11 @@ import ConversationsList from "./ConversationsList";
 import useFetchConversation from "../../../utils/hooks/useFetchConversation";
 import useFetchCurrentUser from "../../../utils/hooks/useFetchCurrentUser";
 import LoadingModal from "../../Loading/LoadingModal";
+import { paramsAtom } from "../../../utils/lib/atom";
+import ConversationId from "../Message/ConversationId";
 
-const PORT = process.env.REACT_APP_SERVER_PORT
+const PORT = process.env.REACT_APP_SERVER_PORT;
+
 interface User {
   id: string;
   name: string;
@@ -23,10 +28,25 @@ interface User {
 
 const ConversationsLayout = ({ children }: { children: React.ReactNode }) => {
   const conversation = useFetchConversation();
+  const navigate = useNavigate();
+  const params = useParams<{ id?: string }>();
   const currentUserData = useFetchCurrentUser() as User | null;
   const [otherUsers, setOtherUsers] = useState<User[]>([]);
-  const userEmail = currentUserData?.email; 
+  const userEmail = currentUserData?.email;
   const [isLoading, setIsLoading] = useState(true);
+  const [globalParams, setParamsAtom] = useAtom(paramsAtom);
+  const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+
+  useEffect(() => {
+    if (!globalParams && params.id) {
+      setParamsAtom(params.id);
+    }
+    if (!globalParams && !params.id) {
+      setParamsAtom("");
+      navigate("/conversations");
+    }
+  }, [globalParams, params.id, setParamsAtom, navigate]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -44,28 +64,50 @@ const ConversationsLayout = ({ children }: { children: React.ReactNode }) => {
 
     fetchData();
   }, [userEmail]);
-  // console.log("conversationsLayout 3", otherUsers)
-  // console.log("conversationsLayout 4", conversation)
+
+  // Function to handle sidebar visibility on screen resize
+  const handleResize = () => {
+    if (window.innerWidth < 1024 && globalParams) {
+      setIsSidebarVisible(false);
+    } else {
+      setIsSidebarVisible(true);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [globalParams]);
+
+  useEffect(() => {
+    handleResize();
+  }, [globalParams]);
 
   return (
-    <div className="flex">
-      <SideBar>
-        {isLoading ? (
-          <LoadingModal />
-        ) : (
-          <div>
-            <ConversationsList
-              otherUsers={otherUsers}
-              initialItems={conversation}
-            />
-            {children}
-          </div>
-        )}
-      </SideBar>
-      <div className="hidden lg:block lg:pl-80 h-screen w-full">
-        <ChatBar />
-      </div>
-    </div>
+    <>
+      {isSidebarVisible && (
+        <SideBar>
+          {isLoading ? (
+            <LoadingModal />
+          ) : (
+            <div>
+              <ConversationsList
+                otherUsers={otherUsers}
+                initialItems={conversation}
+              />
+              {children}
+            </div>
+          )}
+        </SideBar>
+      )}
+      {globalParams ? (
+        <ConversationId />
+      ) : (
+        <div className="hidden lg:block lg:pl-80 h-screen w-full">
+          <ChatBar />
+        </div>
+      )}
+    </>
   );
 };
 

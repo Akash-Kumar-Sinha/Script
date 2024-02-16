@@ -1,9 +1,7 @@
-// login.ts
 import { Request, Response } from "express";
 import prisma from "../../db/prismadb";
 
 const getUsers = async (req: Request, res: Response) => {
-  console.log("getUsers");
   try {
     const userEmail = req.query.userEmail as string;
 
@@ -18,8 +16,6 @@ const getUsers = async (req: Request, res: Response) => {
           createdAt: "desc",
         },
       });
-
-      // console.log("getUsers", users);
 
       res.status(200).json({ message: "Fetch Users successful", users });
     }

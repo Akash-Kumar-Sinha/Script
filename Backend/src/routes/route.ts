@@ -15,7 +15,6 @@ import Messages from "../controllers/message";
 import seenRoute from "../controllers/seenRoute";
 import conversationDelete from "../controllers/conversationDelete";
 import setting from "../controllers/setting";
-import Handler from "../controllers/pusherAuth";
 
 import "../middlewares/passport_google";
 import "../middlewares/passport_jwt";
@@ -95,11 +94,5 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   setting
 );
-
-// router.post(
-//   "/pusher/auth",
-//   passport.authenticate("jwt", { session: false }),
-//   Handler
-// );
 
 module.exports = router;

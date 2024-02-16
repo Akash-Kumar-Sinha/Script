@@ -15,7 +15,6 @@ interface User {
 }
 
 const setting = async (req: Request, res: Response) => {
-  console.log("setting");
   try {
     const currentUser = req.user as User;
 

@@ -15,7 +15,6 @@ interface User {
 }
 
 const seenRoute = async (req: Request, res: Response) => {
-  console.log("seenRoute");
   try {
     const currentUser = req.user as User;
     const { conversationId } = req.body;

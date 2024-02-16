@@ -14,8 +14,6 @@ interface User {
 }
 
 const getConversationById = async (req: Request, res: Response) => {
-  console.log("getConversationById");
-
   try {
     const currentUser = req.user as User;
 
@@ -23,17 +21,18 @@ const getConversationById = async (req: Request, res: Response) => {
       return res.json([]);
     }
     const { conversationId } = req.params;
+    if (conversationId) {
+      const conversation = await prisma.conversation.findUnique({
+        where: {
+          id: conversationId as string,
+        },
+        include: {
+          users: true,
+        },
+      });
 
-    const conversation = await prisma.conversation.findUnique({
-      where: {
-        id: conversationId as string,
-      },
-      include: {
-        users: true,
-      },
-    });
-
-    return res.json(conversation);
+      return res.json(conversation);
+    }
   } catch (error) {
     console.log("getConversationById", error);
     res.status(500).json({ error: "Internal Server Error" });

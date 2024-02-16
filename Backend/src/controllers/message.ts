@@ -3,7 +3,6 @@ import prisma from "../db/prismadb";
 import { pusherServer } from "../middlewares/pusher";
 
 const Messages = async (req: Request, res: Response) => {
-  console.log("Message");
   try {
     const userEmail = req.query.userEmail as string;
     const currentUser = await prisma.user.findUnique({

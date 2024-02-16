@@ -8,7 +8,6 @@ const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 
 const login = async (req: Request, res: Response) => {
   try {
-    console.log("login");
     const { email, password } = req.body;
 
     if (!email || !password) {

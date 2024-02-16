@@ -8,6 +8,8 @@ import toast from "react-hot-toast";
 import InputForm from "./InputForm";
 import ButtonForm from "./ButtonForm";
 import AuthSocialButton from "./AuthSocialButton";
+import { useAtom } from "jotai";
+import { paramsAtom } from "../../../utils/lib/atom";
 
 type Variant = "LOGIN" | "REGISTER";
 
@@ -16,6 +18,8 @@ const PORT = process.env.REACT_APP_SERVER_PORT
 const AuthForm = () => {
   const [variant, setVariant] = useState<Variant>("LOGIN");
   const [isLoading, setIsLoading] = useState(false);
+  const [globalParams, setParamsAtom] = useAtom(paramsAtom);
+
   const toggleVariant = useCallback(() => {
     if (variant === "LOGIN") {
       setVariant("REGISTER");
@@ -61,7 +65,9 @@ const AuthForm = () => {
           .then((user) => {
             localStorage.setItem("token", user.data.token);
             toast.success("Login successful");
+            setParamsAtom('')
             navigate("/conversations");
+            
           })
           .catch((error) => {
             toast.error("authForm: Login went wrong!");

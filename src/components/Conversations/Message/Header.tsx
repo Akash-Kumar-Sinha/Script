@@ -2,11 +2,13 @@ import React, { FC, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { HiChevronLeft } from "react-icons/hi";
 import { HiEllipsisHorizontal } from "react-icons/hi2";
+import { useAtom } from "jotai";
 
 import useOtherUsers from "../../../utils/hooks/useOtherUsers";
 import Avatars from "../../UsersPage/Users/Avatar";
 import ProfileDrawer from "./ProfileDrawer";
 import AvatarsGroup from "../../GroupChat/AvatarsGroup";
+import { paramsAtom } from "../../../utils/lib/atom";
 
 interface User {
   id: string;
@@ -38,14 +40,13 @@ interface HeaderProps {
 const Header: FC<HeaderProps> = ({ conversation }) => {
   const otherUser = useOtherUsers(conversation);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [globalParams, setParamsAtom] = useAtom(paramsAtom);
 
   const statusText = useMemo(() => {
     return conversation.isGroup
       ? `${conversation.users.length} members`
       : "Active";
   }, [conversation]);
-
-  // console.log(conversation)
 
   return (
     <>
@@ -80,6 +81,7 @@ const Header: FC<HeaderProps> = ({ conversation }) => {
               transition
               cursor-pointer
             "
+            onClick={() => setParamsAtom("")}
           >
             <HiChevronLeft size={32} />
           </Link>

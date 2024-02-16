@@ -5,8 +5,6 @@ import { useParams } from "react-router-dom";
 import Header from "./Header";
 import ChatBody from "./ChatBody";
 import Form from "./Form";
-import SideBar from "../../SideBar/SideBar";
-import ConversationsList from "../List/ConversationsList";
 import useFetchCurrentUser from "../../../utils/hooks/useFetchCurrentUser";
 import LoadingModal from "../../Loading/LoadingModal";
 
@@ -49,11 +47,7 @@ const ConversationId = ({ children }: { children?: React.ReactNode }) => {
   const [message, setMessage] = useState<any[]>([]);
   const currentUserData = useFetchCurrentUser() as User | null;
   const userEmail = currentUserData?.email;
-  const [otherUsers, setOtherUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  if (!id) {
-    console.log("aofhsajk");
-  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -80,10 +74,6 @@ const ConversationId = ({ children }: { children?: React.ReactNode }) => {
           }
         );
         setMessage(messageResponse.data);
-        const response = await axios.get(
-          `http://localhost:${PORT}/api/getUsers?userEmail=${userEmail}`
-        );
-        setOtherUsers(response.data.users);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -98,24 +88,11 @@ const ConversationId = ({ children }: { children?: React.ReactNode }) => {
       {isLoading ? (
         <LoadingModal />
       ) : (
-        <div>
-          <div className="hidden lg:block">
-            <SideBar>
-              <div>
-                <ConversationsList
-                  otherUsers={otherUsers}
-                  initialItems={[conversation]}
-                />
-                {children}
-              </div>
-            </SideBar>
-          </div>
-          <div className="lg:pl-96 h-screen">
-            <div className="h-screen flex flex-col">
-              <Header conversation={conversation} />
-              <ChatBody initialMessages={message} />
-              <Form />
-            </div>
+        <div className="lg:pl-96 h-screen">
+          <div className="h-screen flex flex-col">
+            <Header conversation={conversation} />
+            <ChatBody initialMessages={message} />
+            <Form />
           </div>
         </div>
       )}

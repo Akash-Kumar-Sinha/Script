@@ -1,6 +1,8 @@
 import { FC, useEffect, useMemo, useState } from "react";
 import { MdOutlineGroupAdd } from "react-icons/md";
+import { useAtom } from "jotai";
 import clsx from "clsx";
+import { find } from "lodash";
 
 import useConversation from "../../../utils/hooks/useConversation";
 import ConversationBox from "./ConversationBox";
@@ -10,8 +12,8 @@ import GroupChatModal from "../../GroupChat/GroupChatModal";
 import LoadingModal from "../../Loading/LoadingModal";
 import useFetchCurrentUser from "../../../utils/hooks/useFetchCurrentUser";
 import pusherClient from "../../../utils/Pusher/pusher";
-import { find } from "lodash";
 import { useNavigate } from "react-router-dom";
+import { paramsAtom } from "../../../utils/lib/atom";
 
 interface User {
   id: string;
@@ -36,11 +38,12 @@ const ConversationsList: FC<ConversationsListProps> = ({
 }) => {
   const conversations = useFetchConversation();
   const currentUserData = useFetchCurrentUser() as User | null;
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [items, setItems] = useState(initialItems);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const { conversationId, isOpen } = useConversation();
+  const [globalParams, setParamsAtom] = useAtom(paramsAtom);
 
   const pusherKey = useMemo(() => {
     return currentUserData?.email;
@@ -77,14 +80,15 @@ const ConversationsList: FC<ConversationsListProps> = ({
       );
     };
 
-    const removeHandler = (conversation: FullConversationType) =>{
-      setItems((current)=>{
-        return [...current.filter((convo)=>convo.id !== conversation.id)]
-      })
-      if(conversationId === conversation.id){
+    const removeHandler = (conversation: FullConversationType) => {
+      setItems((current) => {
+        return [...current.filter((convo) => convo.id !== conversation.id)];
+      });
+      if (conversationId === conversation.id) {
+        setParamsAtom("");
         navigate("/conversations");
       }
-    }
+    };
 
     pusherClient.bind("conversation:new", newHandler);
     pusherClient.bind("conversation:update", updateHandler);
@@ -95,7 +99,6 @@ const ConversationsList: FC<ConversationsListProps> = ({
       pusherClient.unbind("conversation:new", newHandler);
       pusherClient.unbind("conversation:update", updateHandler);
       pusherClient.unbind("conversation:remove", removeHandler);
-
     };
   }, [pusherKey, conversationId, navigate]);
 
