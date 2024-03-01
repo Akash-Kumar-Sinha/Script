@@ -45,7 +45,7 @@ passport.use(
             name: profile.displayName,
             email: profile.emails[0].value,
             emailVerified: true,
-            image: profile.profileUrl
+            image: profile.photos?.[0].value || null
           },
         });
 

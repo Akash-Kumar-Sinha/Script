@@ -9,7 +9,8 @@ import InputForm from "../AuthHome/AuthForm/InputForm";
 import SelectMembers from "./SelectMembers";
 import ButtonForm from "../AuthHome/AuthForm/ButtonForm";
 
-const PORT = process.env.REACT_APP_SERVER_PORT
+const SERVER_URL = process.env.REACT_APP_SERVER_PAGE_URL;
+
 interface User {
   id: string;
   name: string;
@@ -50,7 +51,6 @@ const GroupChatModal: FC<GroupChatModalProps> = ({
   });
 
   const members = watch("members");
-  // console.log("members", members);
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
@@ -63,21 +63,20 @@ const GroupChatModal: FC<GroupChatModalProps> = ({
 
     axios
       .post(
-        `http://localhost:${PORT}/api/conversations`,
+        `${SERVER_URL}/api/conversations`,
         {
           ...data,
           isGroup: true,
         },
         {
           headers: {
-            Authorization: token,
+            Authorization: `Bearer ${token}`,
           },
         }
       )
       .then((response) => {
         onClose();
         navigate(0);
-        // console.log(response);
       })
       .catch((error: any) => {
         console.log("GroupChatModal: ", error.message);
@@ -85,7 +84,6 @@ const GroupChatModal: FC<GroupChatModalProps> = ({
       })
       .finally(() => setIsLoading(false));
   };
-  // console.log("otherUsers", otherUsers);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>

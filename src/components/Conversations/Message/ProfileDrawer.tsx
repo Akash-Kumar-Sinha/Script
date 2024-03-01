@@ -147,7 +147,7 @@ const ProfileDrawer: FC<ProfileDrawerProps> = ({ isOpen, onClose, data }) => {
                                   sm:flex-shrink-0
                                 "
                                   >
-                                    Emails
+                                    Name
                                   </dt>
 
                                   <dd
@@ -159,33 +159,8 @@ const ProfileDrawer: FC<ProfileDrawerProps> = ({ isOpen, onClose, data }) => {
                                 "
                                   >
                                     {data.users
-                                      .map((user) => user.email)
-                                      .join(", ")}
-                                  </dd>
-                                </div>
-                              )}
-                              {data.isGroup && (
-                                <div>
-                                  <dt
-                                    className="
-                                text-sm 
-                                font-medium 
-                                text-gray-500 
-                                sm:w-40 
-                                sm:flex-shrink-0
-                              "
-                                  >
-                                    Emails
-                                  </dt>
-                                  <dd
-                                    className="
-                                  mt-1 
-                                  text-sm 
-                                  text-gray-900 
-                                  sm:col-span-2
-                                "
-                                  >
-                                    {/* {data.users.email((user):string => user.email.join(', '))} */}
+                                      .map((user) => user.name)
+                                      .join(", ")}  
                                   </dd>
                                 </div>
                               )}
@@ -200,7 +175,7 @@ const ProfileDrawer: FC<ProfileDrawerProps> = ({ isOpen, onClose, data }) => {
                                   sm:flex-shrink-0
                                 "
                                   >
-                                    Email
+                                    Name
                                   </dt>
                                   <dd
                                     className="
@@ -210,7 +185,7 @@ const ProfileDrawer: FC<ProfileDrawerProps> = ({ isOpen, onClose, data }) => {
                                   sm:col-span-2
                                 "
                                   >
-                                    {otherUser ? otherUser.email : ""}
+                                    {otherUser ? otherUser.name : ""}
                                   </dd>
                                 </div>
                               )}

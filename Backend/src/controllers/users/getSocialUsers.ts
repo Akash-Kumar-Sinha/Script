@@ -26,7 +26,6 @@ const getSocialUsers = (req: Request, res: Response) => {
     };
 
     const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: "1d" });
-console.log("success")
     res.status(200).json({
       error: false,
       message: "Login successful",

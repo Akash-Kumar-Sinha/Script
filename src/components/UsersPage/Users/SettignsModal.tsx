@@ -55,7 +55,6 @@ const SettignsModal: FC<SettignsModalProps> = ({
   const widgetRef = useRef<any>();
 
   const handleUpload = async () => {
-    console.log("upload");
     if (!window.cloudinary) {
       console.error("Cloudinary is not available.");
       return;
@@ -88,7 +87,6 @@ const SettignsModal: FC<SettignsModalProps> = ({
   };
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log("submit");
     setIsLoading(true);
     const token = localStorage.getItem("token");
 
@@ -109,6 +107,21 @@ const SettignsModal: FC<SettignsModalProps> = ({
         toast.error("Something Went Wrong!");
       })
       .finally(() => setIsLoading(false));
+  };
+
+  const verifyEmail = () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const userResponse = axios.get(
+        `${SERVER_URL}/api/verifyemail`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -135,7 +148,7 @@ const SettignsModal: FC<SettignsModalProps> = ({
               ) : (
                 <span className="text-yellow-500">
                   <p>Please verify your email address.</p>
-                  <button className="ml-2 px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600">
+                  <button type="button" onClick={verifyEmail} className="ml-2 px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600">
                     Verify
                   </button>
                 </span>

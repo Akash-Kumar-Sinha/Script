@@ -14,10 +14,13 @@ import Messages from "../controllers/message";
 import seenRoute from "../controllers/seenRoute";
 import conversationDelete from "../controllers/conversationDelete";
 import setting from "../controllers/setting";
+import getSocialUsers from "../controllers/users/getSocialUsers";
 
 import "../middlewares/passport_google";
 import "../middlewares/passport_jwt";
-import getSocialUsers from "../controllers/users/getSocialUsers";
+import "../middlewares/passport_github";
+import verifyToken from "../utils/verifyToken";
+import idVerify from "../utils/idVerify";
 
 const router = express.Router();
 
@@ -51,7 +54,20 @@ router.get(
   "/google/callback",
   passport.authenticate("google", {
     successRedirect: `${process.env.CLIENT_PAGE_URL}/users`,
-    failureRedirect: "/failed",
+    failureRedirect: "api/failed",
+  })
+);
+
+router.get(
+  "/github",
+  passport.authenticate("github", { scope: ["user:email"] })
+);
+
+router.get(
+  "/github/callback",
+  passport.authenticate("github", {
+    successRedirect: `${process.env.CLIENT_PAGE_URL}/users`,
+    failureRedirect: "api/failed",
   })
 );
 
@@ -108,5 +124,9 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   setting
 );
+
+router.get("/verify/:token", verifyToken)
+
+router.get("/verifyemail", passport.authenticate("jwt", { session: false }), idVerify)
 
 module.exports = router;
