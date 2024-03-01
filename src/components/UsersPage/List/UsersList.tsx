@@ -5,7 +5,7 @@ import UserBox from "./UserBox";
 import useFetchCurrentUser from "../../../utils/hooks/useFetchCurrentUser";
 import LoadingModal from "../../Loading/LoadingModal";
 
-const PORT = process.env.REACT_APP_SERVER_PORT
+const SERVER_URL = process.env.REACT_APP_SERVER_PAGE_URL;
 
 interface User {
   id: string;
@@ -25,7 +25,7 @@ interface UsersListProps {
 
 const UsersList: FC<UsersListProps> = ({ items = [] }) => {
   const currentUserData = useFetchCurrentUser() as User | null;
-  const userEmail = currentUserData?.email; 
+  const userEmail = currentUserData?.email;
   const [users, setUsers] = useState<User[]>([]);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -35,7 +35,7 @@ const UsersList: FC<UsersListProps> = ({ items = [] }) => {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          `http://localhost:${PORT}/api/getUsers?userEmail=${userEmail}`
+          `${SERVER_URL}/api/getUsers?userEmail=${userEmail}`
         );
         setUsers(response.data.users);
       } catch (error) {
@@ -47,10 +47,6 @@ const UsersList: FC<UsersListProps> = ({ items = [] }) => {
 
     fetchData();
   }, [userEmail]);
-
-  // if (isLoading) {
-  //   return <LoadingModal />;
-  // }
 
   return (
     <aside
@@ -79,18 +75,15 @@ const UsersList: FC<UsersListProps> = ({ items = [] }) => {
             "
           >
             People
-            
           </div>
         </div>
         {isLoading ? (
-        <LoadingModal />
-      ) : (
-        !users.length ? (
+          <LoadingModal />
+        ) : !users.length ? (
           <p>No user Exist</p>
         ) : (
           users.map((user) => <UserBox key={user.id} data={user} />)
-        )
-      )} 
+        )}
       </div>
     </aside>
   );

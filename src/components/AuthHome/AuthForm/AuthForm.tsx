@@ -13,7 +13,7 @@ import { paramsAtom } from "../../../utils/lib/atom";
 
 type Variant = "LOGIN" | "REGISTER";
 
-const PORT = process.env.REACT_APP_SERVER_PORT
+const SERVER_URL = process.env.REACT_APP_SERVER_PAGE_URL
 
 const AuthForm = () => {
   const [variant, setVariant] = useState<Variant>("LOGIN");
@@ -46,8 +46,9 @@ const AuthForm = () => {
     if (variant === "REGISTER") {
       try {
         await axios
-          .post(`http://localhost:${PORT}/api/register`, data)
-          .then(() => {
+          .post(`${SERVER_URL}/api/register`, data)
+          .then((user) => {
+            localStorage.setItem("token", user.data.token);
             toast.success("Registration successful");
             navigate("/users");
           })
@@ -61,7 +62,7 @@ const AuthForm = () => {
     if (variant === "LOGIN") {
       try {
         await axios
-          .post(`http://localhost:${PORT}/api/login`, data)
+          .post(`${SERVER_URL}/api/login`, data)
           .then((user) => {
             localStorage.setItem("token", user.data.token);
             toast.success("Login successful");
@@ -87,14 +88,14 @@ const AuthForm = () => {
 
     try {
       if (action === "google") {
-        const response = (window.location.href =
-          `http://localhost:${PORT}/api/google`);
-
-        console.log("Google authentication response:", response);
+        window.open(`${SERVER_URL}/api/google/callback`, "_self");
+      }
+      if (action === "github") {
+        window.open(`${SERVER_URL}/api/github/callback`, "_self");
       }
     } catch (error) {
       console.error("Error during social action:", error);
-      toast.error("authForm: An error occurred during google action");
+      toast.error("An error occurred during the social action");
     } finally {
       setIsLoading(false);
     }

@@ -1,10 +1,12 @@
 import { useCallback, useState, FC } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
 import Avatars from "../Users/Avatar";
 import LoadingModal from "../../Loading/LoadingModal";
 
-const PORT = process.env.REACT_APP_SERVER_PORT
+const SERVER_URL = process.env.REACT_APP_SERVER_PAGE_URL;
+
 interface User {
   id: string;
   name: string;
@@ -24,7 +26,6 @@ interface UserBoxProps {
 const UserBox: FC<UserBoxProps> = ({ data }) => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  // console.log(data)
   const handleClick = useCallback(async () => {
     setIsLoading(true);
     try {
@@ -33,11 +34,11 @@ const UserBox: FC<UserBoxProps> = ({ data }) => {
         throw new Error("Token not found");
       }
       const response = await axios.post(
-        `http://localhost:${PORT}/api/conversations`,
+        `${SERVER_URL}/api/conversations`,
         { userId: data.id },
         {
           headers: {
-            Authorization: token,
+            Authorization: `Bearer ${token}`,
           },
         }
       );

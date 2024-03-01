@@ -31,17 +31,18 @@ const login = async (req: Request, res: Response) => {
         return res.status(401).json({ error: "Invalid email or password" });
       }
     }
+    user.hashedPassword = null;
+    
     const payload = {
       email: email,
       id: user.id,
     };
     const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: "1d" });
 
-    user.hashedPassword = null;
 
     res
       .status(200)
-      .json({ message: "Login successful", user, token: "Bearer " + token });
+      .json({ message: "Login successful", user, token: token });
   } catch (error: any) {
     console.error("Login Error:", error);
     res.status(500).json({ error: "Internal Server Error" });

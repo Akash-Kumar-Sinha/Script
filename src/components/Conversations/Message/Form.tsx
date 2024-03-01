@@ -9,7 +9,8 @@ import { Button } from "../../../@/components/ui/button";
 import { HiPaperAirplane } from "react-icons/hi";
 import useFetchCurrentUser from "../../../utils/hooks/useFetchCurrentUser";
 
-const PORT = process.env.REACT_APP_SERVER_PORT;
+const SERVER_URL = process.env.REACT_APP_SERVER_PAGE_URL;
+
 interface User {
   id: string;
   name: string;
@@ -31,7 +32,7 @@ declare global {
 const Form = () => {
   const { conversationId } = useConversation();
   const currentUserData = useFetchCurrentUser() as User | null;
-  const userEmail = currentUserData?.email; 
+  const userEmail = currentUserData?.email;
 
   const {
     register,
@@ -75,7 +76,7 @@ const Form = () => {
         if (result.info.secure_url) {
           try {
             await axios.post(
-              `http://localhost:${PORT}/api/message?userEmail=${userEmail}`,
+              `${SERVER_URL}/api/message?userEmail=${userEmail}`,
               {
                 image: result.info.secure_url,
                 conversationId: conversationId,
@@ -103,10 +104,10 @@ const Form = () => {
     setValue("message", "", { shouldValidate: true });
 
     try {
-      await axios.post(
-        `http://localhost:${PORT}/api/message?userEmail=${userEmail}`,
-        { ...data, conversationId }
-      );
+      await axios.post(`${SERVER_URL}/api/message?userEmail=${userEmail}`, {
+        ...data,
+        conversationId,
+      });
     } catch (error: any) {
       console.error("form Response");
       console.error("Handle error", error.message);

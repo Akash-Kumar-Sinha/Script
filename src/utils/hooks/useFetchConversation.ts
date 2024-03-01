@@ -5,7 +5,7 @@ import useFetchCurrentUser from "./useFetchCurrentUser";
 import { FullConversationType } from "../Types";
 import useConversation from "./useConversation";
 
-const PORT = process.env.REACT_APP_SERVER_PORT
+const SERVER_URL = process.env.REACT_APP_SERVER_PAGE_URL;
 interface User {
   id: string;
   name: string;
@@ -19,10 +19,12 @@ interface User {
 }
 
 const useFetchConversation = () => {
-  const id = useConversation()
+  const id = useConversation();
   const currentUserData = useFetchCurrentUser() as User | null;
-  const userEmail = currentUserData?.email; 
-  const [conversations, setConversations] = useState<FullConversationType[]>([]);
+  const userEmail = currentUserData?.email;
+  const [conversations, setConversations] = useState<FullConversationType[]>(
+    []
+  );
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
@@ -33,25 +35,20 @@ const useFetchConversation = () => {
           throw new Error("Token not found");
         }
 
-        const response = await axios.get(
-          `http://localhost:${PORT}/api/getconversation`,
-          {
-            headers: {
-              Authorization: token,
-            },
-          }
-        );
+        const response = await axios.get(`${SERVER_URL}/api/getconversation`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         setConversations(response.data);
-        
-        // console.log("data", response);
       } catch (error) {
         console.error("Fetch conversation Error:", error);
       }
     };
 
     fetchCurrentUser();
-  }, [userEmail,conversations,id]);
+  }, [userEmail, conversations, id]);
 
   return conversations;
 };

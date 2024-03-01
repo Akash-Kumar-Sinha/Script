@@ -20,6 +20,7 @@ const register = async (req: Request, res: Response) => {
         email,
         name,
         hashedPassword,
+        emailVerified: false
       },
     });
 
@@ -39,7 +40,7 @@ const register = async (req: Request, res: Response) => {
     res.status(200).json({
       message: "Registration successful",
       user,
-      token: "Bearer " + token,
+      token: token,
     });
   } catch (error: any) {
     console.error("Registration Error:", error);

@@ -1,5 +1,4 @@
-// routes/route.ts
-import express from "express";
+import express, { Request, Response } from "express";
 import passport from "passport";
 
 import register from "../controllers/authentication/register";
@@ -18,6 +17,7 @@ import setting from "../controllers/setting";
 
 import "../middlewares/passport_google";
 import "../middlewares/passport_jwt";
+import getSocialUsers from "../controllers/users/getSocialUsers";
 
 const router = express.Router();
 
@@ -27,18 +27,32 @@ router.post("/register", register);
 
 router.post("/login", login);
 
+router.get("/failed", (req: Request, res: Response) => {
+  res.status(401).json({
+    error: true,
+    message: "Login Failed",
+  });
+});
+
+router.get("/logout", (req: Request, res: Response) => {
+  res.clearCookie("connect.sid", { path: "/" });
+  res.status(200).send("Logout successful");
+});
+
+router.get("/success", getSocialUsers);
+
+
 router.get(
   "/google",
-  passport.authenticate("google", { scope: ["profile", "email", "openid"] })
+  passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
 router.get(
   "/google/callback",
   passport.authenticate("google", {
-    failureRedirect: "http://localhost:3000/",
-    successRedirect: "http://localhost:3000/userspage",
-  }),
-  getCurrentUser
+    successRedirect: `${process.env.CLIENT_PAGE_URL}/users`,
+    failureRedirect: "/failed",
+  })
 );
 
 router.get(

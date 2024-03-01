@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
-const PORT = process.env.REACT_APP_SERVER_PORT
+const SERVER_URL = process.env.REACT_APP_SERVER_PAGE_URL;
 
 const useFetchCurrentUser = () => {
   const [currentUser, setCurrentUser] = useState(null);
@@ -15,18 +15,23 @@ const useFetchCurrentUser = () => {
         const token = localStorage.getItem("token");
 
         if (!token) {
-          throw new Error("Token not found");
-        }
+          const authResponse = await axios.get(`${SERVER_URL}/api/success`, {
+            withCredentials: true,
+          });
+          const { user: newUser, token: newToken } = authResponse.data;
 
-        const response = await axios.get(
-          `http://localhost:${PORT}/api/currentuser`,
-          {
+          setCurrentUser(newUser);
+          localStorage.setItem("token", newToken);
+
+          return;
+        } else {
+          const response = await axios.get(`${SERVER_URL}/api/currentuser`, {
             headers: {
-              Authorization: token,
+              Authorization: `Bearer ${token}`,
             },
-          }
-        );
-        setCurrentUser(response.data.user);
+          });
+          setCurrentUser(response.data.user);
+        }
       } catch (error) {
         // navigate("/");
         toast.error("useFetchCurrentUser: Invalid Credentials!");
@@ -36,7 +41,6 @@ const useFetchCurrentUser = () => {
 
     fetchCurrentUser();
   }, [navigate, setCurrentUser]);
-  // console.log("currentUser", currentUser)
 
   return currentUser;
 };

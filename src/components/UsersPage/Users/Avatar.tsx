@@ -8,9 +8,10 @@ import {
 
 interface User {
   id: string;
-  name: string | null;
-  email: string | null;
-  image: string | null;
+  name: string;
+  email: string;
+  emailVerified: boolean;
+  image: string;
 }
 interface AvatarsProps {
   user?: User; 

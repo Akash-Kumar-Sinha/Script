@@ -8,7 +8,7 @@ import Form from "./Form";
 import useFetchCurrentUser from "../../../utils/hooks/useFetchCurrentUser";
 import LoadingModal from "../../Loading/LoadingModal";
 
-const PORT = process.env.REACT_APP_SERVER_PORT;
+const SERVER_URL = process.env.REACT_APP_SERVER_PAGE_URL;
 
 interface User {
   id: string;
@@ -57,19 +57,19 @@ const ConversationId = ({ children }: { children?: React.ReactNode }) => {
         if (!token) throw new Error("Token not found");
 
         const conversationResponse = await axios.get(
-          `http://localhost:${PORT}/api/getconversationsbyid/${id}`,
+          `${SERVER_URL}/api/getconversationsbyid/${id}`,
           {
             headers: {
-              Authorization: token,
+              Authorization: `Bearer ${token}`,
             },
           }
         );
         setConversation(conversationResponse.data);
         const messageResponse = await axios.get(
-          `http://localhost:${PORT}/api/getmessage/${id}`,
+          `${SERVER_URL}/api/getmessage/${id}`,
           {
             headers: {
-              Authorization: token,
+              Authorization: `Bearer ${token}`,
             },
           }
         );

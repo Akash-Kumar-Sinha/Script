@@ -100,7 +100,7 @@ const ConversationsList: FC<ConversationsListProps> = ({
       pusherClient.unbind("conversation:update", updateHandler);
       pusherClient.unbind("conversation:remove", removeHandler);
     };
-  }, [pusherKey, conversationId, navigate]);
+  }, [pusherKey, conversationId, setParamsAtom, navigate]);
 
   useEffect(() => {
     if (conversations) {

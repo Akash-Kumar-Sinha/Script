@@ -1,42 +1,72 @@
-// middlewares/passport-google.ts
 import passport from "passport";
-import { Strategy as GoogleStrategy, Profile } from "passport-google-oauth20";
-import prisma from "../db/prismadb";
+import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+
+import prisma  from "../db/prismadb";
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  image: string;
+  hashedPassword: string | null;
+  emailVerified: boolean;
+}
+
+if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
+  throw new Error(
+    "GOOGLE_CLIENT_ID is not defined in the environment variables."
+  );
+}
 
 passport.use(
   new GoogleStrategy(
     {
-      clientID: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-      callbackURL: "http://localhost:8000/api/google/callback",
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: `/api/google/callback`,
+      scope: ["profile", "email"],
     },
-    async (
-      accessToken: string,
-      refreshToken: string,
-      profile: Profile,
-      done: (err: Error | null, user?: any) => void
-    ) => {
+    async (accessToken, refreshToken, profile, done) => {
+      if (!profile.emails) {
+        return null;
+      }
       try {
-        const email = profile.emails?.[0]?.value;
-
-        if (!email) {
-          return done(new Error("Email not provided by Google."), undefined);
+        const existingUser = await prisma.user.findUnique({
+          where: {
+            email: profile.emails[0].value,
+          },
+        });
+        if (existingUser) {
+          return done(null, existingUser);
         }
 
-        let user = await prisma.user.findUnique({ where: { email } });
+        const user = await prisma.user.create({
+          data: {
+            name: profile.displayName,
+            email: profile.emails[0].value,
+            emailVerified: true,
+            image: profile.profileUrl
+          },
+        });
 
-        if (!user) {
-          user = await prisma.user.create({
-            data: {
-              email,
-              name: profile.displayName,
-            },
-          });
-        }
+        await prisma.account.create({
+          data: {
+            type: "Google",
+            provider: "Google",
+            providerAccountId: profile.id,
+            userId: user.id,
+            refresh_token: refreshToken,
+            access_token: accessToken,
+          },
+        });
 
         return done(null, user);
-      } catch (err) {
-        return done(err as Error, undefined);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          return done(error);
+        } else {
+          return done(new Error("An unexpected error occurred."));
+        }
       }
     }
   )
@@ -46,10 +76,6 @@ passport.serializeUser((user, done) => {
   done(null, user);
 });
 
-passport.deserializeUser(async (user, done) => {
-  if (!user) {
-    return done(new Error("User not found."));
-  }
-
+passport.deserializeUser((user: User, done) => {
   done(null, user);
 });

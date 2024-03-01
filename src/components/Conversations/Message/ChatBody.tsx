@@ -8,7 +8,8 @@ import MessageBox from "./MessageBox";
 import pusherClient from "../../../utils/Pusher/pusher";
 import { find } from "lodash";
 
-const PORT = process.env.REACT_APP_SERVER_PORT;
+const SERVER_URL = process.env.REACT_APP_SERVER_PAGE_URL;
+
 interface ChatBodyProps {
   initialMessages: FullMessageType[];
 }
@@ -32,11 +33,11 @@ const ChatBody: FC<ChatBodyProps> = ({ initialMessages }) => {
         }
 
         await axios.post(
-          `http://localhost:${PORT}/api/${conversationId}/seen`,
+          `${SERVER_URL}/api/${conversationId}/seen`,
           { conversationId },
           {
             headers: {
-              Authorization: token,
+              Authorization: `Bearer ${token}`,
             },
           }
         );
@@ -60,11 +61,11 @@ const ChatBody: FC<ChatBodyProps> = ({ initialMessages }) => {
         throw new Error("Token not found");
       }
       axios.post(
-        `http://localhost:${PORT}/api/${conversationId}/seen`,
+        `${SERVER_URL}/api/${conversationId}/seen`,
         { conversationId },
         {
           headers: {
-            Authorization: token,
+            Authorization: `Bearer ${token}`,
           },
         }
       );

@@ -1,10 +1,6 @@
 import React, { FC, useRef, useState } from "react";
 import axios from "axios";
-import {
-  FieldValues,
-  SubmitHandler,
-  useForm,
-} from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
@@ -12,7 +8,8 @@ import Modal from "./Modal";
 import InputForm from "../../AuthHome/AuthForm/InputForm";
 import ButtonForm from "../../AuthHome/AuthForm/ButtonForm";
 
-const PORT = process.env.REACT_APP_SERVER_PORT
+const SERVER_URL = process.env.REACT_APP_SERVER_PAGE_URL;
+
 interface User {
   id: string;
   name: string;
@@ -99,15 +96,14 @@ const SettignsModal: FC<SettignsModalProps> = ({
       throw new Error("Token not found");
     }
     axios
-      .post(`http://localhost:${PORT}/api/setting`, data, {
+      .post(`${SERVER_URL}/api/setting`, data, {
         headers: {
-          Authorization: token,
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
-        // console.log(response.data)
         onClose();
-        navigate(0)
+        navigate(0);
       })
       .catch(() => {
         toast.error("Something Went Wrong!");
@@ -133,6 +129,18 @@ const SettignsModal: FC<SettignsModalProps> = ({
             <p className="mt-1 text-sm leading-6 text-gray-600">
               Edit your public information.
             </p>
+            <p className="text-md text-center font-bold mb-4">
+              {currentUser?.emailVerified ? (
+                <span className="text-green-500">Verified</span>
+              ) : (
+                <span className="text-yellow-500">
+                  <p>Please verify your email address.</p>
+                  <button className="ml-2 px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600">
+                    Verify
+                  </button>
+                </span>
+              )}
+            </p>
 
             <div className="mt-10 flex flex-col gap-y-8">
               <InputForm
@@ -144,6 +152,9 @@ const SettignsModal: FC<SettignsModalProps> = ({
                 register={register}
               />
               <div>
+                <p className="mt-1 text-sm leading-6 text-gray-600">
+                  {currentUser?.name}
+                </p>
                 <label
                   htmlFor="photo"
                   className="

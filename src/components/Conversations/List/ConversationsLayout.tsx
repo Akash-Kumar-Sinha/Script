@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useAtom } from "jotai";
@@ -12,7 +12,7 @@ import LoadingModal from "../../Loading/LoadingModal";
 import { paramsAtom } from "../../../utils/lib/atom";
 import ConversationId from "../Message/ConversationId";
 
-const PORT = process.env.REACT_APP_SERVER_PORT;
+const SERVER_URL = process.env.REACT_APP_SERVER_PAGE_URL;
 
 interface User {
   id: string;
@@ -52,7 +52,7 @@ const ConversationsLayout = ({ children }: { children: React.ReactNode }) => {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          `http://localhost:${PORT}/api/getUsers?userEmail=${userEmail}`
+          `${SERVER_URL}/api/getUsers?userEmail=${userEmail}`
         );
         setOtherUsers(response.data.users);
       } catch (error) {
@@ -65,23 +65,22 @@ const ConversationsLayout = ({ children }: { children: React.ReactNode }) => {
     fetchData();
   }, [userEmail]);
 
-  // Function to handle sidebar visibility on screen resize
-  const handleResize = () => {
-    if (window.innerWidth < 1024 && globalParams) {
+  const handleResize = useCallback(() => {
+    if (window.innerWidth < 1024) {
       setIsSidebarVisible(false);
     } else {
       setIsSidebarVisible(true);
     }
-  };
+  }, [setIsSidebarVisible]);
 
   useEffect(() => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [globalParams]);
+  }, [globalParams, handleResize]);
 
   useEffect(() => {
     handleResize();
-  }, [globalParams]);
+  }, [handleResize, globalParams]);
 
   return (
     <>

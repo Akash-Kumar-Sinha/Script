@@ -6,7 +6,7 @@ import useFetchCurrentUser from "../../utils/hooks/useFetchCurrentUser";
 import UsersList from "./List/UsersList";
 import LoadingModal from "../Loading/LoadingModal";
 
-const PORT = process.env.REACT_APP_SERVER_PORT
+const SERVER_URL = process.env.REACT_APP_SERVER_PAGE_URL;
 
 interface User {
   id: string;
@@ -20,11 +20,9 @@ interface User {
   seenMessageIds: [];
 }
 
-
 const Layout = ({ children }: { children?: ReactNode }) => {
-
-    const currentUserData = useFetchCurrentUser() as User | null;
-  const userEmail = currentUserData?.email; 
+  const currentUserData = useFetchCurrentUser() as User | null;
+  const userEmail = currentUserData?.email;
   const [users, setUsers] = useState<[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
@@ -32,7 +30,7 @@ const Layout = ({ children }: { children?: ReactNode }) => {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          `http://localhost:${PORT}/api/getUsers?userEmail=${userEmail}`
+          `${SERVER_URL}/api/getUsers?userEmail=${userEmail}`
         );
         setUsers(response.data);
       } catch (error) {
@@ -50,12 +48,12 @@ const Layout = ({ children }: { children?: ReactNode }) => {
   }
   return (
     <SideBar>
-          <div>
-            <UsersList items={users} />
-            {children}
-          </div>
-      </SideBar>
-  )
-}
+      <div>
+        <UsersList items={users} />
+        {children}
+      </div>
+    </SideBar>
+  );
+};
 
-export default Layout
+export default Layout;
