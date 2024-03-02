@@ -26,7 +26,7 @@ interface User {
   seenMessageIds: [];
 }
 
-const ConversationsLayout = ({ children }: { children: React.ReactNode }) => {
+const ConversationsLayout = ({ children }: { children?: React.ReactNode }) => {
   const conversation = useFetchConversation();
   const navigate = useNavigate();
   const params = useParams<{ id?: string }>();
@@ -35,7 +35,6 @@ const ConversationsLayout = ({ children }: { children: React.ReactNode }) => {
   const userEmail = currentUserData?.email;
   const [isLoading, setIsLoading] = useState(true);
   const [globalParams, setParamsAtom] = useAtom(paramsAtom);
-  const [isSidebarVisible, setIsSidebarVisible] = useState(true);
 
   useEffect(() => {
     if (!globalParams && params.id) {
@@ -65,30 +64,26 @@ const ConversationsLayout = ({ children }: { children: React.ReactNode }) => {
     fetchData();
   }, [userEmail]);
 
-  const handleResize = useCallback(() => {
-    if (window.innerWidth < 1024) {
-      setIsSidebarVisible(false);
-    } else {
-      setIsSidebarVisible(true);
-    }
-  }, [setIsSidebarVisible]);
-
-  useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [globalParams, handleResize]);
-
-  useEffect(() => {
-    handleResize();
-  }, [handleResize, globalParams]);
-
   return (
     <>
-      {isSidebarVisible && (
-        <SideBar>
-          {isLoading ? (
-            <LoadingModal />
-          ) : (
+      {globalParams ? (
+        <>
+          <div className="hidden lg:block">
+            <SideBar>
+              <div>
+                <ConversationsList
+                  otherUsers={otherUsers}
+                  initialItems={conversation}
+                />
+                {children}
+              </div>
+            </SideBar>
+          </div>
+          <ConversationId />
+        </>
+      ) : (
+        <>
+          <SideBar>
             <div>
               <ConversationsList
                 otherUsers={otherUsers}
@@ -96,15 +91,11 @@ const ConversationsLayout = ({ children }: { children: React.ReactNode }) => {
               />
               {children}
             </div>
-          )}
-        </SideBar>
-      )}
-      {globalParams ? (
-        <ConversationId />
-      ) : (
-        <div className="hidden lg:block lg:pl-80 h-screen w-full">
-          <ChatBar />
-        </div>
+          </SideBar>
+          <div className="hidden lg:block lg:pl-80 h-screen w-full">
+            <ChatBar />
+          </div>
+        </>
       )}
     </>
   );

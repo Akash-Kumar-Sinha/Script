@@ -34,7 +34,7 @@ const ChatBody: FC<ChatBodyProps> = ({ initialMessages }) => {
 
         await axios.post(
           `${SERVER_URL}/api/${conversationId}/seen`,
-          { conversationId },
+          { },
           {
             headers: {
               Authorization: `Bearer ${token}`,

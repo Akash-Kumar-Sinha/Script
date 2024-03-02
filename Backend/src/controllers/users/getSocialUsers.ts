@@ -33,7 +33,6 @@ const getSocialUsers = (req: Request, res: Response) => {
       token: token,
     });
   } else {
-    console.log("auth.success");
     res.status(403).json({ error: true, message: "NotAuthorized" });
   }
 };

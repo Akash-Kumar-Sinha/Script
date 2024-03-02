@@ -1,4 +1,3 @@
-// login.ts
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import prisma from "../../db/prismadb";
@@ -19,6 +18,16 @@ const login = async (req: Request, res: Response) => {
         email: email,
       },
     });
+    if(user){
+      const userAccount = await prisma.account.findFirst({
+        where: {
+          userId: user.id
+        }
+      });
+      if(userAccount){  
+        return res.status(401).json({ error: "Invalid Credential" });
+      }
+    }
 
     if (!user) {
       return res.status(401).json({ error: "Invalid email or password" });
