@@ -18,7 +18,6 @@ const seenRoute = async (req: Request, res: Response) => {
   try {
     const currentUser = req.user as User;
     const { conversationId } = req.params;
-    console.log(conversationId, "seenRoute")
     if (!currentUser?.id || !currentUser?.email) {
       return res.status(401).json("Unauthorized");
     }
