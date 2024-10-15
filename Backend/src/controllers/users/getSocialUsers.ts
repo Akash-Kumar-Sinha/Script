@@ -1,8 +1,10 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
-
 if (!JWT_SECRET_KEY) {
   throw new Error(
     "JWT_SECRET_KEY is not defined in the environment variables."

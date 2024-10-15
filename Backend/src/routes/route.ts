@@ -24,6 +24,9 @@ import idVerify from "../utils/idVerify";
 
 const router = express.Router();
 
+const CLIENT_PAGE_URL= process.env.CLIENT_PAGE_URL;
+console.log(CLIENT_PAGE_URL);
+
 router.use(passport.initialize());
 
 router.post("/register", register);
