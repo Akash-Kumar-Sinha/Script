@@ -2,7 +2,6 @@ import React, { FC, useCallback, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { FiAlertTriangle } from "react-icons/fi";
-import axios from "axios";
 
 import useConversation from "../../../utils/hooks/useConversation";
 import Modal from "../../UsersPage/Users/Modal";
@@ -30,7 +29,8 @@ const ConfirmModal: FC<ConfirmModalProps> = ({ isOpen, onClose }) => {
       if (!token) {
         throw new Error("Token not found");
       }
-      axios.delete(`${SERVER_URL}/api/conversationDelete/${conversationId}`, {
+      fetch(`${SERVER_URL}/api/conversationDelete/${conversationId}`, {
+        method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -1,7 +1,6 @@
 import { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { BsGithub, BsGoogle } from "react-icons/bs";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
@@ -45,10 +44,14 @@ const AuthForm = () => {
     setIsLoading(true);
     if (variant === "REGISTER") {
       try {
-        await axios
-          .post(`${SERVER_URL}/api/register`, data)
-          .then((user) => {
-            localStorage.setItem("token", user.data.token);
+        await fetch(`${SERVER_URL}/api/register`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        })
+          .then(async (response) => {
+            const user = await response.json();
+            localStorage.setItem("token", user.token);
             toast.success("Registration successful");
             navigate("/users");
           })
@@ -61,14 +64,17 @@ const AuthForm = () => {
     }
     if (variant === "LOGIN") {
       try {
-        await axios
-          .post(`${SERVER_URL}/api/login`, data)
-          .then((user) => {
-            localStorage.setItem("token", user.data.token);
+        await fetch(`${SERVER_URL}/api/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        })
+          .then(async (response) => {
+            const user = await response.json();
+            localStorage.setItem("token", user.token);
             toast.success("Login successful");
             setParamsAtom('')
             navigate("/conversations");
-            
           })
           .catch((error) => {
             toast.error("authForm: Login went wrong!");

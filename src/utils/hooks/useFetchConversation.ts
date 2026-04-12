@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 
 import useFetchCurrentUser from "./useFetchCurrentUser";
 import { FullConversationType } from "../Types";
@@ -35,13 +34,13 @@ const useFetchConversation = () => {
           throw new Error("Token not found");
         }
 
-        const response = await axios.get(`${SERVER_URL}/api/getconversation`, {
+        const response = await fetch(`${SERVER_URL}/api/getconversation`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
 
-        setConversations(response.data);
+        setConversations(await response.json());
       } catch (error) {
         console.error("Fetch conversation Error:", error);
       }

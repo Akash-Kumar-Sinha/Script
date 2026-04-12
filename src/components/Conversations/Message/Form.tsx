@@ -1,4 +1,3 @@
-import axios from "axios";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { HiPhoto } from "react-icons/hi2";
 import { useRef } from "react";
@@ -75,13 +74,14 @@ const Form = () => {
         }
         if (result.info.secure_url) {
           try {
-            await axios.post(
-              `${SERVER_URL}/api/message?userEmail=${userEmail}`,
-              {
+            await fetch(`${SERVER_URL}/api/message?userEmail=${userEmail}`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
                 image: result.info.secure_url,
                 conversationId: conversationId,
-              }
-            );
+              }),
+            });
           } catch (error: any) {
             console.error("Form response error:", error.message);
           }
@@ -104,9 +104,10 @@ const Form = () => {
     setValue("message", "", { shouldValidate: true });
 
     try {
-      await axios.post(`${SERVER_URL}/api/message?userEmail=${userEmail}`, {
-        ...data,
-        conversationId,
+      await fetch(`${SERVER_URL}/api/message?userEmail=${userEmail}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...data, conversationId }),
       });
     } catch (error: any) {
       console.error("form Response");

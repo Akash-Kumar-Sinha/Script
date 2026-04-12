@@ -1,6 +1,5 @@
 import React, { useEffect, useCallback, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 import { useAtom } from "jotai";
 
 import SideBar from "../../SideBar/SideBar";
@@ -50,10 +49,10 @@ const ConversationsLayout = ({ children }: { children?: React.ReactNode }) => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get(
+        const response = await fetch(
           `${SERVER_URL}/api/getUsers?userEmail=${userEmail}`
         );
-        setOtherUsers(response.data.users);
+        setOtherUsers((await response.json()).users);
       } catch (error) {
         console.error("Error making API call", error);
       } finally {

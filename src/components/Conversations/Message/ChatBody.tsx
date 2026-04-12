@@ -1,5 +1,4 @@
 import { FC, useState, useRef, useEffect } from "react";
-import axios from "axios";
 import { useParams } from "react-router-dom";
 
 import { FullMessageType } from "../../../utils/Types";
@@ -32,15 +31,12 @@ const ChatBody: FC<ChatBodyProps> = ({ initialMessages }) => {
           throw new Error("Token not found");
         }
 
-        await axios.post(
-          `${SERVER_URL}/api/${conversationId}/seen`,
-          { },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        await fetch(`${SERVER_URL}/api/${conversationId}/seen`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
       } catch (error: any) {
         console.error(
           "Error while marking conversation as seen:",
@@ -60,15 +56,14 @@ const ChatBody: FC<ChatBodyProps> = ({ initialMessages }) => {
         console.log("Token not found");
         throw new Error("Token not found");
       }
-      axios.post(
-        `${SERVER_URL}/api/${conversationId}/seen`,
-        { conversationId },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      fetch(`${SERVER_URL}/api/${conversationId}/seen`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ conversationId }),
+      });
       setMessages((current) => {
         if (find(current, { is: message.id })) {
           return current;

@@ -1,5 +1,4 @@
 import React, { FC, useRef, useState } from "react";
-import axios from "axios";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -93,13 +92,15 @@ const SettignsModal: FC<SettignsModalProps> = ({
     if (!token) {
       throw new Error("Token not found");
     }
-    axios
-      .post(`${SERVER_URL}/api/setting`, data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
+    fetch(`${SERVER_URL}/api/setting`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    })
+      .then(() => {
         onClose();
         navigate(0);
       })
@@ -113,12 +114,9 @@ const SettignsModal: FC<SettignsModalProps> = ({
     try {
       const token = localStorage.getItem("token");
 
-      const userResponse = axios.get(
-        `${SERVER_URL}/api/verifyemail`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      fetch(`${SERVER_URL}/api/verifyemail`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
     } catch (error) {
       console.log(error);
     }

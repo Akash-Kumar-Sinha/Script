@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -56,7 +55,7 @@ const ConversationId = ({ children }: { children?: React.ReactNode }) => {
         const token = localStorage.getItem("token");
         if (!token) throw new Error("Token not found");
 
-        const conversationResponse = await axios.get(
+        const conversationResponse = await fetch(
           `${SERVER_URL}/api/getconversationsbyid/${id}`,
           {
             headers: {
@@ -64,8 +63,8 @@ const ConversationId = ({ children }: { children?: React.ReactNode }) => {
             },
           }
         );
-        setConversation(conversationResponse.data);
-        const messageResponse = await axios.get(
+        setConversation(await conversationResponse.json());
+        const messageResponse = await fetch(
           `${SERVER_URL}/api/getmessage/${id}`,
           {
             headers: {
@@ -73,7 +72,7 @@ const ConversationId = ({ children }: { children?: React.ReactNode }) => {
             },
           }
         );
-        setMessage(messageResponse.data);
+        setMessage(await messageResponse.json());
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {

@@ -1,5 +1,4 @@
 import { useCallback, useState, FC } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 import Avatars from "../Users/Avatar";
@@ -33,19 +32,19 @@ const UserBox: FC<UserBoxProps> = ({ data }) => {
       if (!token) {
         throw new Error("Token not found");
       }
-      const response = await axios.post(
-        `${SERVER_URL}/api/conversations`,
-        { userId: data.id },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (response.status === 200) {
-        navigate(`/conversations/${response.data.id}`);
+      const response = await fetch(`${SERVER_URL}/api/conversations`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ userId: data.id }),
+      });
+      if (response.ok) {
+        const responseData = await response.json();
+        navigate(`/conversations/${responseData.id}`);
       } else {
-        console.error("Unsuccessful response:", response.status, response.data);
+        console.error("Unsuccessful response:", response.status);
       }
     } catch (error) {
       console.error("Unexpected error:", error);

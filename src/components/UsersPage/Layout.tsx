@@ -1,5 +1,4 @@
 import { ReactNode, useEffect, useState } from "react";
-import axios from "axios";
 
 import SideBar from "../SideBar/SideBar";
 import useFetchCurrentUser from "../../utils/hooks/useFetchCurrentUser";
@@ -29,10 +28,10 @@ const Layout = ({ children }: { children?: ReactNode }) => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get(
+        const response = await fetch(
           `${SERVER_URL}/api/getUsers?userEmail=${userEmail}`
         );
-        setUsers(response.data);
+        setUsers(await response.json());
       } catch (error) {
         console.error("Error making API call", error);
       } finally {

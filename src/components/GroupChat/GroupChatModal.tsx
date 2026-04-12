@@ -1,5 +1,4 @@
 import { FC, useState } from "react";
-import axios from "axios";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -61,20 +60,15 @@ const GroupChatModal: FC<GroupChatModalProps> = ({
       throw new Error("Token not found");
     }
 
-    axios
-      .post(
-        `${SERVER_URL}/api/conversations`,
-        {
-          ...data,
-          isGroup: true,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then((response) => {
+    fetch(`${SERVER_URL}/api/conversations`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ ...data, isGroup: true }),
+    })
+      .then(() => {
         onClose();
         navigate(0);
       })

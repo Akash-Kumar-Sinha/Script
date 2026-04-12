@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
@@ -15,22 +14,22 @@ const useFetchCurrentUser = () => {
         const token = localStorage.getItem("token");
 
         if (!token) {
-          const authResponse = await axios.get(`${SERVER_URL}/api/success`, {
-            withCredentials: true,
+          const authResponse = await fetch(`${SERVER_URL}/api/success`, {
+            credentials: "include",
           });
-          const { user: newUser, token: newToken } = authResponse.data;
+          const { user: newUser, token: newToken } = await authResponse.json();
 
           setCurrentUser(newUser);
           localStorage.setItem("token", newToken);
 
           return;
         } else {
-          const response = await axios.get(`${SERVER_URL}/api/currentuser`, {
+          const response = await fetch(`${SERVER_URL}/api/currentuser`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           });
-          setCurrentUser(response.data.user);
+          setCurrentUser((await response.json()).user);
         }
       } catch (error) {
         // navigate("/");
